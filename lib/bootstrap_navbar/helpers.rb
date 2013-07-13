@@ -138,6 +138,6 @@ HTML
 
   def current_url
     raise StandardError, 'current_url_method is not defined.' if BootstrapNavbar.current_url_method.nil?
-    BootstrapNavbar.current_url_method.call
+    instance_eval BootstrapNavbar.current_url_method
   end
 end
