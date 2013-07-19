@@ -25,11 +25,11 @@ Or install it yourself as:
 
 ### Set current_url_method
 
-BootstrapNavbar has to be able to query for the current URL, e.g. to determine if a menu item is active or not. Since the way the current URL is determined varies depending on whether you use Rails, Sinatra etc., this has to be set beforehand in some kind of initializer:
+BootstrapNavbar has to be able to query for the current URL when rendering the navbar, e.g. to determine if a menu item is active or not. Since the way the current URL is determined varies depending on whether you use Rails, Sinatra etc., this has to be set beforehand in some kind of initializer:
 
 ```ruby
-# For Rails
-BootstrapNavbar.current_url_method = -> { '' }
+# For Rails >= 3.2
+BootstrapNavbar.current_url_method = 'request.original_url'
 ```
 
 ## Contributing
