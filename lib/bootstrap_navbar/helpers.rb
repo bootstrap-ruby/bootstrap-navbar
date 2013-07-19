@@ -20,7 +20,7 @@ HTML
 
   def menu_item(name, path = '#', options = {})
     css_class = path.sub(%r(/\z), '') == current_url.sub(%r(/\z), '') ? 'active' : nil
-    options_string = options.map { |k, v| %(#{k}="#{v}") }
+    options_string = options.map { |k, v| %(#{k}="#{v}") }.join(' ')
     <<-HTML
 <li class="#{css_class}">
   <a href="#{path}" #{options_string}>
