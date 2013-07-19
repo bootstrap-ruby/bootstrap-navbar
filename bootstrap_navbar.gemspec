@@ -23,6 +23,6 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rake', '>= 10.0.0'
   gem.add_development_dependency 'rspec', '~> 2.13.0'
-  gem.add_development_dependency 'rspec-html-matchers', '~> 0.4.1'
+  gem.add_development_dependency 'rspec-html-matchers', '~> 0.4.3'
   gem.add_development_dependency 'guard-rspec', '~> 3.0'
 end
