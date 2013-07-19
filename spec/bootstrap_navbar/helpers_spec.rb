@@ -8,7 +8,7 @@ describe BootstrapNavbar::Helpers do
   end
 
   before do
-    BootstrapNavbar.current_url_method = -> { '' }
+    BootstrapNavbar.current_url_method = ''
   end
 
   describe '#nav_bar' do
@@ -96,12 +96,12 @@ describe BootstrapNavbar::Helpers do
   describe '#menu_item' do
     context 'with current URL' do
       it 'generates the correct HTML' do
-        BootstrapNavbar.current_url_method = -> { '/' }
+        BootstrapNavbar.current_url_method = '"/"'
         subject.menu_item('foo', '/').should have_tag(:li, with: { class: 'active' }) do
           with_tag :a, with: { href: '/' }, content: 'foo'
         end
 
-        BootstrapNavbar.current_url_method = -> { '/foo' }
+        BootstrapNavbar.current_url_method = '"/foo"'
         subject.menu_item('foo', '/foo').should have_tag(:li, with: { class: 'active' }) do
           with_tag :a, with: { href: '/foo' }, content: 'foo'
         end
@@ -110,7 +110,7 @@ describe BootstrapNavbar::Helpers do
 
     context 'without current URL' do
       it 'generates the correct HTML' do
-        BootstrapNavbar.current_url_method = -> { '/foo' }
+        BootstrapNavbar.current_url_method = '"/foo"'
         subject.menu_item('foo').should have_tag(:li, without: { class: 'active' }) do
           with_tag :a, with: { href: '#' }, content: 'foo'
         end
@@ -121,7 +121,7 @@ describe BootstrapNavbar::Helpers do
           with_tag :a, with: { href: '/bar' }, content: 'foo'
         end
 
-        BootstrapNavbar.current_url_method = -> { '/' }
+        BootstrapNavbar.current_url_method = '"/"'
         subject.menu_item('foo', '/foo').should have_tag(:li, without: { class: 'active' }) do
           with_tag :a, with: { href: '/foo' }, content: 'foo'
         end
