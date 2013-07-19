@@ -12,44 +12,40 @@ describe BootstrapNavbar::Helpers do
   end
 
   describe '#nav_bar' do
-    context 'div.navbar' do
-      context '"static" parameter' do
-        it 'generates the correct HTML' do
-          subject.nav_bar(static: 'top').should have_tag(:div, with: { class: 'navbar navbar-static-top' })
-          subject.nav_bar(static: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-static-bottom' })
-        end
-      end
-
-      context '"fixed" parameter' do
-        it 'generates the correct HTML' do
-          subject.nav_bar(fixed: 'top').should have_tag(:div, with: { class: 'navbar navbar-fixed-top' })
-          subject.nav_bar(fixed: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-fixed-bottom' })
-        end
-      end
-
-      context '"inverse" parameter' do
-        it 'generates the correct HTML' do
-          subject.nav_bar(inverse: true).should have_tag(:div, with: { class: 'navbar navbar-inverse' })
-        end
-      end
-
-      context 'no parameters' do
-        it 'generates the correct HTML' do
-          subject.nav_bar.should have_tag(:div, with: { class: 'navbar' })
-          subject.nav_bar { 'foo' }.should have_tag(:div, with: { class: 'navbar' }, content: 'foo')
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        subject.nav_bar.should have_tag(:div, with: { class: 'navbar' }) do
+          with_tag :div, with: { class: 'navbar-inner' } do
+            with_tag :div, with: { class: 'container' }
+          end
         end
       end
     end
 
-    context 'div.navbar-inner' do
+    context '"static" parameter' do
       it 'generates the correct HTML' do
-        subject.nav_bar.should have_tag(:div, with: { class: 'navbar-inner' })
+        subject.nav_bar(static: 'top').should have_tag(:div, with: { class: 'navbar navbar-static-top' })
+        subject.nav_bar(static: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-static-bottom' })
       end
     end
 
-    context 'div.container' do
+    context '"fixed" parameter' do
       it 'generates the correct HTML' do
-        subject.nav_bar.should have_tag(:div, with: { class: 'container' })
+        subject.nav_bar(fixed: 'top').should have_tag(:div, with: { class: 'navbar navbar-fixed-top' })
+        subject.nav_bar(fixed: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-fixed-bottom' })
+      end
+    end
+
+    context '"inverse" parameter' do
+      it 'generates the correct HTML' do
+        subject.nav_bar(inverse: true).should have_tag(:div, with: { class: 'navbar navbar-inverse' })
+      end
+    end
+
+    context 'no parameters' do
+      it 'generates the correct HTML' do
+        subject.nav_bar.should have_tag(:div, with: { class: 'navbar' })
+        subject.nav_bar { 'foo' }.should have_tag(:div, with: { class: 'navbar' }, content: 'foo')
       end
     end
 
