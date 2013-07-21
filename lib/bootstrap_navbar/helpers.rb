@@ -13,7 +13,7 @@ module BootstrapNavbar::Helpers
     end
     <<-HTML
 <ul class="#{css_classes.join(' ')}">
-  #{block.call if block_given?}
+  #{capture(&block) if block_given?}
 </ul>
 HTML
   end
@@ -37,7 +37,7 @@ HTML
     #{name} <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">
-    #{block.call if block_given?}
+    #{capture(&block) if block_given?}
   </ul>
 </li>
 HTML
@@ -61,7 +61,7 @@ HTML
     end
     <<-HTML
 <p class="#{css_classes.join(' ')}">
-  #{block_given? ? block.call : text}
+  #{block_given? ? capture(&block) : text}
 </p>
 HTML
   end
@@ -87,7 +87,7 @@ HTML
 
     <<-HTML
 <div class="#{css_classes.join(' ')}">
-  #{block.call if block_given?}
+  #{capture(&block) if block_given?}
 </div>
 HTML
   end
@@ -95,7 +95,7 @@ HTML
   def navbar_inner_div(&block)
     <<-HTML
 <div class="navbar-inner">
-  #{block.call if block_given?}
+  #{capture(&block) if block_given?}
 </div>
 HTML
   end
@@ -108,7 +108,7 @@ HTML
       content << if responsive
         responsive_wrapper(&block)
       else
-        block.call if block_given?
+        capture(&block) if block_given?
       end
     end
     <<-HTML
@@ -121,7 +121,7 @@ HTML
   def responsive_wrapper(&block)
     <<-HTML
 <div class="nav-collapse collapse">
-  #{block.call if block_given?}
+  #{capture(&block) if block_given?}
 </div>
 HTML
   end
