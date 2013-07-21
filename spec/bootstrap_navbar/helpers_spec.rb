@@ -220,15 +220,33 @@ describe BootstrapNavbar::Helpers do
 
     context 'with a block' do
       it 'generates the correct HTML' do
-        subject.menu_item('/foo') { 'bar' }.should have_tag(:li) do
-          with_tag :a, with: { href: '/foo' }, content: 'bar'
+        subject.menu_item { 'bar' }.should have_tag(:li) do
+          with_tag :a, with: { href: '#' }, content: 'bar'
         end
       end
 
-      it 'raises an error when name and path are passed' do
-        expect do
-          subject.menu_item('bar', '/foo') { 'bar' }
-        end.to raise_error
+      context 'with list item options' do
+        it 'generates the correct HTML' do
+          subject.menu_item('/foo', class: 'pelle', id: 'fant') { 'bar' }.should have_tag(:li, with: { class: 'pelle', id: 'fant' }) do
+            with_tag :a, with: { href: '/foo' }, content: 'bar'
+          end
+        end
+      end
+
+      context 'with link options' do
+        it 'generates the correct HTML' do
+          subject.menu_item('/foo', {}, class: 'pelle', id: 'fant') { 'bar' }.should have_tag(:li) do
+            with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, content: 'bar'
+          end
+        end
+      end
+
+      context 'with list item options and link options' do
+        it 'generates the correct HTML' do
+          subject.menu_item('/foo', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant') { 'shnoo' }.should have_tag(:li, with: { class: 'bar', id: 'baz' }) do
+            with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, content: 'shnoo'
+          end
+        end
       end
     end
   end
