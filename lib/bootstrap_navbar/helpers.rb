@@ -132,7 +132,7 @@ HTML
   <span class='icon-bar'></span>
   <span class='icon-bar'></span>
   <span class='icon-bar'></span>
-</div>
+</a>
 HTML
   end
 
