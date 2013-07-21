@@ -35,8 +35,10 @@ If the framework or rendering engine that you use BootstrapNavbar with escapes H
 
 ```ruby
 # For Rails
-def BootstrapNavbar.prepare_html(html)
-  html.html_safe
+module BootstrapNavbar::Helpers
+  def prepare_html(html)
+    html.html_safe
+  end
 end
 ```
 
