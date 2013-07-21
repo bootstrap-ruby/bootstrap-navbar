@@ -58,7 +58,7 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
 ```ruby
 = nav_bar fixed: :top, responsive: true do
   = brand_link 'My great app'
-  = menu_group do
+  = menu_group class: 'foo', id: 'menu' do
     = menu_text 'Pick an option:'
     = menu_item "Home", root_path
     = menu_item "About Us", about_us_path
@@ -72,7 +72,7 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
       - if current_user.admin?
         = drop_down_divider
         = menu_item "Admin", admin_path
-  = menu_group :right do
+  = menu_group pull: 'right' do
     - if current_user
       = menu_item "Log Out", log_out_path
     - else

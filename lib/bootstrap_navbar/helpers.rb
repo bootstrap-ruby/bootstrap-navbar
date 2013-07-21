@@ -7,12 +7,17 @@ module BootstrapNavbar::Helpers
     end
   end
 
-  def menu_group(pull = nil, &block)
+  def menu_group(options = {}, &block)
     css_classes = %w(nav).tap do |css_classes|
-      css_classes << "pull-#{pull}" if pull
+      css_classes << "pull-#{options.delete(:pull)}" if options.has_key?(:pull)
+      css_classes << options.delete(:class) if options.has_key?(:class)
     end
+    attributes = { class: css_classes.join(' ') }
+      .merge(options)
+      .map { |k, v| %(#{k}="#{v}") }
+      .join(' ')
     prepare_html <<-HTML.chomp!
-<ul class="#{css_classes.join(' ')}">
+<ul #{attributes}>
   #{capture(&block) if block_given?}
 </ul>
 HTML

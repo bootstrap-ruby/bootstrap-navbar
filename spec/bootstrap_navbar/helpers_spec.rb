@@ -77,16 +77,34 @@ describe BootstrapNavbar::Helpers do
   end
 
   describe '#menu_group' do
-    describe '"pull" parameter' do
-      it 'generates the correct HTML' do
-        subject.menu_group('right').should have_tag(:ul, with: { class: 'nav pull-right' })
-      end
-    end
-
     context 'no parameters' do
       it 'generates the correct HTML' do
         subject.menu_group.should have_tag(:ul, with: { class: 'nav' })
         subject.menu_group { 'foo' }.should have_tag(:ul, with: { class: 'nav' }, content: 'foo')
+      end
+    end
+
+    describe '"pull" parameter' do
+      it 'generates the correct HTML' do
+        subject.menu_group(pull: 'right').should have_tag(:ul, with: { class: 'nav pull-right' })
+      end
+    end
+
+    describe '"class" parameter' do
+      it 'generates the correct HTML' do
+        subject.menu_group(class: 'foo').should have_tag(:ul, with: { class: 'nav foo' })
+      end
+    end
+
+    describe 'more parameters' do
+      it 'generates the correct HTML' do
+        subject.menu_group(:'data-foo' => 'bar').should have_tag(:ul, with: { class: 'nav', :'data-foo' => 'bar' })
+      end
+    end
+
+    describe 'many parameters' do
+      it 'generates the correct HTML' do
+        subject.menu_group(pull: 'right', class: 'foo', :'data-foo' => 'bar').should have_tag(:ul, with: { class: 'nav foo pull-right', :'data-foo' => 'bar' })
       end
     end
   end
