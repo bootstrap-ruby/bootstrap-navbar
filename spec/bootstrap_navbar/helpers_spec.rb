@@ -1,6 +1,17 @@
 require 'spec_helper'
 require 'padrino-helpers'
 
+shared_examples 'active menu item' do
+  it 'generates the correct HTML' do
+    paths_and_urls.each do |current_path_or_url|
+      paths_and_urls.each do |menu_path_or_url|
+        BootstrapNavbar.current_url_method = "'#{current_path_or_url}'"
+        subject.menu_item('foo', menu_path_or_url).should have_tag(:li, with: { class: 'active' })
+      end
+    end
+  end
+end
+
 describe BootstrapNavbar::Helpers do
   subject do
     Class.new do
@@ -109,16 +120,48 @@ describe BootstrapNavbar::Helpers do
   end
 
   describe '#menu_item' do
-    context 'with current URL' do
-      it 'generates the correct HTML' do
-        BootstrapNavbar.current_url_method = '"/"'
-        subject.menu_item('foo', '/').should have_tag(:li, with: { class: 'active' }) do
-          with_tag :a, with: { href: '/' }, content: 'foo'
+    context 'with current URL or path',:focus do
+      # With root URL or path
+      it_behaves_like 'active menu item' do
+        let(:paths_and_urls) do
+          %w(
+            http://www.foobar.com/
+            http://www.foobar.com
+            /
+            http://www.foobar.com/?foo=bar
+            http://www.foobar.com?foo=bar
+            /?foo=bar
+            http://www.foobar.com/#foo
+            http://www.foobar.com#foo
+            /#foo
+            http://www.foobar.com/#foo?foo=bar
+            http://www.foobar.com#foo?foo=bar
+            /#foo?foo=bar
+          )
         end
+      end
 
-        BootstrapNavbar.current_url_method = '"/foo"'
-        subject.menu_item('foo', '/foo').should have_tag(:li, with: { class: 'active' }) do
-          with_tag :a, with: { href: '/foo' }, content: 'foo'
+      # With sub URL or path
+      it_behaves_like 'active menu item' do
+        let(:paths_and_urls) do
+          %w(
+            http://www.foobar.com/foo
+            http://www.foobar.com/foo/
+            /foo
+            /foo/
+            http://www.foobar.com/foo?foo=bar
+            http://www.foobar.com/foo/?foo=bar
+            /foo?foo=bar
+            /foo/?foo=bar
+            http://www.foobar.com/foo#foo
+            http://www.foobar.com/foo/#foo
+            /foo#foo
+            /foo/#foo
+            http://www.foobar.com/foo#foo?foo=bar
+            http://www.foobar.com/foo/#foo?foo=bar
+            /foo#foo?foo=bar
+            /foo/#foo?foo=bar
+          )
         end
       end
 

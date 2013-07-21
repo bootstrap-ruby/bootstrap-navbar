@@ -1,3 +1,5 @@
+require 'uri'
+
 module BootstrapNavbar::Helpers
   def nav_bar(options = {}, &block)
     nav_bar_div options do
@@ -151,7 +153,10 @@ HTML
   end
 
   def current_url?(url)
-    url.sub(%r(/\z), '') == current_url.sub(%r(/\z), '')
+    normalized_path, normalized_current_path = [url, current_url].map do |url|
+      URI.parse(url).path.sub(%r(/\z), '')
+    end
+    normalized_path == normalized_current_path
   end
 
   def current_url
