@@ -11,7 +11,7 @@ module BootstrapNavbar::Helpers
     css_classes = %w(nav).tap do |css_classes|
       css_classes << "pull-#{pull}" if pull
     end
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <ul class="#{css_classes.join(' ')}">
   #{capture(&block) if block_given?}
 </ul>
@@ -21,7 +21,7 @@ HTML
   def menu_item(name, path = '#', options = {})
     css_class = path.sub(%r(/\z), '') == current_url.sub(%r(/\z), '') ? 'active' : nil
     options_string = options.map { |k, v| %(#{k}="#{v}") }.join(' ')
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <li class="#{css_class}">
   <a href="#{path}" #{options_string}>
     #{name}
@@ -31,7 +31,7 @@ HTML
   end
 
   def drop_down(name, &block)
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <li class="dropdown">
   <a href="#" class="dropdown-toggle", data-toggle="dropdown">
     #{name} <b class="caret"></b>
@@ -44,22 +44,22 @@ HTML
   end
 
   def drop_down_divider
-    %(<li class="divider"></li>)
+    prepare_html %(<li class="divider"></li>)
   end
 
   def drop_down_header(text)
-    %(<li class="nav-header">#{text}</li>)
+    prepare_html %(<li class="nav-header">#{text}</li>)
   end
 
   def menu_divider
-    %(<li class="divider-vertical"></li>)
+    prepare_html %(<li class="divider-vertical"></li>)
   end
 
   def menu_text(text = nil, pull = nil, &block)
     css_classes = %w(navbar-text).tap do |css_classes|
       css_classes << "pull-#{pull}" if pull
     end
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <p class="#{css_classes.join(' ')}">
   #{block_given? ? capture(&block) : text}
 </p>
@@ -67,7 +67,7 @@ HTML
   end
 
   def brand_link(name, url = nil)
-    %(<a href="#{url || '/'}" class="brand">#{name}</a>)
+    prepare_html %(<a href="#{url || '/'}" class="brand">#{name}</a>)
   end
 
   private
@@ -85,7 +85,7 @@ HTML
       css_classes << 'navbar-inverse' if options[:inverse]
     end
 
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <div class="#{css_classes.join(' ')}">
   #{capture(&block) if block_given?}
 </div>
@@ -93,7 +93,7 @@ HTML
   end
 
   def navbar_inner_div(&block)
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <div class="navbar-inner">
   #{capture(&block) if block_given?}
 </div>
@@ -111,7 +111,7 @@ HTML
         capture(&block) if block_given?
       end
     end
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <div class="#{css_class}">
   #{content.join("\n")}
 </div>
@@ -119,7 +119,7 @@ HTML
   end
 
   def responsive_wrapper(&block)
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <div class="nav-collapse collapse">
   #{capture(&block) if block_given?}
 </div>
@@ -127,7 +127,7 @@ HTML
   end
 
   def responsive_button
-    <<-HTML.chomp!
+    prepare_html <<-HTML.chomp!
 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
   <span class='icon-bar'></span>
   <span class='icon-bar'></span>
@@ -139,5 +139,9 @@ HTML
   def current_url
     raise StandardError, 'current_url_method is not defined.' if BootstrapNavbar.current_url_method.nil?
     eval BootstrapNavbar.current_url_method
+  end
+
+  def prepare_html(html)
+    html
   end
 end

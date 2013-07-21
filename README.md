@@ -18,7 +18,7 @@ In short: __Unless you know what you're doing, do not use this gem directly in y
 
 ## Setup
 
-### Set current_url_method
+### Set current_url_method (required)
 
 BootstrapNavbar has to be able to query for the current URL when rendering the navbar, e.g. to determine if a menu item is active or not. Since the way the current URL is determined varies depending on whether you use Rails, Sinatra, etc., this has to be set beforehand in some kind of initializer:
 
@@ -29,7 +29,18 @@ BootstrapNavbar.current_url_method = 'request.original_url'
 
 `current_url_method` should be set to a string which can be `eval`ed later.
 
-### Mix in the helpers into the rendering engine
+### Set up HTML escaping (optional)
+
+If the framework or rendering engine that you use BootstrapNavbar with escapes HTML by default, you can instruct BootstrapNavbar to mark the returned HTML as html_safe by default by overriding `BootstrapNavbar#prepare_html`:
+
+```ruby
+# For Rails
+def BootstrapNavbar.prepare_html(html)
+  html.html_safe
+end
+```
+
+### Mix in the helpers into the rendering engine (required)
 
 ```ruby
 # For Rails
