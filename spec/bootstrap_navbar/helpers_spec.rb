@@ -1,10 +1,12 @@
 require 'spec_helper'
+require 'padrino-helpers'
 
 describe BootstrapNavbar::Helpers do
   subject do
     Class.new do
-      extend BootstrapNavbar::Helpers
-    end
+      include Padrino::Helpers::OutputHelpers
+      include BootstrapNavbar::Helpers
+    end.new
   end
 
   before do
