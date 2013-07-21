@@ -26,7 +26,15 @@ module BootstrapNavbar::Helpers
 HTML
   end
 
-  def menu_item(name, path = '#', list_item_options = {}, link_options = {})
+  def menu_item(name_or_path, path = nil, list_item_options = {}, link_options = {}, &block)
+    if block_given?
+      raise StandardError, 'Cannot pass a name if a block is supplied. Pass the path as the first paramter.' unless path.nil?
+      path, name = name_or_path, capture(&block)
+    else
+      name = name_or_path
+      path ||= '#'
+    end
+
     list_item_css_classes = [].tap do |css_classes|
       css_classes << 'active' if current_url?(path)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)

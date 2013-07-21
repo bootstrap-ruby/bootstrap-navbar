@@ -199,6 +199,20 @@ describe BootstrapNavbar::Helpers do
         end
       end
     end
+
+    context 'with a block' do
+      it 'generates the correct HTML' do
+        subject.menu_item('/foo') { 'bar' }.should have_tag(:li) do
+          with_tag :a, with: { href: '/foo' }, content: 'bar'
+        end
+      end
+
+      it 'raises an error when name and path are passed' do
+        expect do
+          subject.menu_item('bar', '/foo') { 'bar' }
+        end.to raise_error
+      end
+    end
   end
 
   describe '#drop_down' do

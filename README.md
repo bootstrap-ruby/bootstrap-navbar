@@ -64,7 +64,9 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
     = menu_text 'Pick an option:'
     = menu_item "Home", root_path
     = menu_item "About Us", about_us_path
-    = menu_item "Contact", contact_path
+    = menu_item contact_path do
+      = image_tag 'contact.jpg'
+      Contact Us!
     = menu_divider
     = drop_down "Stuff" do
       = drop_down_header 'Great stuff!'
