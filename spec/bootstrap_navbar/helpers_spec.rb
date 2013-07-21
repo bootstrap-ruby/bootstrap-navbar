@@ -24,34 +24,33 @@ describe BootstrapNavbar::Helpers do
       end
     end
 
-    context '"static" parameter' do
+    context 'with block' do
+      it 'generates the correct HTML' do
+        subject.nav_bar { 'foo' }.should have_tag(:div, with: { class: 'navbar' }, content: 'foo')
+      end
+    end
+
+    context 'with "static" parameter' do
       it 'generates the correct HTML' do
         subject.nav_bar(static: 'top').should have_tag(:div, with: { class: 'navbar navbar-static-top' })
         subject.nav_bar(static: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-static-bottom' })
       end
     end
 
-    context '"fixed" parameter' do
+    context 'with "fixed" parameter' do
       it 'generates the correct HTML' do
         subject.nav_bar(fixed: 'top').should have_tag(:div, with: { class: 'navbar navbar-fixed-top' })
         subject.nav_bar(fixed: 'bottom').should have_tag(:div, with: { class: 'navbar navbar-fixed-bottom' })
       end
     end
 
-    context '"inverse" parameter' do
+    context 'with "inverse" parameter' do
       it 'generates the correct HTML' do
         subject.nav_bar(inverse: true).should have_tag(:div, with: { class: 'navbar navbar-inverse' })
       end
     end
 
-    context 'no parameters' do
-      it 'generates the correct HTML' do
-        subject.nav_bar.should have_tag(:div, with: { class: 'navbar' })
-        subject.nav_bar { 'foo' }.should have_tag(:div, with: { class: 'navbar' }, content: 'foo')
-      end
-    end
-
-    describe 'brand and brank_link parameters' do
+    context 'with "brand" and "brank_link" parameters' do
       it 'generates the correct HTML' do
         subject.nav_bar(brand: 'foo').should have_tag(:a, with: { href: '/', class: 'brand' }, content: 'foo')
         subject.nav_bar(brand: 'foo', brand_link: 'http://google.com').should have_tag(:a, with: { href: 'http://google.com', class: 'brand' }, content: 'foo')
@@ -59,7 +58,7 @@ describe BootstrapNavbar::Helpers do
       end
     end
 
-    describe '"responsive" parameter' do
+    context 'with "responsive" parameter' do
       it 'generates the correct HTML' do
         subject.nav_bar(responsive: true).should have_tag(:a, with: { class: 'btn btn-navbar', :'data-toggle' => 'collapse', :'data-target' => '.nav-collapse' }) do
           3.times do
@@ -69,7 +68,7 @@ describe BootstrapNavbar::Helpers do
       end
     end
 
-    describe '"fluid" parameter' do
+    context 'with "fluid" parameter' do
       it 'generates the correct HTML' do
         subject.nav_bar(fluid: true).should have_tag(:div, with: { class: 'container-fluid' })
       end
@@ -77,32 +76,32 @@ describe BootstrapNavbar::Helpers do
   end
 
   describe '#menu_group' do
-    context 'no parameters' do
+    context 'without parameters' do
       it 'generates the correct HTML' do
         subject.menu_group.should have_tag(:ul, with: { class: 'nav' })
         subject.menu_group { 'foo' }.should have_tag(:ul, with: { class: 'nav' }, content: 'foo')
       end
     end
 
-    describe '"pull" parameter' do
+    context 'with "pull" parameter' do
       it 'generates the correct HTML' do
         subject.menu_group(pull: 'right').should have_tag(:ul, with: { class: 'nav pull-right' })
       end
     end
 
-    describe '"class" parameter' do
+    context 'with "class" parameter' do
       it 'generates the correct HTML' do
         subject.menu_group(class: 'foo').should have_tag(:ul, with: { class: 'nav foo' })
       end
     end
 
-    describe 'more parameters' do
+    context 'with random parameters' do
       it 'generates the correct HTML' do
         subject.menu_group(:'data-foo' => 'bar').should have_tag(:ul, with: { class: 'nav', :'data-foo' => 'bar' })
       end
     end
 
-    describe 'many parameters' do
+    context 'with many parameters' do
       it 'generates the correct HTML' do
         subject.menu_group(pull: 'right', class: 'foo', :'data-foo' => 'bar').should have_tag(:ul, with: { class: 'nav foo pull-right', :'data-foo' => 'bar' })
       end
