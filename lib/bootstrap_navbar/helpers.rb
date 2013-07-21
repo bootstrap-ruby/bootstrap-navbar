@@ -162,7 +162,7 @@ HTML
 
   def current_url?(url)
     normalized_path, normalized_current_path = [url, current_url].map do |url|
-      URI.parse(url).path.sub(%r(/\z), '')
+      URI.parse(url).path.sub(%r(/\z), '') rescue nil
     end
     normalized_path == normalized_current_path
   end
