@@ -171,6 +171,24 @@ describe BootstrapNavbar::Helpers do
           subject.menu_item('foo', '/', class: 'bar', id: 'baz').should have_tag(:li, with: { class: 'active bar', id: 'baz' })
         end
       end
+
+      context 'with link options' do
+        it 'generates the correct HTML' do
+          BootstrapNavbar.current_url_method = '"/"'
+          subject.menu_item('foo', '/', {}, class: 'pelle', id: 'fant').should have_tag(:li, with: { class: 'active' }) do
+            with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, content: 'foo'
+          end
+        end
+      end
+
+      context 'with list item options and link options' do
+        it 'generates the correct HTML' do
+          BootstrapNavbar.current_url_method = '"/"'
+          subject.menu_item('foo', '/', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant').should have_tag(:li, with: { class: 'active bar', id: 'baz' }) do
+            with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, content: 'foo'
+          end
+        end
+      end
     end
 
     context 'without current URL' do
