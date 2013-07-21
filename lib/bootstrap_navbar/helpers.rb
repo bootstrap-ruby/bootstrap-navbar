@@ -54,7 +54,7 @@ HTML
   def drop_down(name, &block)
     prepare_html <<-HTML.chomp!
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle", data-toggle="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     #{name} <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">
