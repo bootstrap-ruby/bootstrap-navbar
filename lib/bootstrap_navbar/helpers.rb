@@ -14,6 +14,7 @@ module BootstrapNavbar::Helpers
     end
     attributes = { class: css_classes.join(' ') }
       .merge(options)
+      .delete_if { |k, v| v.empty? }
       .map { |k, v| %(#{k}="#{v}") }
       .join(' ')
     prepare_html <<-HTML.chomp!
@@ -23,12 +24,20 @@ module BootstrapNavbar::Helpers
 HTML
   end
 
-  def menu_item(name, path = '#', options = {})
-    css_class = path.sub(%r(/\z), '') == current_url.sub(%r(/\z), '') ? 'active' : nil
-    options_string = options.map { |k, v| %(#{k}="#{v}") }.join(' ')
+  def menu_item(name, path = '#', list_item_options = {}, link_options = {})
+    list_item_css_classes = [].tap do |css_classes|
+      css_classes << 'active' if current_url?(path)
+      css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
+    end
+    list_item_attributes = { class: list_item_css_classes.join(' ') }
+      .merge(list_item_options)
+      .delete_if { |k, v| v.empty? }
+      .map { |k, v| %(#{k}="#{v}") }
+      .join(' ')
+    link_attributes = link_options.map { |k, v| %(#{k}="#{v}") }.join(' ')
     prepare_html <<-HTML.chomp!
-<li class="#{css_class}">
-  <a href="#{path}" #{options_string}>
+<li #{list_item_attributes}>
+  <a href="#{path}" #{link_options}>
     #{name}
   </a>
 </li>
@@ -139,6 +148,10 @@ HTML
   <span class='icon-bar'></span>
 </a>
 HTML
+  end
+
+  def current_url?(url)
+    url.sub(%r(/\z), '') == current_url.sub(%r(/\z), '')
   end
 
   def current_url
