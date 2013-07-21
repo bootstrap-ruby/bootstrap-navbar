@@ -11,7 +11,7 @@ module BootstrapNavbar::Helpers
     css_classes = %w(nav).tap do |css_classes|
       css_classes << "pull-#{pull}" if pull
     end
-    <<-HTML
+    <<-HTML.chomp!
 <ul class="#{css_classes.join(' ')}">
   #{capture(&block) if block_given?}
 </ul>
@@ -21,7 +21,7 @@ HTML
   def menu_item(name, path = '#', options = {})
     css_class = path.sub(%r(/\z), '') == current_url.sub(%r(/\z), '') ? 'active' : nil
     options_string = options.map { |k, v| %(#{k}="#{v}") }.join(' ')
-    <<-HTML
+    <<-HTML.chomp!
 <li class="#{css_class}">
   <a href="#{path}" #{options_string}>
     #{name}
@@ -31,7 +31,7 @@ HTML
   end
 
   def drop_down(name, &block)
-    <<-HTML
+    <<-HTML.chomp!
 <li class="dropdown">
   <a href="#" class="dropdown-toggle", data-toggle="dropdown">
     #{name} <b class="caret"></b>
@@ -59,7 +59,7 @@ HTML
     css_classes = %w(navbar-text).tap do |css_classes|
       css_classes << "pull-#{pull}" if pull
     end
-    <<-HTML
+    <<-HTML.chomp!
 <p class="#{css_classes.join(' ')}">
   #{block_given? ? capture(&block) : text}
 </p>
@@ -85,7 +85,7 @@ HTML
       css_classes << 'navbar-inverse' if options[:inverse]
     end
 
-    <<-HTML
+    <<-HTML.chomp!
 <div class="#{css_classes.join(' ')}">
   #{capture(&block) if block_given?}
 </div>
@@ -93,7 +93,7 @@ HTML
   end
 
   def navbar_inner_div(&block)
-    <<-HTML
+    <<-HTML.chomp!
 <div class="navbar-inner">
   #{capture(&block) if block_given?}
 </div>
@@ -111,7 +111,7 @@ HTML
         capture(&block) if block_given?
       end
     end
-    <<-HTML
+    <<-HTML.chomp!
 <div class="#{css_class}">
   #{content.join("\n")}
 </div>
@@ -119,7 +119,7 @@ HTML
   end
 
   def responsive_wrapper(&block)
-    <<-HTML
+    <<-HTML.chomp!
 <div class="nav-collapse collapse">
   #{capture(&block) if block_given?}
 </div>
@@ -127,7 +127,7 @@ HTML
   end
 
   def responsive_button
-    <<-HTML
+    <<-HTML.chomp!
 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
   <span class='icon-bar'></span>
   <span class='icon-bar'></span>
