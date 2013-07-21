@@ -37,7 +37,7 @@ HTML
     link_attributes = link_options.map { |k, v| %(#{k}="#{v}") }.join(' ')
     prepare_html <<-HTML.chomp!
 <li #{list_item_attributes}>
-  <a href="#{path}" #{link_options}>
+  <a href="#{path}" #{link_attributes}>
     #{name}
   </a>
 </li>
