@@ -35,7 +35,7 @@ describe BootstrapNavbar::Helpers do
       end
     end
 
-    context 'with block' do
+    context 'with a block' do
       it 'generates the correct HTML' do
         subject.nav_bar { 'foo' }.should have_tag(:div, with: { class: 'navbar' }, content: 'foo')
       end
@@ -120,7 +120,7 @@ describe BootstrapNavbar::Helpers do
   end
 
   describe '#menu_item' do
-    context 'with current URL or path',:focus do
+    context 'with current URL or path' do
       # With root URL or path
       it_behaves_like 'active menu item' do
         let(:paths_and_urls) do
