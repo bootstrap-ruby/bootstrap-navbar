@@ -166,19 +166,35 @@ generates:
 
 #### menu_group
 
+Description coming soon...
+
 #### menu_item
+
+Description coming soon...
 
 #### drop_down
 
+Description coming soon...
+
 #### drop_down_divider
+
+Description coming soon...
 
 #### drop_down_header
 
+Description coming soon...
+
 #### menu_divider
+
+Description coming soon...
 
 #### menu_text
 
+Description coming soon...
+
 #### brand_link
+
+Description coming soon...
 
 ## Contributing
 
