@@ -14,11 +14,7 @@ module BootstrapNavbar::Helpers
       css_classes << "pull-#{options.delete(:pull)}" if options.has_key?(:pull)
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
-    attributes = { class: css_classes.join(' ') }
-      .merge(options)
-      .delete_if { |k, v| v.empty? }
-      .map { |k, v| %(#{k}="#{v}") }
-      .join(' ')
+    attributes = attribute_hash_to_string({ class: css_classes.join(' ') }.merge(options))
     prepare_html <<-HTML.chomp!
 <ul #{attributes}>
   #{capture(&block) if block_given?}
@@ -36,12 +32,12 @@ HTML
       css_classes << 'active' if current_url?(path)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
-    list_item_attributes = { class: list_item_css_classes.join(' ') }
-      .merge(list_item_options)
-      .delete_if { |k, v| v.empty? }
-      .map { |k, v| %(#{k}="#{v}") }
-      .join(' ')
-    link_attributes = link_options.map { |k, v| %(#{k}="#{v}") }.join(' ')
+    list_item_attributes = attribute_hash_to_string(
+      { class: list_item_css_classes.join(' ') }
+        .delete_if { |k, v| v.empty? }
+        .merge(list_item_options)
+    )
+    link_attributes = attribute_hash_to_string(link_options)
     prepare_html <<-HTML.chomp!
 <li #{list_item_attributes}>
   <a href="#{path}" #{link_attributes}>
@@ -155,6 +151,10 @@ HTML
   <span class='icon-bar'></span>
 </a>
 HTML
+  end
+
+  def attribute_hash_to_string(hash)
+    hash.map { |k, v| %(#{k}="#{v}") }.join(' ')
   end
 
   def current_url?(url)
