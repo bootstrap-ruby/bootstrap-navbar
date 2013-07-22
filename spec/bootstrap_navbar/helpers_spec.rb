@@ -251,22 +251,68 @@ describe BootstrapNavbar::Helpers do
     end
   end
 
-  describe '#drop_down' do
-    it 'generates the correct HTML' do
-      subject.drop_down('foo').should have_tag(:li, with: { class: 'dropdown' }) do
-        with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
-          with_text /foo/
-          with_tag :b, with: { class: 'caret' }
+  context 'drop downs' do
+    def with_drop_down_menu(content = nil)
+      options = { with: { class: 'dropdown-menu' } }
+      options[:content] = content unless content.nil?
+      with_tag :ul, options
+    end
+
+    describe '#drop_down' do
+      it 'generates the correct HTML' do
+        subject.drop_down('foo').should have_tag(:li, with: { class: 'dropdown' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
+            with_text /foo/
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_drop_down_menu
         end
-        with_tag :ul, with: { class: 'dropdown-menu' }
+
+        subject.drop_down('foo') { 'bar' }.should have_tag(:li, with: { class: 'dropdown' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
+            with_text /foo/
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_drop_down_menu('bar')
+        end
+      end
+    end
+
+    describe '#sub_drop_down' do
+      it 'generates the correct HTML' do
+        subject.sub_drop_down('foo').should have_tag(:li, with: { class: 'dropdown-submenu' }) do
+          with_tag :a, with: { href: '#' }, content: 'foo'
+          with_drop_down_menu
+        end
+
+        subject.sub_drop_down('foo') { 'bar' }.should have_tag(:li, with: { class: 'dropdown-submenu' }) do
+          with_tag :a, with: { href: '#' }, content: 'foo'
+          with_drop_down_menu('bar')
+        end
       end
 
-      subject.drop_down('foo') { 'bar' }.should have_tag(:li, with: { class: 'dropdown' }) do
-        with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
-          with_text /foo/
-          with_tag :b, with: { class: 'caret' }
+      context 'with list item options' do
+        it 'generates the correct HTML' do
+          subject.sub_drop_down('foo', class: 'bar', id: 'baz').should have_tag(:li, with: { class: 'dropdown-submenu bar', id: 'baz' }) do
+            with_tag :a, with: { href: '#' }, content: 'foo'
+          end
         end
-        with_tag :ul, with: { class: 'dropdown-menu' }, content: 'bar'
+      end
+
+      context 'with link options' do
+        it 'generates the correct HTML' do
+          subject.sub_drop_down('foo', {}, class: 'pelle', id: 'fant').should have_tag(:li, with: { class: 'dropdown-submenu' }) do
+            with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, content: 'foo'
+          end
+        end
+      end
+
+      context 'with list item options and link options' do
+        it 'generates the correct HTML' do
+          subject.sub_drop_down('foo', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant').should have_tag(:li, with: { class: 'dropdown-submenu bar', id: 'baz' }) do
+            with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, content: 'foo'
+          end
+        end
       end
     end
   end

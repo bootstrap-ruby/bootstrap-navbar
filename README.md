@@ -75,7 +75,9 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
       = menu_item "Three", three_path
       - if current_user.admin?
         = drop_down_divider
-        = menu_item "Admin", admin_path
+        = sub_drop_down 'Admin Stuff' do
+          = menu_item "Admin Dashboard", admin_path
+          = menu_item "Users", admin_users_path
   = menu_group pull: 'right' do
     - if current_user
       = menu_item "Log Out", log_out_path
@@ -173,6 +175,10 @@ Description coming soon...
 Description coming soon...
 
 #### drop_down
+
+Description coming soon...
+
+#### sub_drop_down
 
 Description coming soon...
 

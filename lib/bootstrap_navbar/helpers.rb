@@ -53,9 +53,23 @@ HTML
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     #{name} <b class="caret"></b>
   </a>
-  <ul class="dropdown-menu">
-    #{capture(&block) if block_given?}
-  </ul>
+  #{drop_down_menu(&block)}
+</li>
+HTML
+  end
+
+  def sub_drop_down(name, list_item_options = {}, link_options = {}, &block)
+    list_item_css_classes = %w(dropdown-submenu).tap do |css_classes|
+      css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
+    end
+    list_item_attributes = attribute_hash_to_string({ class: list_item_css_classes.join(' ') }.merge(list_item_options))
+    link_attributes = attribute_hash_to_string(link_options)
+    prepare_html <<-HTML.chomp!
+<li #{list_item_attributes}>
+  <a href="#" #{link_attributes}>
+    #{name}
+  </a>
+  #{drop_down_menu(&block)}
 </li>
 HTML
   end
@@ -150,6 +164,14 @@ HTML
   <span class='icon-bar'></span>
   <span class='icon-bar'></span>
 </a>
+HTML
+  end
+
+  def drop_down_menu(&block)
+    prepare_html <<-HTML.chomp!
+<ul class="dropdown-menu">
+  #{capture(&block) if block_given?}
+</ul>
 HTML
   end
 
