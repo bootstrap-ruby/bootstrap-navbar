@@ -89,7 +89,7 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
 
 #### nav_bar
 
-This method sets up the basic structure of a navbar:
+This method sets up the basic structure of a navbar.
 
 ```haml
 = nav_bar
@@ -107,6 +107,23 @@ generates:
 ```
 
 The content of the navbar is supplied by the block and the available options:
+
+```haml
+= nav_bar do
+  Yay!
+```
+
+generates:
+
+```html
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      Yay!
+    </div>
+  </div>
+</div>
+```
 
 Options `brand` and `brand_link` autogenerate the brand link:
 
@@ -166,41 +183,326 @@ generates:
 </div>
 ```
 
-#### menu_group
+#### brand_link
 
-Description coming soon...
+This method generates a menu divider, to be used in a `nav_bar`.
 
-#### menu_item
+```haml
+= brand_link 'My App', '/home'
+```
 
-Description coming soon...
+generates:
 
-#### drop_down
+```html
+<a href="/home" class="brand">My App</a>
+```
 
-Description coming soon...
-
-#### sub_drop_down
-
-Description coming soon...
-
-#### drop_down_divider
-
-Description coming soon...
-
-#### drop_down_header
-
-Description coming soon...
-
-#### menu_divider
-
-Description coming soon...
+If the path (`/home` in this case) is not specified, it defaults to `/`.
 
 #### menu_text
 
-Description coming soon...
+This method generates some menu text, to be used in a `nav_bar`.
 
-#### brand_link
+```haml
+= menu_text 'Select a option:'
+```
 
-Description coming soon...
+generates:
+
+```html
+<p class="navbar-text">
+  Select a option:
+</p>
+```
+
+A option can be supplied to make the text float to the right or left:
+
+```haml
+= menu_text 'Select a option:', :right
+```
+
+generates:
+
+```html
+<p class="navbar-text pull-right">
+  Select a option:
+</p>
+```
+
+The content can alternatively be supplied in a block:
+
+```haml
+= menu_text do
+  Current country:
+  = image_text 'flags/en.jpg'
+```
+
+generates:
+
+```html
+<p class="navbar-text">
+  Current country:
+  <img src="/images/flags/en.jpg">
+</p>
+```
+
+#### menu_group
+
+This method generates a menu group, to be used in a `nav_bar`.
+
+```haml
+= menu_group
+```
+
+generates:
+
+```html
+<ul class="nav">
+</ul>
+```
+
+The content of the menu group is supplied by the blocks:
+
+```haml
+= menu_group do
+  Yay!
+```
+
+generates:
+
+```html
+<ul class="nav">
+  Yay!
+</ul>
+```
+
+You can add a `pull` option to make the group float to the right or left, and add more classes and other attributes:
+
+```haml
+= menu_group pull: 'right', class: 'large', id: 'menu'
+```
+
+generates:
+
+```html
+<ul class="nav pull-right large" id="menu">
+</ul>
+```
+
+#### menu_item
+
+This method generates a menu item, to be used in a `menu_group`.
+
+```haml
+= menu_item 'Home', '/home'
+```
+
+generates:
+
+```html
+<li>
+  <a href="/home">
+    Home
+  </a>
+</li>
+```
+
+If the path (`/home` in this case) is not specified, it defaults to `#`.
+
+You can also use a block (e.g., in case the link name is more than a single word):
+
+```haml
+= menu_item /home' do
+  = image_tag 'home.png'
+  Home
+```
+
+generates:
+
+```html
+<li>
+  <a href="/home">
+    <img src="/images/home.png">
+    Home
+  </a>
+</li>
+```
+
+You can add options that will be passed on to the `li` and `a` elements:
+
+```haml
+= menu_item 'Home', '/home', { class: 'list-item' }, { id: 'home' }
+```
+
+generates:
+
+```html
+<li class="list-item">
+  <a href="/home" id="home">
+    Home
+  </a>
+</li>
+```
+
+If the specified path/URL is the [current url](#set-current_url_method-required), it will be marked as `active`. Not that it doesn't matter if you link to a full URL or just the path, or if `BootstrapNavbar.current_url_method` returns a full URL or just the path, it will work regardless.
+
+```haml
+= menu_item 'Home', '/home'
+```
+
+generates:
+
+```html
+<!-- If the current path is /home -->
+
+<li class="active">
+  <a href="/home">
+    Home
+  </a>
+</li>
+```
+
+#### menu_divider
+
+This method generates a menu divider, to be used in a `menu_group`.
+
+```haml
+= menu_divider
+```
+
+generates:
+
+```html
+<li class="divider-vertical"></li>
+```
+
+#### drop_down
+
+This method generates a dropdown, to be used in a `menu_group`.
+
+```haml
+= drop_down 'Settings'
+```
+
+generates:
+
+```html
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    Settings <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+```
+
+The content of the dropdown can be defined in the block using `menu_item`s:
+
+```haml
+= drop_down 'Settings' do
+  = menu_item 'Basic', '/settings/basic'
+  = menu_item 'Advanced', '/settings/advanced'
+```
+
+generates:
+
+```html
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    Settings <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li>
+      <a href="/settings/basic">
+        Basic
+      </a>
+    </li>
+    <li>
+      <a href="/settings/advanced">
+        Advanced
+      </a>
+    </li>
+  </ul>
+</li>
+```
+
+#### sub_drop_down
+
+This method generates a sub dropdown, to be used in a `drop_down`.
+
+```haml
+= sub_drop_down 'Admin Settings'
+```
+
+generates:
+
+```html
+<li class="dropdown-submenu">
+  <a href="#">
+    Admin Settings
+  </a>
+  <ul class="dropdown-menu">
+  </ul>
+</li>
+```
+
+Just like in the `drop_down`, the content of the sub dropdown is defined in the block:
+
+```haml
+= sub_drop_down 'Admin Settings' do
+  = menu_item 'Users', '/settings/admin/users'
+  = menu_item 'Stats', '/settings/admin/stats'
+```
+
+generates:
+
+```html
+<li class="dropdown-submenu">
+  <a href="#">
+    Admin Settings
+  </a>
+  <ul class="dropdown-menu">
+    <li>
+      <a href="/settings/admin/users">
+        Users
+      </a>
+    </li>
+    <li>
+      <a href="/settings/admin/stats">
+        Stats
+      </a>
+    </li>
+  </ul>
+</li>
+```
+
+#### drop_down_divider
+
+This method generates a dropdown divider, to be used in a `drop_down` or `sub_drop_down`.
+
+```haml
+= drop_down_divider
+```
+
+generates:
+
+```html
+<li class="divider"></li>
+```
+
+#### drop_down_header
+
+This method generates a dropdown header, to be used in a `drop_down` or `sub_drop_down`.
+
+```haml
+= drop_down_header 'Important!'
+```
+
+generates:
+
+```html
+<li class="nav-header">Important!</li>
+```
 
 ## Contributing
 
