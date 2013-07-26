@@ -344,7 +344,7 @@ generates:
 </li>
 ```
 
-If the specified path/URL is the [current url](#set-current_url_method-required), it will be marked as `active`. Not that it doesn't matter if you link to a full URL or just the path, or if `BootstrapNavbar.current_url_method` returns a full URL or just the path, it will work regardless.
+If the specified path/URL is the [current url](#set-current_url_method-required), it will be marked as `active`. Note that it doesn't matter if you link to a full URL or just the path, or if `BootstrapNavbar.current_url_method` returns a full URL or just the path, it will work regardless.
 
 ```haml
 = menu_item 'Home', '/home'
