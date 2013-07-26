@@ -16,7 +16,7 @@ module BootstrapNavbar::Helpers
     end
     attributes = attribute_hash_to_string({ class: css_classes.join(' ') }.merge(options))
     prepare_html <<-HTML.chomp!
-<ul #{attributes}>
+<ul#{with_preceding_space attributes}>
   #{capture(&block) if block_given?}
 </ul>
 HTML
@@ -39,8 +39,8 @@ HTML
     )
     link_attributes = attribute_hash_to_string(link_options)
     prepare_html <<-HTML.chomp!
-<li #{list_item_attributes}>
-  <a href="#{path}" #{link_attributes}>
+<li#{with_preceding_space list_item_attributes}>
+  <a href="#{path}"#{with_preceding_space link_attributes}>
     #{name}
   </a>
 </li>
@@ -65,8 +65,8 @@ HTML
     list_item_attributes = attribute_hash_to_string({ class: list_item_css_classes.join(' ') }.merge(list_item_options))
     link_attributes = attribute_hash_to_string(link_options)
     prepare_html <<-HTML.chomp!
-<li #{list_item_attributes}>
-  <a href="#" #{link_attributes}>
+<li#{with_preceding_space list_item_attributes}>
+  <a href="#"#{with_preceding_space link_attributes}>
     #{name}
   </a>
   #{drop_down_menu(&block)}
@@ -173,6 +173,10 @@ HTML
   #{capture(&block) if block_given?}
 </ul>
 HTML
+  end
+
+  def with_preceding_space(attributes)
+    ' ' << attributes unless [nil, ''].include?(attributes)
   end
 
   def attribute_hash_to_string(hash)
