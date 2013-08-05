@@ -1,4 +1,4 @@
-require 'bootstrap_navbar'
+require 'bootstrap-navbar'
 require 'rspec-html-matchers'
 
 RSpec.configure do |config|

@@ -1,9 +1,9 @@
 # BootstrapNavbar
 
-[![Gem Version](https://badge.fury.io/rb/bootstrap_navbar.png)](http://badge.fury.io/rb/bootstrap_navbar)
-[![Build Status](https://secure.travis-ci.org/krautcomputing/bootstrap_navbar.png)](http://travis-ci.org/krautcomputing/bootstrap_navbar)
-[![Dependency Status](https://gemnasium.com/krautcomputing/bootstrap_navbar.png)](https://gemnasium.com/krautcomputing/bootstrap_navbar)
-[![Code Climate](https://codeclimate.com/github/krautcomputing/bootstrap_navbar.png)](https://codeclimate.com/github/krautcomputing/bootstrap_navbar)
+[![Gem Version](https://badge.fury.io/rb/bootstrap-navbar.png)](http://badge.fury.io/rb/bootstrap-navbar)
+[![Build Status](https://secure.travis-ci.org/krautcomputing/bootstrap-navbar.png)](http://travis-ci.org/krautcomputing/bootstrap-navbar)
+[![Dependency Status](https://gemnasium.com/krautcomputing/bootstrap-navbar.png)](https://gemnasium.com/krautcomputing/bootstrap-navbar)
+[![Code Climate](https://codeclimate.com/github/krautcomputing/bootstrap-navbar.png)](https://codeclimate.com/github/krautcomputing/bootstrap-navbar)
 
 Helpers to generate a Twitter Bootstrap style navbar
 
@@ -51,7 +51,7 @@ ActionView::Base.send :include, BootstrapNavbar::Helpers
 
 ## Usage
 
-Check out the [Twitter Bootstrap docs](http://twitter.github.io/bootstrap/components.html#navbar) for how a navbar can be constructed. All components and options mentioned there should be supported by this gem, so you don't need to write any HTML by hand. If there is something missing or wrong HTML is generated, please [open an issue](https://github.com/krautcomputing/bootstrap_navbar/issues).
+Check out the [Twitter Bootstrap docs](http://twitter.github.io/bootstrap/components.html#navbar) for how a navbar can be constructed. All components and options mentioned there should be supported by this gem, so you don't need to write any HTML by hand. If there is something missing or wrong HTML is generated, please [open an issue](https://github.com/krautcomputing/bootstrap-navbar/issues).
 
 Let's assume you have mixed in the helper in your rendering engine and use Haml.
 

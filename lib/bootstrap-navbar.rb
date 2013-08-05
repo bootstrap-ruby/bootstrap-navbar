@@ -1,4 +1,4 @@
-require 'bootstrap_navbar/version'
+require 'bootstrap-navbar/version'
 
 module BootstrapNavbar
   def self.current_url_method=(value)
@@ -10,4 +10,4 @@ module BootstrapNavbar
   end
 end
 
-require 'bootstrap_navbar/helpers'
+require 'bootstrap-navbar/helpers'

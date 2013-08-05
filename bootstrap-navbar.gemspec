@@ -3,17 +3,17 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'bootstrap_navbar/version'
+require 'bootstrap-navbar/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = 'bootstrap_navbar'
+  gem.name          = 'bootstrap-navbar'
   gem.version       = BootstrapNavbar::VERSION
   gem.platform      = Gem::Platform::RUBY
   gem.authors       = ['Manuel Meurer']
   gem.email         = 'manuel.meurer@gmail.com'
   gem.summary       = 'Helpers to generate a Twitter Bootstrap style navbar'
   gem.description   = 'Helpers to generate a Twitter Bootstrap style navbar'
-  gem.homepage      = 'https://github.com/krautcomputing/bootstrap_navbar'
+  gem.homepage      = 'https://github.com/krautcomputing/bootstrap-navbar'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
