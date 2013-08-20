@@ -58,8 +58,7 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
 ### Full example
 
 ```ruby
-= nav_bar fixed: :top, responsive: true do
-  = brand_link 'My great app'
+= nav_bar brand: 'My great app', brand_link: '/home', fixed: :top, responsive: true do
   = menu_group class: 'foo', id: 'menu' do
     = menu_text 'Pick an option:'
     = menu_item "Home", root_path
@@ -165,6 +164,23 @@ generates:
   </div>
 </div>
 ```
+
+**Attention: when using the `responsive` option, the brand link should not be added through the `brand_link` method but directly supplied to the `nav_bar` call.**
+
+Don't do this:
+
+```haml
+= nav_bar responsive: true do
+  = brand_link 'My great app', '/home'
+```
+
+Do this:
+
+```haml
+= nav_bar responsive: true, brand: 'My great app', brand_link: '/home'
+```
+
+Otherwise the brand link will be nested incorrectly and will disappear when resizing the window to a smaller size.
 
 Option `fluid` changes the grid system to be [fluid](http://twitter.github.io/bootstrap/scaffolding.html#fluidGridSystem):
 
