@@ -16,7 +16,21 @@ This gem only provides a helper module with methods to generate HTML. It can be 
 
 In short: __Unless you know what you're doing, do not use this gem directly in your app!__
 
+## Requirements
+
+Only Bootstrap >= 2.1.0 is supported. It might work with earlier versions as well though.
+
 ## Setup
+
+### Set bootstrap_version (required)
+
+BootstrapNavbar needs to know what version of Bootstrap it's dealing with since each version has small changes compared to the previous one.
+
+```ruby
+BootstrapNavbar.configure do |config|
+  config.bootstrap_version = '3.0.0'
+end
+```
 
 ### Set current_url_method (required)
 
@@ -24,7 +38,9 @@ BootstrapNavbar has to be able to query for the current URL when rendering the n
 
 ```ruby
 # For Rails >= 3.2
-BootstrapNavbar.current_url_method = 'request.original_url'
+BootstrapNavbar.configure do |config|
+  config.current_url_method = 'request.original_url'
+end
 ```
 
 `current_url_method` should be set to a string which can be `eval`ed later.
@@ -58,7 +74,7 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
 ### Full example
 
 ```ruby
-= nav_bar brand: 'My great app', brand_link: '/home', fixed: :top, responsive: true do
+= navbar brand: 'My great app', brand_link: '/home', fixed: :top, responsive: true do
   = menu_group class: 'foo', id: 'menu' do
     = menu_text 'Pick an option:'
     = menu_item "Home", root_path
@@ -86,12 +102,12 @@ Let's assume you have mixed in the helper in your rendering engine and use Haml.
 
 ### Methods
 
-#### nav_bar
+#### navbar
 
 This method sets up the basic structure of a navbar.
 
 ```haml
-= nav_bar
+= navbar
 ```
 
 generates:
@@ -108,7 +124,7 @@ generates:
 The content of the navbar is supplied by the block and the available options:
 
 ```haml
-= nav_bar do
+= navbar do
   Yay!
 ```
 
@@ -127,7 +143,7 @@ generates:
 Options `brand` and `brand_link` autogenerate the brand link:
 
 ```haml
-= nav_bar brand: 'My great app', brand_link: '/start'
+= navbar brand: 'My great app', brand_link: '/start'
 ```
 
 generates:
@@ -147,7 +163,7 @@ If only `brand` is defined, `brand_link` defaults to `/`.
 Option `responsive` generates a responsive navbar:
 
 ```haml
-= nav_bar responsive: true
+= navbar responsive: true
 ```
 
 generates:
@@ -168,19 +184,19 @@ generates:
 </div>
 ```
 
-**Attention: when using the `responsive` option, the brand link should not be added through the `brand_link` method but directly supplied to the `nav_bar` call.**
+**Attention: when using the `responsive` option, the brand link should not be added through the `brand_link` method but directly supplied to the `navbar` call.**
 
 Don't do this:
 
 ```haml
-= nav_bar responsive: true do
+= navbar responsive: true do
   = brand_link 'My great app', '/home'
 ```
 
 Do this:
 
 ```haml
-= nav_bar responsive: true, brand: 'My great app', brand_link: '/home'
+= navbar responsive: true, brand: 'My great app', brand_link: '/home'
 ```
 
 Otherwise the brand link will be nested incorrectly and will disappear when resizing the window to a smaller size.
@@ -188,7 +204,7 @@ Otherwise the brand link will be nested incorrectly and will disappear when resi
 Option `fluid` changes the grid system to be [fluid](http://twitter.github.io/bootstrap/scaffolding.html#fluidGridSystem):
 
 ```haml
-= nav_bar fluid: true
+= navbar fluid: true
 ```
 
 generates:
@@ -204,7 +220,7 @@ generates:
 
 #### brand_link
 
-This method generates a menu divider, to be used in a `nav_bar`.
+This method generates a menu divider, to be used in a `navbar`.
 
 ```haml
 = brand_link 'My App', '/home'
@@ -220,7 +236,7 @@ If the path (`/home` in this case) is not specified, it defaults to `/`.
 
 #### menu_text
 
-This method generates some menu text, to be used in a `nav_bar`.
+This method generates some menu text, to be used in a `navbar`.
 
 ```haml
 = menu_text 'Select a option:'
@@ -267,7 +283,7 @@ generates:
 
 #### menu_group
 
-This method generates a menu group, to be used in a `nav_bar`.
+This method generates a menu group, to be used in a `navbar`.
 
 ```haml
 = menu_group
@@ -363,7 +379,7 @@ generates:
 </li>
 ```
 
-If the specified path/URL is the [current url](#set-current_url_method-required), it will be marked as `active`. Note that it doesn't matter if you link to a full URL or just the path, or if `BootstrapNavbar.current_url_method` returns a full URL or just the path, it will work regardless.
+If the specified path/URL is the [current url](#set-current_url_method-required), it will be marked as `active`. Note that it doesn't matter if you link to a full URL or just the path, or if `BootstrapNavbar.configuration.current_url_method` returns a full URL or just the path, it will work regardless.
 
 ```haml
 = menu_item 'Home', '/home'

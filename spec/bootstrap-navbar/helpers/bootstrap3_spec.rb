@@ -1,0 +1,263 @@
+require 'spec_helper'
+
+shared_examples 'active navbar link' do
+  it 'generates the correct HTML' do
+    with_all_3_dot_x_versions do
+      paths_and_urls.each do |current_path_or_url|
+        paths_and_urls.each do |menu_path_or_url|
+          BootstrapNavbar.configuration.current_url_method = "'#{current_path_or_url}'"
+          expect(renderer.navbar_group_item('foo', menu_path_or_url)).to have_tag(:li, with: { class: 'active' }) do
+            with_tag :a, with: { href: menu_path_or_url }, content: 'foo'
+          end
+        end
+      end
+    end
+  end
+end
+
+describe BootstrapNavbar::Helpers::Bootstrap3 do
+  before do
+    BootstrapNavbar.configuration.current_url_method = '"/"'
+  end
+
+  it 'includes the correct module' do
+    with_all_3_dot_x_versions do
+      expect(renderer.class.ancestors).to include(BootstrapNavbar::Helpers::Bootstrap3)
+      expect(renderer.class.ancestors).to_not include(BootstrapNavbar::Helpers::Bootstrap2)
+    end
+  end
+
+  describe '#navbar' do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default', role: 'navigation' }) do
+            with_tag :div, with: { class: 'navbar-header' } do
+              with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
+                with_tag :span, class: 'sr-only', content: 'Toggle navigation'
+                3.times do
+                  with_tag :span, class: 'icon-bar'
+                end
+              end
+              with_tag :a, class: 'navbar-brand', href: '#'
+            end
+            with_tag :div, class: 'collapse navbar-collapse', id: 'navbar-collapsable', content: 'foo'
+          end
+        end
+      end
+    end
+
+    context 'with "static" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar(static: true)).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-static-top' })
+        end
+      end
+    end
+
+    context 'with "fixed" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar(fixed: 'top')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-top' })
+          expect(renderer.navbar(fixed: 'bottom')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-bottom' })
+        end
+      end
+    end
+
+    context 'with "inverse" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar(inverse: true)).to have_tag(:nav, with: { class: 'navbar navbar-inverse' })
+        end
+      end
+    end
+
+    context 'with "brand" and "brank_link" parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, content: 'foo')
+          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, content: 'foo')
+          expect(renderer.navbar(brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' })
+        end
+      end
+    end
+  end
+
+  describe '#navbar_group' do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_group).to have_tag(:ul, with: { class: 'nav navbar-nav' })
+        end
+      end
+    end
+
+    context 'with "align" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_group(align: 'right')).to have_tag(:ul, with: { class: 'nav navbar-nav navbar-right' })
+          expect(renderer.navbar_group(align: 'left')).to have_tag(:ul, with: { class: 'nav navbar-nav navbar-left' })
+        end
+      end
+    end
+  end
+
+  describe '#navbar_dropdown' do
+    it 'generates the correct HTML' do
+      with_all_3_dot_x_versions do
+        expect(renderer.navbar_dropdown('foo') { 'bar' }).to have_tag(:li, with: { class: 'dropdown' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
+            with_text 'foo '
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_tag :ul, with: { class: 'dropdown-menu' }, content: 'bar'
+        end
+      end
+    end
+  end
+
+  describe '#navbar_group_item' do
+    context 'with current URL or path' do
+      # With root URL or path
+      it_behaves_like 'active navbar link' do
+        let(:paths_and_urls) do
+          %w(
+            http://www.foobar.com/
+            http://www.foobar.com
+            /
+            http://www.foobar.com/?foo=bar
+            http://www.foobar.com?foo=bar
+            /?foo=bar
+            http://www.foobar.com/#foo
+            http://www.foobar.com#foo
+            /#foo
+            http://www.foobar.com/#foo?foo=bar
+            http://www.foobar.com#foo?foo=bar
+            /#foo?foo=bar
+          )
+        end
+      end
+
+      # With sub URL or path
+      it_behaves_like 'active navbar link' do
+        let(:paths_and_urls) do
+          %w(
+            http://www.foobar.com/foo
+            http://www.foobar.com/foo/
+            /foo
+            /foo/
+            http://www.foobar.com/foo?foo=bar
+            http://www.foobar.com/foo/?foo=bar
+            /foo?foo=bar
+            /foo/?foo=bar
+            http://www.foobar.com/foo#foo
+            http://www.foobar.com/foo/#foo
+            /foo#foo
+            /foo/#foo
+            http://www.foobar.com/foo#foo?foo=bar
+            http://www.foobar.com/foo/#foo?foo=bar
+            /foo#foo?foo=bar
+            /foo/#foo?foo=bar
+          )
+        end
+      end
+    end
+
+    context 'without current URL' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          BootstrapNavbar.configuration.current_url_method = '"/foo"'
+          expect(renderer.navbar_group_item('foo', '/')).to have_tag(:li, without: { class: 'active' }) do
+            with_tag :a, with: { href: '/' }, content: 'foo'
+          end
+          expect(renderer.navbar_group_item('foo', '/bar')).to have_tag(:li, without: { class: 'active' }) do
+            with_tag :a, with: { href: '/bar' }, content: 'foo'
+          end
+
+          BootstrapNavbar.configuration.current_url_method = '"/"'
+          expect(renderer.navbar_group_item('foo', '/foo')).to have_tag(:li, without: { class: 'active' }) do
+            with_tag :a, with: { href: '/foo' }, content: 'foo'
+          end
+        end
+      end
+    end
+  end
+
+  describe '#navbar_form' do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_form { 'foo' }).to have_tag(:form, with: { class: 'navbar-form', role: 'form' }, content: 'foo')
+        end
+      end
+    end
+
+    context 'with "align" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_form(align: 'left') { 'foo' }).to have_tag(:form, with: { class: 'navbar-form navbar-left', role: 'form' }, content: 'foo')
+        end
+      end
+    end
+  end
+
+  describe '#navbar_divider' do
+    it 'generates the correct HTML' do
+      with_all_3_dot_x_versions do
+        expect(renderer.navbar_divider).to have_tag(:li, with: { class: 'divider' })
+      end
+    end
+  end
+
+  describe '#navbar_text' do
+    context 'without parameters' do
+      it 'raises an error' do
+        with_all_3_dot_x_versions do
+          expect { renderer.navbar_text }.to raise_error(StandardError, 'Please provide either the "text" parameter or a block.')
+        end
+      end
+    end
+
+    context 'with "text" parameter and a block' do
+      it 'raises an error' do
+        with_all_3_dot_x_versions do
+          expect { renderer.navbar_text }.to raise_error(StandardError, 'Please provide either the "text" parameter or a block.')
+        end
+      end
+    end
+
+    context 'with "text" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_text('foo')).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
+        end
+      end
+    end
+
+    context 'with block' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_text { 'foo' }).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
+        end
+      end
+    end
+  end
+
+  describe '#navbar_button' do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_button('foo')).to have_tag(:button, with: { class: 'btn navbar-btn', type: 'button' }, content: 'foo')
+        end
+      end
+    end
+
+    context 'with "class" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_button('foo', class: 'bar')).to have_tag(:button, with: { class: 'btn navbar-btn bar', type: 'button' }, content: 'foo')
+        end
+      end
+    end
+  end
+end
