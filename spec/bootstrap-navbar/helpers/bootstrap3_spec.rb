@@ -32,16 +32,18 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
           expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default', role: 'navigation' }) do
-            with_tag :div, with: { class: 'navbar-header' } do
-              with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
-                with_tag :span, class: 'sr-only', content: 'Toggle navigation'
-                3.times do
-                  with_tag :span, class: 'icon-bar'
+            with_tag :div, with: { class: 'container' } do
+              with_tag :div, with: { class: 'navbar-header' } do
+                with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
+                  with_tag :span, with: { class: 'sr-only' }, text: /Toggle navigation/
+                  3.times do
+                    with_tag :span, with: { class: 'icon-bar' }
+                  end
                 end
+                with_tag :a, with: { class: 'navbar-brand', href: '/' }
               end
-              with_tag :a, class: 'navbar-brand', href: '#'
+              with_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
             end
-            with_tag :div, class: 'collapse navbar-collapse', id: 'navbar-collapsable', content: 'foo'
           end
         end
       end
@@ -51,6 +53,19 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
           expect(renderer.navbar(static: true)).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-static-top' })
+        end
+      end
+    end
+
+    context 'with "container" parameter' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar(container: true)).to have_tag(:nav, with: { class: 'navbar navbar-default' }) do
+            with_tag :div, with: { class: 'container' }
+          end
+          expect(renderer.navbar(container: false)).to have_tag(:nav, with: { class: 'navbar navbar-default' }) do
+            without_tag :div, with: { class: 'container' }
+          end
         end
       end
     end

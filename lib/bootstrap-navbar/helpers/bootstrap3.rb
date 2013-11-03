@@ -1,7 +1,15 @@
 module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
+    container = options.has_key?(:container) ? options[:container] : true
+    navbar_content =
+      navbar_header(options[:brand], options[:brand_link]) <<
+      navbar_collapsable(&block)
     navbar_wrapper options do
-      navbar_header options[:brand], options[:brand_link]
+      if container
+        navbar_container(navbar_content)
+      else
+        navbar_content
+      end
     end
   end
 
@@ -79,6 +87,14 @@ HTML
 
   private
 
+  def navbar_container(content)
+    prepare_html <<-HTML.chomp!
+<div class="container">
+  #{content}
+</div>
+HTML
+  end
+
   def navbar_header(brand, brand_link)
     prepare_html <<-HTML.chomp!
 <div class="navbar-header">
@@ -89,6 +105,14 @@ HTML
     <span class="icon-bar"></span>
   </button>
   #{brand_link brand, brand_link}
+</div>
+HTML
+  end
+
+  def navbar_collapsable(&block)
+    prepare_html <<-HTML.chomp!
+<div class="collapse navbar-collapse" id="navbar-collapsable">
+  #{capture(&block) if block_given?}
 </div>
 HTML
   end
