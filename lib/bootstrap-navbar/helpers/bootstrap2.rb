@@ -1,13 +1,13 @@
 module BootstrapNavbar::Helpers::Bootstrap2
   def navbar(options = {}, &block)
-    navbar_wrapper options do
-      navbar_inner_div do
-        container_div options[:brand], options[:brand_link], options[:responsive], options[:fluid], &block
+    wrapper options do
+      inner_wrapper do
+        container options[:brand], options[:brand_link], options[:responsive], options[:fluid], &block
       end
     end
   end
 
-  def menu_group(options = {}, &block)
+  def navbar_group(options = {}, &block)
     css_classes = %w(nav).tap do |css_classes|
       css_classes << "pull-#{options.delete(:pull)}" if options.has_key?(:pull)
       css_classes << options.delete(:class) if options.has_key?(:class)
@@ -20,7 +20,7 @@ module BootstrapNavbar::Helpers::Bootstrap2
 HTML
   end
 
-  def menu_item(name = nil, path = nil, list_item_options = nil, link_options = nil, &block)
+  def navbar_item(name = nil, path = nil, list_item_options = nil, link_options = nil, &block)
     name, path, list_item_options, link_options = capture(&block), name, path, list_item_options if block_given?
     path              ||= '#'
     list_item_options ||= {}
@@ -45,18 +45,18 @@ HTML
 HTML
   end
 
-  def drop_down(name, &block)
+  def navbar_dropdown(name, &block)
     prepare_html <<-HTML.chomp!
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     #{name} <b class="caret"></b>
   </a>
-  #{drop_down_menu(&block)}
+  #{dropdown_menu(&block)}
 </li>
 HTML
   end
 
-  def sub_drop_down(name, list_item_options = {}, link_options = {}, &block)
+  def navbar_sub_dropdown(name, list_item_options = {}, link_options = {}, &block)
     list_item_css_classes = %w(dropdown-submenu).tap do |css_classes|
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
@@ -67,24 +67,24 @@ HTML
   <a href="#"#{link_attributes}>
     #{name}
   </a>
-  #{drop_down_menu(&block)}
+  #{dropdown_menu(&block)}
 </li>
 HTML
   end
 
-  def drop_down_divider
+  def navbar_dropdown_divider
     prepare_html %(<li class="divider"></li>)
   end
 
-  def drop_down_header(text)
+  def navbar_dropdown_header(text)
     prepare_html %(<li class="nav-header">#{text}</li>)
   end
 
-  def menu_divider
+  def navbar_divider
     prepare_html %(<li class="divider-vertical"></li>)
   end
 
-  def menu_text(text = nil, pull = nil, &block)
+  def navbar_text(text = nil, pull = nil, &block)
     css_classes = %w(navbar-text).tap do |css_classes|
       css_classes << "pull-#{pull}" if pull
     end
@@ -95,13 +95,13 @@ HTML
 HTML
   end
 
-  def brand_link(name, url = nil)
+  def navbar_brand_link(name, url = nil)
     prepare_html %(<a href="#{url || '/'}" class="brand">#{name}</a>)
   end
 
   private
 
-  def navbar_wrapper(options, &block)
+  def wrapper(options, &block)
     position = case
     when options.has_key?(:static)
       "static-#{options[:static]}"
@@ -123,7 +123,7 @@ HTML
 HTML
   end
 
-  def navbar_inner_div(&block)
+  def inner_wrapper(&block)
     prepare_html <<-HTML.chomp!
 <div class="navbar-inner">
   #{capture(&block) if block_given?}
@@ -131,11 +131,11 @@ HTML
 HTML
   end
 
-  def container_div(brand, brand_link, responsive, fluid, &block)
+  def container(brand, brand_link, responsive, fluid, &block)
     css_class = fluid ? 'container-fluid' : 'container'
     content = [].tap do |content|
       content << responsive_button if responsive
-      content << brand_link(brand, brand_link) if brand || brand_link
+      content << navbar_brand_link(brand, brand_link) if brand || brand_link
       content << if responsive
         responsive_wrapper(&block)
       else
@@ -171,7 +171,7 @@ HTML
 HTML
   end
 
-  def drop_down_menu(&block)
+  def dropdown_menu(&block)
     prepare_html <<-HTML.chomp!
 <ul class="dropdown-menu">
   #{capture(&block) if block_given?}

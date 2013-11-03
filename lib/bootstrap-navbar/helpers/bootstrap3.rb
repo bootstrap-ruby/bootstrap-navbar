@@ -2,11 +2,11 @@ module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
     container = options.has_key?(:container) ? options[:container] : true
     navbar_content =
-      navbar_header(options[:brand], options[:brand_link]) <<
-      navbar_collapsable(&block)
-    navbar_wrapper options do
+      header(options[:brand], options[:brand_link]) <<
+      collapsable(&block)
+    wrapper options do
       if container
-        navbar_container(navbar_content)
+        container(navbar_content)
       else
         navbar_content
       end
@@ -25,17 +25,6 @@ module BootstrapNavbar::Helpers::Bootstrap3
 HTML
   end
 
-  def navbar_dropdown(text, &block)
-    prepare_html <<-HTML.chomp!
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{text} <b class="caret"></b></a>
-  <ul class="dropdown-menu">
-    #{capture(&block) if block_given?}
-  </ul>
-</li>
-HTML
-  end
-
   def navbar_group_item(text, url)
     attributes = {}
     attributes[:class] = 'active' if current_url?(url)
@@ -43,6 +32,17 @@ HTML
     prepare_html <<-HTML.chomp!
 <li#{attributes}>
   <a href="#{url}">#{text}</a>
+</li>
+HTML
+  end
+
+  def navbar_dropdown(text, &block)
+    prepare_html <<-HTML.chomp!
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{text} <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    #{capture(&block) if block_given?}
+  </ul>
 </li>
 HTML
   end
@@ -87,7 +87,7 @@ HTML
 
   private
 
-  def navbar_container(content)
+  def container(content)
     prepare_html <<-HTML.chomp!
 <div class="container">
   #{content}
@@ -95,7 +95,7 @@ HTML
 HTML
   end
 
-  def navbar_header(brand, brand_link)
+  def header(brand, brand_link)
     prepare_html <<-HTML.chomp!
 <div class="navbar-header">
   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsable">
@@ -109,7 +109,7 @@ HTML
 HTML
   end
 
-  def navbar_collapsable(&block)
+  def collapsable(&block)
     prepare_html <<-HTML.chomp!
 <div class="collapse navbar-collapse" id="navbar-collapsable">
   #{capture(&block) if block_given?}
@@ -121,7 +121,7 @@ HTML
     prepare_html %(<a href="#{url || '/'}" class="navbar-brand">#{name}</a>)
   end
 
-  def navbar_wrapper(options, &block)
+  def wrapper(options, &block)
     style = options[:inverse] ? 'inverse' : 'default'
     css_classes = %w(navbar).tap do |css_classes|
       css_classes << "navbar-fixed-#{options[:fixed]}" if options.has_key?(:fixed)

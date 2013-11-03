@@ -6,7 +6,7 @@ shared_examples 'active navbar link' do
       paths_and_urls.each do |current_path_or_url|
         paths_and_urls.each do |menu_path_or_url|
           BootstrapNavbar.configuration.current_url_method = "'#{current_path_or_url}'"
-          expect(renderer.navbar_group_item('foo', menu_path_or_url)).to have_tag(:li, with: { class: 'active' }) do
+          expect(renderer.navbar_item('foo', menu_path_or_url)).to have_tag(:li, with: { class: 'active' }) do
             with_tag :a, with: { href: menu_path_or_url }, text: /foo/
           end
         end
@@ -131,7 +131,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     end
   end
 
-  describe '#navbar_group_item' do
+  describe '#navbar_item' do
     context 'with current URL or path' do
       # With root URL or path
       it_behaves_like 'active navbar link' do
@@ -182,14 +182,14 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
           BootstrapNavbar.configuration.current_url_method = '"/foo"'
-          expect(renderer.navbar_group_item('foo', '/')).to have_tag(:li, without: { class: 'active' }) do
+          expect(renderer.navbar_item('foo', '/')).to have_tag(:li, without: { class: 'active' }) do
             with_tag :a, with: { href: '/' }, text: /foo/
           end
-          expect(renderer.navbar_group_item('foo', '/bar')).to have_tag(:li, without: { class: 'active' }) do
+          expect(renderer.navbar_item('foo', '/bar')).to have_tag(:li, without: { class: 'active' }) do
             with_tag :a, with: { href: '/bar' }, text: /foo/
           end
           BootstrapNavbar.configuration.current_url_method = '"/"'
-          expect(renderer.navbar_group_item('foo', '/foo')).to have_tag(:li, without: { class: 'active' }) do
+          expect(renderer.navbar_item('foo', '/foo')).to have_tag(:li, without: { class: 'active' }) do
             with_tag :a, with: { href: '/foo' }, text: /foo/
           end
         end
