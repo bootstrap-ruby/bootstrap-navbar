@@ -25,7 +25,7 @@ module BootstrapNavbar::Helpers::Bootstrap3
 HTML
   end
 
-  def navbar_group_item(text, url)
+  def navbar_item(text, url)
     attributes = {}
     attributes[:class] = 'active' if current_url?(url)
     attributes = attributes_for_tag(attributes)
