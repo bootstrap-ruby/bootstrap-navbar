@@ -17,9 +17,9 @@ module BootstrapNavbar::Helpers::Bootstrap3
     css_classes = %w(nav navbar-nav).tap do |css_classes|
       css_classes << "navbar-#{options[:align]}" if options.has_key?(:align)
     end
-    attributes = attribute_hash_to_string({ class: css_classes.join(' ') }.merge(options))
+    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
     prepare_html <<-HTML.chomp!
-<ul#{with_preceding_space attributes}>
+<ul#{attributes}>
   #{capture(&block) if block_given?}
 </ul>
 HTML
@@ -39,9 +39,9 @@ HTML
   def navbar_group_item(text, url)
     attributes = {}
     attributes[:class] = 'active' if current_url?(url)
-    attributes = attribute_hash_to_string(attributes)
+    attributes = attributes_for_tag(attributes)
     prepare_html <<-HTML.chomp!
-<li#{with_preceding_space attributes}>
+<li#{attributes}>
   <a href="#{url}">#{text}</a>
 </li>
 HTML
@@ -52,9 +52,9 @@ HTML
       css_classes << "navbar-#{options[:align]}" if options.has_key?(:align)
     end
     attribute_hash = { class: css_classes.join(' '), role: 'form' }
-    attributes = attribute_hash_to_string(attribute_hash)
+    attributes = attributes_for_tag(attribute_hash)
     prepare_html <<-HTML.chomp!
-<form#{with_preceding_space attributes}>
+<form#{attributes}>
   #{capture(&block) if block_given?}
 </form>
 HTML
@@ -79,9 +79,9 @@ HTML
       css_classes << options[:class] if options.has_key?(:class)
     end
     attribute_hash = { class: css_classes.join(' '), type: 'button' }
-    attributes = attribute_hash_to_string(attribute_hash)
+    attributes = attributes_for_tag(attribute_hash)
     prepare_html <<-HTML.chomp!
-<button#{with_preceding_space attributes}>#{text}</button>
+<button#{attributes}>#{text}</button>
 HTML
   end
 
@@ -130,9 +130,9 @@ HTML
       css_classes << "navbar-#{style}"
     end
     attribute_hash = { class: css_classes.join(' '), role: 'navigation' }
-    attributes = attribute_hash_to_string(attribute_hash)
+    attributes = attributes_for_tag(attribute_hash)
     prepare_html <<-HTML.chomp!
-<nav#{with_preceding_space attributes}>
+<nav#{attributes}>
   #{capture(&block) if block_given?}
 </nav>
 HTML

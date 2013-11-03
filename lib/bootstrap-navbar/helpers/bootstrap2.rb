@@ -12,9 +12,9 @@ module BootstrapNavbar::Helpers::Bootstrap2
       css_classes << "pull-#{options.delete(:pull)}" if options.has_key?(:pull)
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
-    attributes = attribute_hash_to_string({ class: css_classes.join(' ') }.merge(options))
+    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
     prepare_html <<-HTML.chomp!
-<ul#{with_preceding_space attributes}>
+<ul#{attributes}>
   #{capture(&block) if block_given?}
 </ul>
 HTML
@@ -30,15 +30,15 @@ HTML
       css_classes << 'active' if current_url?(path)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
-    list_item_attributes = attribute_hash_to_string(
+    list_item_attributes = attributes_for_tag(
       { class: list_item_css_classes.join(' ') }
         .delete_if { |k, v| v.empty? }
         .merge(list_item_options)
     )
-    link_attributes = attribute_hash_to_string(link_options)
+    link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
-<li#{with_preceding_space list_item_attributes}>
-  <a href="#{path}"#{with_preceding_space link_attributes}>
+<li#{list_item_attributes}>
+  <a href="#{path}"#{link_attributes}>
     #{name}
   </a>
 </li>
@@ -60,11 +60,11 @@ HTML
     list_item_css_classes = %w(dropdown-submenu).tap do |css_classes|
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
-    list_item_attributes = attribute_hash_to_string({ class: list_item_css_classes.join(' ') }.merge(list_item_options))
-    link_attributes = attribute_hash_to_string(link_options)
+    list_item_attributes = attributes_for_tag({ class: list_item_css_classes.join(' ') }.merge(list_item_options))
+    link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
-<li#{with_preceding_space list_item_attributes}>
-  <a href="#"#{with_preceding_space link_attributes}>
+<li#{list_item_attributes}>
+  <a href="#"#{link_attributes}>
     #{name}
   </a>
   #{drop_down_menu(&block)}
@@ -114,10 +114,10 @@ HTML
       css_classes << 'navbar-inverse' if options[:inverse]
     end
     attribute_hash = { class: css_classes.join(' ') }
-    attributes = attribute_hash_to_string(attribute_hash)
+    attributes = attributes_for_tag(attribute_hash)
 
     prepare_html <<-HTML.chomp!
-<div#{with_preceding_space attributes}>
+<div#{attributes}>
   #{capture(&block) if block_given?}
 </div>
 HTML
@@ -153,9 +153,9 @@ HTML
     css_classes = %w(nav-collapse).tap do |css_classes|
       css_classes << 'collapse' if BootstrapNavbar.configuration.bootstrap_version >= '2.2.0'
     end
-    attributes = attribute_hash_to_string({ class: css_classes.join(' ') })
+    attributes = attributes_for_tag({ class: css_classes.join(' ') })
     prepare_html <<-HTML.chomp!
-<div#{with_preceding_space attributes}>
+<div#{attributes}>
   #{capture(&block) if block_given?}
 </div>
 HTML

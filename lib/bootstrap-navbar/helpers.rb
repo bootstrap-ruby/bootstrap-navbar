@@ -1,15 +1,16 @@
 module BootstrapNavbar::Helpers
   def self.included(base)
-    helper_version = BootstrapNavbar.configuration.bootstrap_version.split('.').first
-    base.send :include, const_get("BootstrapNavbar::Helpers::Bootstrap#{helper_version}")
+    helper_version = BootstrapNavbar.configuration.bootstrap_version[0]
+    base.send :include, const_get("Bootstrap#{helper_version}")
   end
 
-  def with_preceding_space(attributes)
-    ' ' << attributes unless [nil, ''].include?(attributes)
-  end
-
-  def attribute_hash_to_string(hash)
-    hash.map { |k, v| %(#{k}="#{v}") }.join(' ')
+  def attributes_for_tag(hash)
+    string = hash.map { |k, v| %(#{k}="#{v}") }.join(' ')
+    if string.length > 0
+      ' ' << string
+    else
+      string
+    end
   end
 
   def current_url?(url)
