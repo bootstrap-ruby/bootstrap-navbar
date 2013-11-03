@@ -7,7 +7,7 @@ shared_examples 'active navbar link' do
         paths_and_urls.each do |menu_path_or_url|
           BootstrapNavbar.configuration.current_url_method = "'#{current_path_or_url}'"
           expect(renderer.navbar_group_item('foo', menu_path_or_url)).to have_tag(:li, with: { class: 'active' }) do
-            with_tag :a, with: { href: menu_path_or_url }, content: 'foo'
+            with_tag :a, with: { href: menu_path_or_url }, text: /foo/
           end
         end
       end
@@ -75,8 +75,8 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'with "brand" and "brank_link" parameters' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, content: 'foo')
-          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, content: 'foo')
+          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
+          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
           expect(renderer.navbar(brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' })
         end
       end
@@ -110,7 +110,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
             with_text 'foo '
             with_tag :b, with: { class: 'caret' }
           end
-          with_tag :ul, with: { class: 'dropdown-menu' }, content: 'bar'
+          with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
         end
       end
     end
@@ -168,15 +168,14 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
         with_all_3_dot_x_versions do
           BootstrapNavbar.configuration.current_url_method = '"/foo"'
           expect(renderer.navbar_group_item('foo', '/')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/' }, content: 'foo'
+            with_tag :a, with: { href: '/' }, text: /foo/
           end
           expect(renderer.navbar_group_item('foo', '/bar')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/bar' }, content: 'foo'
+            with_tag :a, with: { href: '/bar' }, text: /foo/
           end
-
           BootstrapNavbar.configuration.current_url_method = '"/"'
           expect(renderer.navbar_group_item('foo', '/foo')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/foo' }, content: 'foo'
+            with_tag :a, with: { href: '/foo' }, text: /foo/
           end
         end
       end
@@ -187,7 +186,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'without parameters' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_form { 'foo' }).to have_tag(:form, with: { class: 'navbar-form', role: 'form' }, content: 'foo')
+          expect(renderer.navbar_form { 'foo' }).to have_tag(:form, with: { class: 'navbar-form', role: 'form' }, text: /foo/)
         end
       end
     end
@@ -195,7 +194,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'with "align" parameter' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_form(align: 'left') { 'foo' }).to have_tag(:form, with: { class: 'navbar-form navbar-left', role: 'form' }, content: 'foo')
+          expect(renderer.navbar_form(align: 'left') { 'foo' }).to have_tag(:form, with: { class: 'navbar-form navbar-left', role: 'form' }, text: /foo/)
         end
       end
     end
@@ -229,7 +228,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'with "text" parameter' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_text('foo')).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
+          expect(renderer.navbar_text('foo')).to have_tag(:p, with: { class: 'navbar-text' }, text: /foo/)
         end
       end
     end
@@ -237,7 +236,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'with block' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_text { 'foo' }).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
+          expect(renderer.navbar_text { 'foo' }).to have_tag(:p, with: { class: 'navbar-text' }, text: /foo/)
         end
       end
     end
@@ -247,7 +246,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'without parameters' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_button('foo')).to have_tag(:button, with: { class: 'btn navbar-btn', type: 'button' }, content: 'foo')
+          expect(renderer.navbar_button('foo')).to have_tag(:button, with: { class: 'btn navbar-btn', type: 'button' }, text: /foo/)
         end
       end
     end
@@ -255,7 +254,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'with "class" parameter' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar_button('foo', class: 'bar')).to have_tag(:button, with: { class: 'btn navbar-btn bar', type: 'button' }, content: 'foo')
+          expect(renderer.navbar_button('foo', class: 'bar')).to have_tag(:button, with: { class: 'btn navbar-btn bar', type: 'button' }, text: /foo/)
         end
       end
     end

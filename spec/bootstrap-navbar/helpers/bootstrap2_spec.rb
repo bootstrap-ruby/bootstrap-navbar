@@ -41,7 +41,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
     context 'with a block' do
       it 'generates the correct HTML' do
         with_all_2_dot_x_versions do
-          expect(renderer.navbar { 'foo' }).to have_tag(:div, with: { class: 'navbar' }, content: 'foo')
+          expect(renderer.navbar { 'foo' }).to have_tag(:div, with: { class: 'navbar' }, text: /foo/)
         end
       end
     end
@@ -75,8 +75,8 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
     context 'with "brand" and "brank_link" parameters' do
       it 'generates the correct HTML' do
         with_all_2_dot_x_versions do
-          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'brand' }, content: 'foo')
-          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'brand' }, content: 'foo')
+          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'brand' }, text: /foo/)
+          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'brand' }, text: /foo/)
           expect(renderer.navbar(brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'brand' })
         end
       end
@@ -114,7 +114,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
       it 'generates the correct HTML' do
         with_all_2_dot_x_versions do
           expect(renderer.menu_group).to have_tag(:ul, with: { class: 'nav' })
-          expect(renderer.menu_group { 'foo' }).to have_tag(:ul, with: { class: 'nav' }, content: 'foo')
+          expect(renderer.menu_group { 'foo' }).to have_tag(:ul, with: { class: 'nav' }, text: /foo/)
         end
       end
     end
@@ -212,7 +212,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
           with_all_2_dot_x_versions do
             BootstrapNavbar.configuration.current_url_method = '"/"'
             expect(renderer.menu_item('foo', '/', {}, class: 'pelle', id: 'fant')).to have_tag(:li, with: { class: 'active' }) do
-              with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, content: 'foo'
+              with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, text: /foo/
             end
           end
         end
@@ -223,7 +223,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
           with_all_2_dot_x_versions do
             BootstrapNavbar.configuration.current_url_method = '"/"'
             expect(renderer.menu_item('foo', '/', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant')).to have_tag(:li, with: { class: 'active bar', id: 'baz' }) do
-              with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, content: 'foo'
+              with_tag :a, with: { href: '/', class: 'pelle', id: 'fant' }, text: /foo/
             end
           end
         end
@@ -235,18 +235,17 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         with_all_2_dot_x_versions do
           BootstrapNavbar.configuration.current_url_method = '"/foo"'
           expect(renderer.menu_item('foo')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '#' }, content: 'foo'
+            with_tag :a, with: { href: '#' }, text: /foo/
           end
           expect(renderer.menu_item('foo', '/')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/' }, content: 'foo'
+            with_tag :a, with: { href: '/' }, text: /foo/
           end
           expect(renderer.menu_item('foo', '/bar')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/bar' }, content: 'foo'
+            with_tag :a, with: { href: '/bar' }, text: /foo/
           end
-
           BootstrapNavbar.configuration.current_url_method = '"/"'
           expect(renderer.menu_item('foo', '/foo')).to have_tag(:li, without: { class: 'active' }) do
-            with_tag :a, with: { href: '/foo' }, content: 'foo'
+            with_tag :a, with: { href: '/foo' }, text: /foo/
           end
         end
       end
@@ -265,7 +264,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
       it 'generates the correct HTML' do
         with_all_2_dot_x_versions do
           expect(renderer.menu_item { 'bar' }).to have_tag(:li) do
-            with_tag :a, with: { href: '#' }, content: 'bar'
+            with_tag :a, with: { href: '#' }, text: /bar/
           end
         end
       end
@@ -274,7 +273,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.menu_item('/foo', class: 'pelle', id: 'fant') { 'bar' }).to have_tag(:li, with: { class: 'pelle', id: 'fant' }) do
-              with_tag :a, with: { href: '/foo' }, content: 'bar'
+              with_tag :a, with: { href: '/foo' }, text: /bar/
             end
           end
         end
@@ -284,7 +283,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.menu_item('/foo', {}, class: 'pelle', id: 'fant') { 'bar' }).to have_tag(:li) do
-              with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, content: 'bar'
+              with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, text: /bar/
             end
           end
         end
@@ -294,7 +293,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.menu_item('/foo', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant') { 'shnoo' }).to have_tag(:li, with: { class: 'bar', id: 'baz' }) do
-              with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, content: 'shnoo'
+              with_tag :a, with: { href: '/foo', class: 'pelle', id: 'fant' }, text: /shnoo/
             end
           end
         end
@@ -335,12 +334,12 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
       it 'generates the correct HTML' do
         with_all_2_dot_x_versions do
           expect(renderer.sub_drop_down('foo')).to have_tag(:li, with: { class: 'dropdown-submenu' }) do
-            with_tag :a, with: { href: '#' }, content: 'foo'
+            with_tag :a, with: { href: '#' }, text: /foo/
             with_drop_down_menu
           end
 
           expect(renderer.sub_drop_down('foo') { 'bar' }).to have_tag(:li, with: { class: 'dropdown-submenu' }) do
-            with_tag :a, with: { href: '#' }, content: 'foo'
+            with_tag :a, with: { href: '#' }, text: /foo/
             with_drop_down_menu('bar')
           end
         end
@@ -350,7 +349,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.sub_drop_down('foo', class: 'bar', id: 'baz')).to have_tag(:li, with: { class: 'dropdown-submenu bar', id: 'baz' }) do
-              with_tag :a, with: { href: '#' }, content: 'foo'
+              with_tag :a, with: { href: '#' }, text: /foo/
             end
           end
         end
@@ -360,7 +359,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.sub_drop_down('foo', {}, class: 'pelle', id: 'fant')).to have_tag(:li, with: { class: 'dropdown-submenu' }) do
-              with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, content: 'foo'
+              with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, text: /foo/
             end
           end
         end
@@ -370,7 +369,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         it 'generates the correct HTML' do
           with_all_2_dot_x_versions do
             expect(renderer.sub_drop_down('foo', { class: 'bar', id: 'baz' }, class: 'pelle', id: 'fant')).to have_tag(:li, with: { class: 'dropdown-submenu bar', id: 'baz' }) do
-              with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, content: 'foo'
+              with_tag :a, with: { href: '#', class: 'pelle', id: 'fant' }, text: /foo/
             end
           end
         end
@@ -381,7 +380,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   describe '#drop_down_divider' do
     it 'generates the correct HTML' do
       with_all_2_dot_x_versions do
-        expect(renderer.drop_down_divider).to have_tag(:li, with: { class: 'divider' }, content: '')
+        expect(renderer.drop_down_divider).to have_tag(:li, with: { class: 'divider' }, text: '')
       end
     end
   end
@@ -389,7 +388,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   describe '#drop_down_header' do
     it 'generates the correct HTML' do
       with_all_2_dot_x_versions do
-        expect(renderer.drop_down_header('foo')).to have_tag(:li, with: { class: 'nav-header' }, content: 'foo')
+        expect(renderer.drop_down_header('foo')).to have_tag(:li, with: { class: 'nav-header' }, text: /foo/)
       end
     end
   end
@@ -397,7 +396,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   describe '#menu_divider' do
     it 'generates the correct HTML' do
       with_all_2_dot_x_versions do
-        expect(renderer.menu_divider).to have_tag(:li, with: { class: 'divider-vertical' }, content: '')
+        expect(renderer.menu_divider).to have_tag(:li, with: { class: 'divider-vertical' }, text: '')
       end
     end
   end
@@ -405,10 +404,10 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   describe '#menu_text' do
     it 'generates the correct HTML' do
       with_all_2_dot_x_versions do
-        expect(renderer.menu_text('foo')).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
-        expect(renderer.menu_text { 'foo' }).to have_tag(:p, with: { class: 'navbar-text' }, content: 'foo')
-        expect(renderer.menu_text('foo', 'right')).to have_tag(:p, with: { class: 'navbar-text pull-right' }, content: 'foo')
-        expect(renderer.menu_text(nil, 'left') { 'foo' }).to have_tag(:p, with: { class: 'navbar-text pull-left' }, content: 'foo')
+        expect(renderer.menu_text('foo')).to have_tag(:p, with: { class: 'navbar-text' }, text: /foo/)
+        expect(renderer.menu_text { 'foo' }).to have_tag(:p, with: { class: 'navbar-text' }, text: /foo/)
+        expect(renderer.menu_text('foo', 'right')).to have_tag(:p, with: { class: 'navbar-text pull-right' }, text: /foo/)
+        expect(renderer.menu_text(nil, 'left') { 'foo' }).to have_tag(:p, with: { class: 'navbar-text pull-left' }, text: /foo/)
       end
     end
   end
@@ -416,8 +415,8 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   describe '#brand_link' do
     it 'generates the correct HTML' do
       with_all_2_dot_x_versions do
-        expect(renderer.brand_link('foo')).to have_tag(:a, with: { class: 'brand', href: '/' }, content: 'foo')
-        expect(renderer.brand_link('foo', '/foo')).to have_tag(:a, with: { class: 'brand', href: '/foo' }, content: 'foo')
+        expect(renderer.brand_link('foo')).to have_tag(:a, with: { class: 'brand', href: '/' }, text: /foo/)
+        expect(renderer.brand_link('foo', '/foo')).to have_tag(:a, with: { class: 'brand', href: '/foo' }, text: /foo/)
       end
     end
   end
