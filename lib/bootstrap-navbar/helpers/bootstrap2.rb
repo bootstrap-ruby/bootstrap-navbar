@@ -1,6 +1,6 @@
 module BootstrapNavbar::Helpers::Bootstrap2
-  def navbar(options = {}, &block)
-    wrapper options do
+  def navbar(options = {}, wrapper_options = {}, &block)
+    wrapper options, wrapper_options do
       inner_wrapper do
         container options[:brand], options[:brand_link], options[:responsive], options[:fluid], &block
       end
@@ -101,7 +101,7 @@ HTML
 
   private
 
-  def wrapper(options, &block)
+  def wrapper(options, html_options, &block)
     position = case
     when options.has_key?(:static)
       "static-#{options[:static]}"
@@ -112,8 +112,9 @@ HTML
     css_classes = %w(navbar).tap do |css_classes|
       css_classes << "navbar-#{position}" if position
       css_classes << 'navbar-inverse' if options[:inverse]
+      css_classes << html_options.delete(:class)
     end
-    attribute_hash = { class: css_classes.join(' ') }
+    attribute_hash = { class: css_classes.join(' ') }.merge(html_options)
     attributes = attributes_for_tag(attribute_hash)
 
     prepare_html <<-HTML.chomp!

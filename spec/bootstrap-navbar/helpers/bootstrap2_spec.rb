@@ -107,6 +107,14 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
         end
       end
     end
+
+    context 'with wrapper parameters' do
+      it 'generates the correct HTML' do
+        with_all_2_dot_x_versions do
+          expect(renderer.navbar({}, class: 'my-wrapper-class', id: 'my-wrapper-id')).to have_tag(:div, with: { class: 'navbar my-wrapper-class', id: 'my-wrapper-id' })
+        end
+      end
+    end
   end
 
   describe '#navbar_group' do
