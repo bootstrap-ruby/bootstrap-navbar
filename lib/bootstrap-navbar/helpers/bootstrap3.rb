@@ -2,7 +2,7 @@ module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
     container = options.has_key?(:container) ? options[:container] : true
     navbar_content =
-      header(options[:brand], options[:brand_link]) <<
+      header(options.delete(:brand), options.delete(:brand_link)) <<
       collapsable(&block)
     wrapper options do
       if container
