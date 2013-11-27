@@ -15,7 +15,8 @@ module BootstrapNavbar::Helpers::Bootstrap3
 
   def navbar_group(options = {}, &block)
     css_classes = %w(nav navbar-nav).tap do |css_classes|
-      css_classes << "navbar-#{options[:align]}" if options.has_key?(:align)
+      css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
+      css_classes << options.delete(:class) if options.has_key?(:class)
     end
     attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
     prepare_html <<-HTML.chomp!
@@ -25,14 +26,65 @@ module BootstrapNavbar::Helpers::Bootstrap3
 HTML
   end
 
-  def navbar_item(text, url)
-    attributes = {}
-    attributes[:class] = 'active' if current_url?(url)
-    attributes = attributes_for_tag(attributes)
+  def navbar_item(text, url = nil, list_item_options = nil, link_options = nil, &block)
+    text, url, list_item_options, link_options = capture(&block), text, list_item_options if block_given?
+    url               ||= '#'
+    list_item_options ||= {}
+    link_options      ||= {}
+
+    list_item_css_classes = [].tap do |css_classes|
+      css_classes << 'active' if current_url?(url)
+      css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
+    end
+    list_item_attributes = attributes_for_tag(
+      { class: list_item_css_classes.join(' ') }
+        .delete_if { |k, v| v.empty? }
+        .merge(list_item_options)
+    )
+    link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
-<li#{attributes}>
-  <a href="#{url}">#{text}</a>
+<li#{list_item_attributes}>
+  <a href="#{url}"#{link_attributes}>
+    #{text}
+  </a>
 </li>
+HTML
+  end
+
+  def navbar_form(options = {}, &block)
+    css_classes = %w(navbar-form).tap do |css_classes|
+      css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
+      css_classes << options.delete(:class) if options.has_key?(:class)
+    end
+    role = options.delete(:role) || 'form'
+    attributes = attributes_for_tag({ class: css_classes.join(' '), role: role }.merge(options))
+    prepare_html <<-HTML.chomp!
+<form#{attributes}>
+  #{capture(&block) if block_given?}
+</form>
+HTML
+  end
+
+  def navbar_text(text = nil, options = {}, &block)
+    raise StandardError, 'Please provide either the "text" parameter or a block.' if (text.nil? && !block_given?) || (!text.nil? && block_given?)
+    text ||= capture(&block)
+    css_classes = %w(navbar-text).tap do |css_classes|
+      css_classes << options.delete(:class) if options.has_key?(:class)
+    end
+    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
+    prepare_html <<-HTML.chomp!
+<p#{attributes}>#{text}</p>
+HTML
+  end
+
+  def navbar_button(text, options = {})
+    css_classes = %w(btn navbar-btn).tap do |css_classes|
+      css_classes << options.delete(:class) if options.has_key?(:class)
+    end
+    type = options.delete(:type) || 'button'
+    attributes = attributes_for_tag({ class: css_classes.join(' '), type: type }.merge(options))
+    prepare_html <<-HTML.chomp!
+<button#{attributes}>#{text}</button>
 HTML
   end
 
@@ -47,42 +99,17 @@ HTML
 HTML
   end
 
-  def navbar_form(options = {}, &block)
-    css_classes = %w(navbar-form).tap do |css_classes|
-      css_classes << "navbar-#{options[:align]}" if options.has_key?(:align)
-    end
-    role = options[:role] || 'form'
-    attribute_hash = { class: css_classes.join(' '), role: role }
-    attributes = attributes_for_tag(attribute_hash)
+  def navbar_dropdown_header(text)
     prepare_html <<-HTML.chomp!
-<form#{attributes}>
-  #{capture(&block) if block_given?}
-</form>
+<li class="dropdown-header">
+  #{text}
+</li>
 HTML
   end
 
-  def navbar_divider
+  def navbar_dropdown_divider
     prepare_html <<-HTML.chomp!
 <li class="divider"></li>
-HTML
-  end
-
-  def navbar_text(text = nil, &block)
-    raise StandardError, 'Please provide either the "text" parameter or a block.' if (text.nil? && !block_given?) || (!text.nil? && block_given?)
-    text ||= capture(&block)
-    prepare_html <<-HTML.chomp!
-<p class="navbar-text">#{text}</p>
-HTML
-  end
-
-  def navbar_button(text, options = {})
-    css_classes = %w(btn navbar-btn).tap do |css_classes|
-      css_classes << options[:class] if options.has_key?(:class)
-    end
-    attribute_hash = { class: css_classes.join(' '), type: 'button' }
-    attributes = attributes_for_tag(attribute_hash)
-    prepare_html <<-HTML.chomp!
-<button#{attributes}>#{text}</button>
 HTML
   end
 
@@ -105,7 +132,7 @@ HTML
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
   </button>
-  #{brand_link brand, brand_link}
+  #{brand_link brand, brand_link unless brand.nil?}
 </div>
 HTML
   end
@@ -119,19 +146,24 @@ HTML
   end
 
   def brand_link(name, url = nil)
-    prepare_html %(<a href="#{url || '/'}" class="navbar-brand">#{name}</a>)
+    url ||= '/'
+    prepare_html <<-HTML.chomp!
+<a href="#{url}" class="navbar-brand">
+  #{name}
+</a>
+HTML
   end
 
   def wrapper(options, &block)
-    style = options[:inverse] ? 'inverse' : 'default'
+    style = options.delete(:inverse) ? 'inverse' : 'default'
     css_classes = %w(navbar).tap do |css_classes|
-      css_classes << "navbar-fixed-#{options[:fixed]}" if options.has_key?(:fixed)
-      css_classes << 'navbar-static-top' if options[:static]
-      css_classes << 'navbar-inverse' if options[:inverse]
+      css_classes << "navbar-fixed-#{options.delete(:fixed)}" if options.has_key?(:fixed)
+      css_classes << 'navbar-static-top' if options.delete(:static)
+      css_classes << 'navbar-inverse' if options.delete(:inverse)
       css_classes << "navbar-#{style}"
     end
-    attribute_hash = { class: css_classes.join(' '), role: 'navigation' }
-    attributes = attributes_for_tag(attribute_hash)
+    role = options.delete(:role) || 'navigation'
+    attributes = attributes_for_tag({ class: css_classes.join(' '), role: role }.merge(options))
     prepare_html <<-HTML.chomp!
 <nav#{attributes}>
   #{capture(&block) if block_given?}

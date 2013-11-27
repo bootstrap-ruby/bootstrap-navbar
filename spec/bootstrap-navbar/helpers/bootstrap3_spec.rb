@@ -40,7 +40,6 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
                     with_tag :span, with: { class: 'icon-bar' }
                   end
                 end
-                with_tag :a, with: { class: 'navbar-brand', href: '/' }
               end
               with_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
             end
@@ -92,7 +91,6 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
         with_all_3_dot_x_versions do
           expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
           expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
-          expect(renderer.navbar(brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' })
         end
       end
     end
@@ -211,14 +209,6 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
         with_all_3_dot_x_versions do
           expect(renderer.navbar_form(align: 'left') { 'foo' }).to have_tag(:form, with: { class: 'navbar-form navbar-left', role: 'form' }, text: /foo/)
         end
-      end
-    end
-  end
-
-  describe '#navbar_divider' do
-    it 'generates the correct HTML' do
-      with_all_3_dot_x_versions do
-        expect(renderer.navbar_divider).to have_tag(:li, with: { class: 'divider' })
       end
     end
   end
