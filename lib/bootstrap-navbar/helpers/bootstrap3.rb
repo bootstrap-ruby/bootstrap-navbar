@@ -51,7 +51,8 @@ HTML
     css_classes = %w(navbar-form).tap do |css_classes|
       css_classes << "navbar-#{options[:align]}" if options.has_key?(:align)
     end
-    attribute_hash = { class: css_classes.join(' '), role: 'form' }
+    role = options[:role] || 'form'
+    attribute_hash = { class: css_classes.join(' '), role: role }
     attributes = attributes_for_tag(attribute_hash)
     prepare_html <<-HTML.chomp!
 <form#{attributes}>
