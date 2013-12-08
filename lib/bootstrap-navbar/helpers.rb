@@ -1,6 +1,14 @@
 module BootstrapNavbar::Helpers
   def self.included(base)
-    raise 'Bootstrap version is not configured.' if BootstrapNavbar.configuration.bootstrap_version.nil?
+    if BootstrapNavbar.configuration.bootstrap_version.nil?
+      if Gem.loaded_specs.keys.include?('bootstrap-sass')
+        bootstrap_sass_version = Gem.loaded_specs['bootstrap-sass'].version
+        bootstrap_version = bootstrap_sass_version.segments.take(3).join('.')
+        BootstrapNavbar.configuration.bootstrap_version = bootstrap_version
+      else
+        raise 'Bootstrap version is not configured.'
+      end
+    end
     helper_version = BootstrapNavbar.configuration.bootstrap_version[0]
     base.send :include, const_get("Bootstrap#{helper_version}")
   end
