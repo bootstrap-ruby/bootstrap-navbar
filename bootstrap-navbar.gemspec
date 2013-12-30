@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.email         = 'manuel.meurer@gmail.com'
   gem.summary       = 'Helpers to generate a Twitter Bootstrap style navbar'
   gem.description   = 'Helpers to generate a Twitter Bootstrap style navbar'
-  gem.homepage      = 'https://github.com/krautcomputing/bootstrap-navbar'
+  gem.homepage      = 'https://github.com/bootstrap-ruby/bootstrap-navbar'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)

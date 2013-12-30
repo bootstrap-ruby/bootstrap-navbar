@@ -1,9 +1,9 @@
 # BootstrapNavbar
 
 [![Gem Version](https://badge.fury.io/rb/bootstrap-navbar.png)](http://badge.fury.io/rb/bootstrap-navbar)
-[![Build Status](https://secure.travis-ci.org/krautcomputing/bootstrap-navbar.png)](http://travis-ci.org/krautcomputing/bootstrap-navbar)
-[![Dependency Status](https://gemnasium.com/krautcomputing/bootstrap-navbar.png)](https://gemnasium.com/krautcomputing/bootstrap-navbar)
-[![Code Climate](https://codeclimate.com/github/krautcomputing/bootstrap-navbar.png)](https://codeclimate.com/github/krautcomputing/bootstrap-navbar)
+[![Build Status](https://secure.travis-ci.org/bootstrap-ruby/bootstrap-navbar.png)](http://travis-ci.org/bootstrap-ruby/bootstrap-navbar)
+[![Dependency Status](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar.png)](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar)
+[![Code Climate](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar.png)](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar)
 
 Helpers to generate a Twitter Bootstrap style navbar
 
@@ -12,7 +12,7 @@ Helpers to generate a Twitter Bootstrap style navbar
 This gem only provides a helper module with methods to generate HTML. It can be used by other gems to make these helpers available to a framework's rendering engine, e.g.:
 
 * For Rails: https://github.com/julescopeland/Rails-Bootstrap-Navbar
-* For [Middleman](http://middlemanapp.com/): https://github.com/krautcomputing/middleman-bootstrap-navbar
+* For [Middleman](http://middlemanapp.com/): https://github.com/bootstrap-ruby/middleman-bootstrap-navbar
 
 In short: __Unless you know what you're doing, do not use this gem directly in your app!__
 
@@ -69,9 +69,9 @@ ActionView::Base.send :include, BootstrapNavbar::Helpers
 
 Since the navbar format changed quite a bit between Bootstrap 2.x and 3.x, generating them using this gem is quite different as well. Check out the Wiki pages for detailed instructions:
 
-[Usage with Bootstrap 2.x](https://github.com/krautcomputing/bootstrap-navbar/wiki/Usage-with-Bootstrap-2.x)
+[Usage with Bootstrap 2.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-2.x)
 
-[Usage with Bootstrap 3.x](https://github.com/krautcomputing/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x)
+[Usage with Bootstrap 3.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x)
 
 ## Contributing
 
