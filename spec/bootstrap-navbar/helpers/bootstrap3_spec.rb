@@ -66,6 +66,11 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
             without_tag :div, with: { class: 'container' }
           end
         end
+        with_version '3.1.0' do
+          expect(renderer.navbar(container: 'fluid')).to have_tag(:nav, with: { class: 'navbar navbar-default' }) do
+            with_tag :div, with: { class: 'container-fluid' }
+          end
+        end
       end
     end
 

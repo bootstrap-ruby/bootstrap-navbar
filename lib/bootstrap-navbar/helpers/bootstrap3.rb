@@ -1,12 +1,11 @@
 module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
-    container = options.has_key?(:container) ? options[:container] : true
     navbar_content =
       header(options.delete(:brand), options.delete(:brand_link)) <<
       collapsable(&block)
     wrapper options do
-      if container
-        container(navbar_content)
+      unless options[:container] == false
+        container(options[:container], navbar_content)
       else
         navbar_content
       end
@@ -115,9 +114,12 @@ HTML
 
   private
 
-  def container(content)
+  def container(type, content)
+    css_class = 'container'
+    css_class << "-#{type}" if type.is_a?(String)
+    attributes = attributes_for_tag(class: css_class)
     prepare_html <<-HTML.chomp!
-<div class="container">
+<div#{attributes}>
   #{content}
 </div>
 HTML

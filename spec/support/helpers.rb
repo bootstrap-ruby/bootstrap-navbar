@@ -16,20 +16,13 @@ module Helpers
     with_versions '3'...'4', &block
   end
 
-  def with_versions(versions, &block)
-    versions = case versions
-    when String
-      raise "#{versions} is not a valid version!" unless BootstrapNavbar::BOOTSTRAP_VERSIONS.include?(versions)
-      [versions]
-    when Range
-      BootstrapNavbar::BOOTSTRAP_VERSIONS.select do |version|
-        versions.cover?(version)
-      end
-    else
-      raise "Please pass a string or a range to this method, not a #{versions.class}."
-    end
+  def with_version(version, &block)
+    with_versions version..version, &block
+  end
 
-    versions.each do |version|
+  def with_versions(versions, &block)
+    BootstrapNavbar::BOOTSTRAP_VERSIONS.each do |version|
+      next unless versions.cover?(version)
       puts "Testing version #{version}..."
       BootstrapNavbar.configuration.bootstrap_version = version
       block.call
