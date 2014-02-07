@@ -31,19 +31,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     context 'without parameters' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default', role: 'navigation' }) do
-            with_tag :div, with: { class: 'container' } do
-              with_tag :div, with: { class: 'navbar-header' } do
-                with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
-                  with_tag :span, with: { class: 'sr-only' }, text: /Toggle navigation/
-                  3.times do
-                    with_tag :span, with: { class: 'icon-bar' }
-                  end
-                end
-              end
-              with_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
-            end
-          end
+          expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default' }, text: /foo/)
         end
       end
     end
@@ -85,13 +73,38 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
         end
       end
     end
+  end
+
+  describe '#navbar_header' do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        with_all_3_dot_x_versions do
+          expect(renderer.navbar_header { 'foo' }).to have_tag(:div, with: { class: 'navbar-header'}, text: /foo/) do
+            with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
+              with_tag :span, with: { class: 'sr-only' }, text: /Toggle navigation/
+              3.times do
+                with_tag :span, with: { class: 'icon-bar' }
+              end
+            end
+          end
+        end
+      end
+    end
 
     context 'with "brand" and "brank_link" parameters' do
       it 'generates the correct HTML' do
         with_all_3_dot_x_versions do
-          expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
-          expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
+          expect(renderer.navbar_header(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
+          expect(renderer.navbar_header(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
         end
+      end
+    end
+  end
+
+  describe '#navbar_collapse' do
+    it 'generates the correct HTML' do
+      with_all_3_dot_x_versions do
+        expect(renderer.navbar_collapse { 'foo' }).to have_tag(:div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/)
       end
     end
   end

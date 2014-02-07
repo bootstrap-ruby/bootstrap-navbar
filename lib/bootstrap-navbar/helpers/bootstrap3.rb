@@ -1,9 +1,7 @@
 module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
     container = options.has_key?(:container) ? options[:container] : true
-    navbar_content =
-      header(options.delete(:brand), options.delete(:brand_link)) <<
-      collapsable(&block)
+    navbar_content = capture(&block)
     wrapper options do
       if container
         container(navbar_content)
@@ -11,6 +9,14 @@ module BootstrapNavbar::Helpers::Bootstrap3
         navbar_content
       end
     end
+  end
+
+  def navbar_header(options = {}, &block)
+    header(options.delete(:brand), options.delete(:brand_link), &block)
+  end
+
+  def navbar_collapse(&block)
+    collapsable(&block)
   end
 
   def navbar_group(options = {}, &block)
@@ -123,7 +129,7 @@ HTML
 HTML
   end
 
-  def header(brand, brand_link)
+  def header(brand, brand_link, &block)
     prepare_html <<-HTML.chomp!
 <div class="navbar-header">
   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsable">
@@ -133,6 +139,7 @@ HTML
     <span class="icon-bar"></span>
   </button>
   #{brand_link brand, brand_link unless brand.nil?}
+  #{capture(&block) if block_given?}
 </div>
 HTML
   end
