@@ -1,16 +1,48 @@
 module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
     options = options.dup
-    navbar_content =
-      header(options.delete(:brand), options.delete(:brand_link)) <<
-      collapsable(&block)
+    container = options.has_key?(:container) ? options.delete(:container) : true
     wrapper options do
-      unless options[:container] == false
-        container(options[:container], navbar_content)
+      if container
+        container(container, &block)
       else
-        navbar_content
+        capture(&block)
       end
     end
+  end
+
+  def navbar_header(options = {}, &block)
+    options = options.dup
+    brand, brand_link = options.delete(:brand), options.delete(:brand_link)
+    css_classes = %w(navbar-header).tap do |css_classes|
+      css_classes << options.delete(:class) if options.has_key?(:class)
+    end
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
+    prepare_html <<-HTML.chomp!
+<div#{attributes}>
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsable">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  #{brand_link brand, brand_link unless brand.nil?}
+  #{capture(&block) if block_given?}
+</div>
+HTML
+  end
+
+  def navbar_collapse(options = {}, &block)
+    options = options.dup
+    css_classes = %w(collapse navbar-collapse).tap do |css_classes|
+      css_classes << options.delete(:class) if options.has_key?(:class)
+    end
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), id: 'navbar-collapsable'))
+    prepare_html <<-HTML.chomp!
+<div#{attributes}>
+  #{capture(&block) if block_given?}
+</div>
+HTML
   end
 
   def navbar_group(options = {}, &block)
@@ -118,34 +150,12 @@ HTML
 
   private
 
-  def container(type, content)
+  def container(type, &block)
     css_class = 'container'
     css_class << "-#{type}" if type.is_a?(String)
     attributes = attributes_for_tag(class: css_class)
     prepare_html <<-HTML.chomp!
 <div#{attributes}>
-  #{content}
-</div>
-HTML
-  end
-
-  def header(brand, brand_link)
-    prepare_html <<-HTML.chomp!
-<div class="navbar-header">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsable">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-  </button>
-  #{brand_link brand, brand_link unless brand.nil?}
-</div>
-HTML
-  end
-
-  def collapsable(&block)
-    prepare_html <<-HTML.chomp!
-<div class="collapse navbar-collapse" id="navbar-collapsable">
   #{capture(&block) if block_given?}
 </div>
 HTML
@@ -162,12 +172,12 @@ HTML
 
   def wrapper(options, &block)
     options = options.dup
-    style = options.delete(:inverse) ? 'inverse' : 'default'
     css_classes = %w(navbar).tap do |css_classes|
+      css_classes << "navbar-#{options.delete(:inverse) ? 'inverse' : 'default'}"
       css_classes << "navbar-fixed-#{options.delete(:fixed)}" if options.has_key?(:fixed)
       css_classes << 'navbar-static-top' if options.delete(:static)
       css_classes << 'navbar-inverse' if options.delete(:inverse)
-      css_classes << "navbar-#{style}"
+      css_classes << options.delete(:class) if options.has_key?(:class)
     end
     role = options.delete(:role) || 'navigation'
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))

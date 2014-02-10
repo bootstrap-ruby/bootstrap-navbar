@@ -29,19 +29,20 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   describe '#navbar' do
     context 'without parameters' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default', role: 'navigation' }) do
-          with_tag :div, with: { class: 'container' } do
-            with_tag :div, with: { class: 'navbar-header' } do
-              with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
-                with_tag :span, with: { class: 'sr-only' }, text: /Toggle navigation/
-                3.times do
-                  with_tag :span, with: { class: 'icon-bar' }
-                end
-              end
-            end
-            with_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
-          end
-        end
+        expect(renderer.navbar { 'foo' }).to have_tag(:nav, with: { class: 'navbar navbar-default', role: 'navigation' }, text: /foo/)
+      end
+    end
+
+    context 'with "inverse" parameter' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar(inverse: true)).to have_tag(:nav, with: { class: 'navbar navbar-inverse' })
+      end
+    end
+
+    context 'with "fixed" parameter' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar(fixed: 'top')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-top' })
+        expect(renderer.navbar(fixed: 'bottom')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-bottom' })
       end
     end
 
@@ -67,23 +68,46 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
       end
     end
 
-    context 'with "fixed" parameter' do
-      it 'generates the correct HTML' do
-        expect(renderer.navbar(fixed: 'top')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-top' })
-        expect(renderer.navbar(fixed: 'bottom')).to have_tag(:nav, with: { class: 'navbar navbar-default navbar-fixed-bottom' })
-      end
-    end
+  end
 
-    context 'with "inverse" parameter' do
+  describe '#navbar_header',:focus do
+    context 'without parameters' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar(inverse: true)).to have_tag(:nav, with: { class: 'navbar navbar-inverse' })
+        expect(renderer.navbar_header { 'foo' }).to have_tag :div, with: { class: 'navbar-header' } do
+          with_tag :button, with: { type: 'button', class: 'navbar-toggle', :'data-toggle' => 'collapse', :'data-target' => '#navbar-collapsable' } do
+            with_tag :span, with: { class: 'sr-only' }, text: /Toggle navigation/
+            3.times do
+              with_tag :span, with: { class: 'icon-bar' }
+            end
+          end
+        end
       end
     end
 
     context 'with "brand" and "brank_link" parameters' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
-        expect(renderer.navbar(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
+        expect(renderer.navbar_header(brand: 'foo')).to have_tag(:a, with: { href: '/', class: 'navbar-brand' }, text: /foo/)
+        expect(renderer.navbar_header(brand: 'foo', brand_link: 'http://google.com')).to have_tag(:a, with: { href: 'http://google.com', class: 'navbar-brand' }, text: /foo/)
+      end
+    end
+
+    context 'with "class" parameter' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_header(class: 'bar')).to have_tag :div, with: { class: 'navbar-header bar' }
+      end
+    end
+  end
+
+  describe '#navbar_collapse',:focus do
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_collapse { 'foo' }).to have_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
+      end
+    end
+
+    context 'with "class" parameter' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_collapse(class: 'bar')).to have_tag :div, with: { class: 'collapse navbar-collapse bar', id: 'navbar-collapsable' }
       end
     end
   end
