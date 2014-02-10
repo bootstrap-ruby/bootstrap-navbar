@@ -1,5 +1,6 @@
 module BootstrapNavbar::Helpers::Bootstrap3
   def navbar(options = {}, &block)
+    options = options.dup
     navbar_content =
       header(options.delete(:brand), options.delete(:brand_link)) <<
       collapsable(&block)
@@ -13,6 +14,7 @@ module BootstrapNavbar::Helpers::Bootstrap3
   end
 
   def navbar_group(options = {}, &block)
+    options = options.dup
     css_classes = %w(nav navbar-nav).tap do |css_classes|
       css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
       css_classes << options.delete(:class) if options.has_key?(:class)
@@ -28,8 +30,8 @@ HTML
   def navbar_item(text, url = nil, list_item_options = nil, link_options = nil, &block)
     text, url, list_item_options, link_options = capture(&block), text, list_item_options if block_given?
     url               ||= '#'
-    list_item_options ||= {}
-    link_options      ||= {}
+    list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
+    link_options        = link_options.nil?      ? {} : link_options.dup
 
     list_item_css_classes = [].tap do |css_classes|
       css_classes << 'active' if current_url?(url)
@@ -51,6 +53,7 @@ HTML
   end
 
   def navbar_form(options = {}, &block)
+    options = options.dup
     css_classes = %w(navbar-form).tap do |css_classes|
       css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
       css_classes << options.delete(:class) if options.has_key?(:class)
@@ -66,6 +69,7 @@ HTML
 
   def navbar_text(text = nil, options = {}, &block)
     raise StandardError, 'Please provide either the "text" parameter or a block.' if (text.nil? && !block_given?) || (!text.nil? && block_given?)
+    options = options.dup
     text ||= capture(&block)
     css_classes = %w(navbar-text).tap do |css_classes|
       css_classes << options.delete(:class) if options.has_key?(:class)
@@ -77,6 +81,7 @@ HTML
   end
 
   def navbar_button(text, options = {})
+    options = options.dup
     css_classes = %w(btn navbar-btn).tap do |css_classes|
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
@@ -157,6 +162,7 @@ HTML
   end
 
   def wrapper(options, &block)
+    options = options.dup
     style = options.delete(:inverse) ? 'inverse' : 'default'
     css_classes = %w(navbar).tap do |css_classes|
       css_classes << "navbar-fixed-#{options.delete(:fixed)}" if options.has_key?(:fixed)

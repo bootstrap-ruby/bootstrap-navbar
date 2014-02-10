@@ -8,6 +8,7 @@ module BootstrapNavbar::Helpers::Bootstrap2
   end
 
   def navbar_group(options = {}, &block)
+    options = options.dup
     css_classes = %w(nav).tap do |css_classes|
       css_classes << "pull-#{options.delete(:pull)}" if options.has_key?(:pull)
       css_classes << options.delete(:class) if options.has_key?(:class)
@@ -23,8 +24,8 @@ HTML
   def navbar_item(name = nil, path = nil, list_item_options = nil, link_options = nil, &block)
     name, path, list_item_options, link_options = capture(&block), name, path, list_item_options if block_given?
     path              ||= '#'
-    list_item_options ||= {}
-    link_options      ||= {}
+    list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
+    link_options        = link_options.nil?      ? {} : link_options.dup
 
     list_item_css_classes = [].tap do |css_classes|
       css_classes << 'active' if current_url?(path)
@@ -57,6 +58,7 @@ HTML
   end
 
   def navbar_sub_dropdown(name, list_item_options = {}, link_options = {}, &block)
+    list_item_options, link_options = list_item_options.dup, link_options.dup
     list_item_css_classes = %w(dropdown-submenu).tap do |css_classes|
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
@@ -102,6 +104,7 @@ HTML
   private
 
   def wrapper(options, html_options, &block)
+    options, html_options = options.dup, html_options.dup
     position = case
     when options.has_key?(:static)
       "static-#{options[:static]}"
