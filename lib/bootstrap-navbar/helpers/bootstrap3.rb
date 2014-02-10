@@ -19,7 +19,7 @@ module BootstrapNavbar::Helpers::Bootstrap3
       css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
-    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
     prepare_html <<-HTML.chomp!
 <ul#{attributes}>
   #{capture(&block) if block_given?}
@@ -32,7 +32,6 @@ HTML
     url               ||= '#'
     list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
     link_options        = link_options.nil?      ? {} : link_options.dup
-
     list_item_css_classes = [].tap do |css_classes|
       css_classes << 'active' if current_url?(url)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
@@ -59,7 +58,7 @@ HTML
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
     role = options.delete(:role) || 'form'
-    attributes = attributes_for_tag({ class: css_classes.join(' '), role: role }.merge(options))
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))
     prepare_html <<-HTML.chomp!
 <form#{attributes}>
   #{capture(&block) if block_given?}
@@ -74,7 +73,7 @@ HTML
     css_classes = %w(navbar-text).tap do |css_classes|
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
-    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
     prepare_html <<-HTML.chomp!
 <p#{attributes}>#{text}</p>
 HTML
@@ -86,7 +85,7 @@ HTML
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
     type = options.delete(:type) || 'button'
-    attributes = attributes_for_tag({ class: css_classes.join(' '), type: type }.merge(options))
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), type: type))
     prepare_html <<-HTML.chomp!
 <button#{attributes}>#{text}</button>
 HTML
@@ -171,7 +170,7 @@ HTML
       css_classes << "navbar-#{style}"
     end
     role = options.delete(:role) || 'navigation'
-    attributes = attributes_for_tag({ class: css_classes.join(' '), role: role }.merge(options))
+    attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))
     prepare_html <<-HTML.chomp!
 <nav#{attributes}>
   #{capture(&block) if block_given?}

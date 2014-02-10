@@ -26,7 +26,6 @@ HTML
     path              ||= '#'
     list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
     link_options        = link_options.nil?      ? {} : link_options.dup
-
     list_item_css_classes = [].tap do |css_classes|
       css_classes << 'active' if current_url?(path)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
@@ -111,7 +110,6 @@ HTML
     when options.has_key?(:fixed)
       "fixed-#{options[:fixed]}"
     end
-
     css_classes = %w(navbar).tap do |css_classes|
       css_classes << "navbar-#{position}" if position
       css_classes << 'navbar-inverse' if options[:inverse]
@@ -119,7 +117,6 @@ HTML
     end
     attribute_hash = { class: css_classes.join(' ') }.merge(html_options)
     attributes = attributes_for_tag(attribute_hash)
-
     prepare_html <<-HTML.chomp!
 <div#{attributes}>
   #{capture(&block) if block_given?}
