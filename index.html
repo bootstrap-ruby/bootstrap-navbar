@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Bootstrap-navbar by krautcomputing</title>
+    <title>Bootstrap-navbar by bootstrap-ruby</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -18,13 +18,13 @@
         <h1>Bootstrap-navbar</h1>
         <p>Helpers to generate a Twitter Bootstrap style navbar</p>
 
-        <p class="view"><a href="https://github.com/krautcomputing/bootstrap-navbar">View the Project on GitHub <small>krautcomputing/bootstrap-navbar</small></a></p>
+        <p class="view"><a href="https://github.com/bootstrap-ruby/bootstrap-navbar">View the Project on GitHub <small>bootstrap-ruby/bootstrap-navbar</small></a></p>
 
 
         <ul>
-          <li><a href="https://github.com/krautcomputing/bootstrap-navbar/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/krautcomputing/bootstrap-navbar/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/krautcomputing/bootstrap-navbar">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/bootstrap-ruby/bootstrap-navbar/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/bootstrap-ruby/bootstrap-navbar/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/bootstrap-ruby/bootstrap-navbar">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
@@ -32,9 +32,9 @@
 <a name="bootstrapnavbar" class="anchor" href="#bootstrapnavbar"><span class="octicon octicon-link"></span></a>BootstrapNavbar</h1>
 
 <p><a href="http://badge.fury.io/rb/bootstrap-navbar"><img src="https://badge.fury.io/rb/bootstrap-navbar.png" alt="Gem Version"></a>
-<a href="http://travis-ci.org/krautcomputing/bootstrap-navbar"><img src="https://secure.travis-ci.org/krautcomputing/bootstrap-navbar.png" alt="Build Status"></a>
-<a href="https://gemnasium.com/krautcomputing/bootstrap-navbar"><img src="https://gemnasium.com/krautcomputing/bootstrap-navbar.png" alt="Dependency Status"></a>
-<a href="https://codeclimate.com/github/krautcomputing/bootstrap-navbar"><img src="https://codeclimate.com/github/krautcomputing/bootstrap-navbar.png" alt="Code Climate"></a></p>
+<a href="http://travis-ci.org/bootstrap-ruby/bootstrap-navbar"><img src="https://secure.travis-ci.org/bootstrap-ruby/bootstrap-navbar.png" alt="Build Status"></a>
+<a href="https://gemnasium.com/bootstrap-ruby/bootstrap-navbar"><img src="https://gemnasium.com/bootstrap-ruby/bootstrap-navbar.png" alt="Dependency Status"></a>
+<a href="https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar"><img src="https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar.png" alt="Code Climate"></a></p>
 
 <p>Helpers to generate a Twitter Bootstrap style navbar</p>
 
@@ -46,7 +46,7 @@
 <ul>
 <li>For Rails: <a href="https://github.com/julescopeland/Rails-Bootstrap-Navbar">https://github.com/julescopeland/Rails-Bootstrap-Navbar</a>
 </li>
-<li>For <a href="http://middlemanapp.com/">Middleman</a>: <a href="https://github.com/krautcomputing/middleman-bootstrap-navbar">https://github.com/krautcomputing/middleman-bootstrap-navbar</a>
+<li>For <a href="http://middlemanapp.com/">Middleman</a>: <a href="https://github.com/bootstrap-ruby/middleman-bootstrap-navbar">https://github.com/bootstrap-ruby/middleman-bootstrap-navbar</a>
 </li>
 </ul><p>In short: <strong>Unless you know what you're doing, do not use this gem directly in your app!</strong></p>
 
@@ -98,446 +98,17 @@
 <a name="mix-in-the-helpers-into-the-rendering-engine-required" class="anchor" href="#mix-in-the-helpers-into-the-rendering-engine-required"><span class="octicon octicon-link"></span></a>Mix in the helpers into the rendering engine (required)</h3>
 
 <div class="highlight highlight-ruby"><pre><span class="c1"># For Rails</span>
-<span class="ss">ActionView</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="ss">BootstrapNavbar</span><span class="p">:</span><span class="ss">:Helpers</span>
+<span class="no">ActionView</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">BootstrapNavbar</span><span class="o">::</span><span class="no">Helpers</span>
 </pre></div>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Check out the <a href="http://twitter.github.io/bootstrap/components.html#navbar">Twitter Bootstrap docs</a> for how a navbar can be constructed. All components and options mentioned there should be supported by this gem, so you don't need to write any HTML by hand. If there is something missing or wrong HTML is generated, please <a href="https://github.com/krautcomputing/bootstrap-navbar/issues">open an issue</a>.</p>
+<p>Since the navbar format changed quite a bit between Bootstrap 2.x and 3.x, generating them using this gem is quite different as well. Check out the Wiki pages for detailed instructions:</p>
 
-<p>Let's assume you have mixed in the helper in your rendering engine and use Haml.</p>
+<p><a href="https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-2.x">Usage with Bootstrap 2.x</a></p>
 
-<h3>
-<a name="full-example" class="anchor" href="#full-example"><span class="octicon octicon-link"></span></a>Full example</h3>
-
-<div class="highlight highlight-ruby"><pre><span class="o">=</span> <span class="n">navbar</span> <span class="ss">brand</span><span class="p">:</span> <span class="s1">'My great app'</span><span class="p">,</span> <span class="n">brand_link</span><span class="p">:</span> <span class="s1">'/home'</span><span class="p">,</span> <span class="ss">fixed</span><span class="p">:</span> <span class="ss">:top</span><span class="p">,</span> <span class="ss">responsive</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
-  <span class="o">=</span> <span class="n">menu_group</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s1">'menu'</span> <span class="k">do</span>
-    <span class="o">=</span> <span class="n">menu_text</span> <span class="s1">'Pick an option:'</span>
-    <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Home"</span><span class="p">,</span> <span class="n">root_path</span>
-    <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"About Us"</span><span class="p">,</span> <span class="n">about_us_path</span>
-    <span class="o">=</span> <span class="n">menu_item</span> <span class="n">contact_path</span> <span class="k">do</span>
-      <span class="o">=</span> <span class="n">image_tag</span> <span class="s1">'contact.jpg'</span>
-      <span class="no">Contact</span> <span class="no">Us</span><span class="o">!</span>
-    <span class="o">=</span> <span class="n">menu_divider</span>
-    <span class="o">=</span> <span class="n">drop_down</span> <span class="s2">"Stuff"</span> <span class="k">do</span>
-      <span class="o">=</span> <span class="n">drop_down_header</span> <span class="s1">'Great stuff!'</span>
-      <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"One"</span><span class="p">,</span> <span class="n">one_path</span>
-      <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Two"</span><span class="p">,</span> <span class="n">two_path</span>
-      <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Three"</span><span class="p">,</span> <span class="n">three_path</span>
-      <span class="o">-</span> <span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">admin?</span>
-        <span class="o">=</span> <span class="n">drop_down_divider</span>
-        <span class="o">=</span> <span class="n">sub_drop_down</span> <span class="s1">'Admin Stuff'</span> <span class="k">do</span>
-          <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Admin Dashboard"</span><span class="p">,</span> <span class="n">admin_path</span>
-          <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Users"</span><span class="p">,</span> <span class="n">admin_users_path</span>
-  <span class="o">=</span> <span class="n">menu_group</span> <span class="ss">pull</span><span class="p">:</span> <span class="s1">'right'</span> <span class="k">do</span>
-    <span class="o">-</span> <span class="k">if</span> <span class="n">current_user</span>
-      <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Log Out"</span><span class="p">,</span> <span class="n">log_out_path</span>
-    <span class="o">-</span> <span class="k">else</span>
-      <span class="o">=</span> <span class="n">menu_item</span> <span class="s2">"Log In"</span><span class="p">,</span> <span class="n">log_in_path</span>
-</pre></div>
-
-<h3>
-<a name="methods" class="anchor" href="#methods"><span class="octicon octicon-link"></span></a>Methods</h3>
-
-<h4>
-<a name="navbar" class="anchor" href="#navbar"><span class="octicon octicon-link"></span></a>navbar</h4>
-
-<p>This method sets up the basic structure of a navbar.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-inner"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</pre></div>
-
-<p>The content of the navbar is supplied by the block and the available options:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="k">do</span>
-  Yay!
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-inner"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
-      Yay!
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</pre></div>
-
-<p>Options <code>brand</code> and <code>brand_link</code> autogenerate the brand link:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="ss">brand</span><span class="p">:</span> <span class="s1">'My great app'</span><span class="p">,</span> <span class="n">brand_link</span><span class="p">:</span> <span class="s1">'/start'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-inner"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/start"</span> <span class="na">class=</span><span class="s">"brand"</span><span class="nt">&gt;</span>My great app<span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</pre></div>
-
-<p>If only <code>brand</code> is defined, <code>brand_link</code> defaults to <code>/</code>.</p>
-
-<p>Option <code>responsive</code> generates a responsive navbar:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="ss">responsive</span><span class="p">:</span> <span class="kp">true</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-inner"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"btn btn-navbar"</span> <span class="na">data-toggle=</span><span class="s">"collapse"</span> <span class="na">data-target=</span><span class="s">".nav-collapse"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'icon-bar'</span><span class="nt">&gt;&lt;/span&gt;</span>
-        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'icon-bar'</span><span class="nt">&gt;&lt;/span&gt;</span>
-        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'icon-bar'</span><span class="nt">&gt;&lt;/span&gt;</span>
-      <span class="nt">&lt;/a&gt;</span>
-      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"nav-collapse collapse"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</pre></div>
-
-<p><strong>Attention: when using the <code>responsive</code> option, the brand link should not be added through the <code>brand_link</code> method but directly supplied to the <code>navbar</code> call.</strong></p>
-
-<p>Don't do this:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="ss">responsive</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
-  <span class="p">=</span> <span class="n">brand_link</span> <span class="s1">'My great app'</span><span class="p">,</span> <span class="s1">'/home'</span>
-</pre></div>
-
-<p>Do this:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="ss">responsive</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">brand</span><span class="p">:</span> <span class="s1">'My great app'</span><span class="p">,</span> <span class="n">brand_link</span><span class="p">:</span> <span class="s1">'/home'</span>
-</pre></div>
-
-<p>Otherwise the brand link will be nested incorrectly and will disappear when resizing the window to a smaller size.</p>
-
-<p>Option <code>fluid</code> changes the grid system to be <a href="http://twitter.github.io/bootstrap/scaffolding.html#fluidGridSystem">fluid</a>:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">navbar</span> <span class="ss">fluid</span><span class="p">:</span> <span class="kp">true</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-inner"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container-fluid"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</pre></div>
-
-<h4>
-<a name="brand_link" class="anchor" href="#brand_link"><span class="octicon octicon-link"></span></a>brand_link</h4>
-
-<p>This method generates a menu divider, to be used in a <code>navbar</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">brand_link</span> <span class="s1">'My App'</span><span class="p">,</span> <span class="s1">'/home'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/home"</span> <span class="na">class=</span><span class="s">"brand"</span><span class="nt">&gt;</span>My App<span class="nt">&lt;/a&gt;</span>
-</pre></div>
-
-<p>If the path (<code>/home</code> in this case) is not specified, it defaults to <code>/</code>.</p>
-
-<h4>
-<a name="menu_text" class="anchor" href="#menu_text"><span class="octicon octicon-link"></span></a>menu_text</h4>
-
-<p>This method generates some menu text, to be used in a <code>navbar</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_text</span> <span class="s1">'Select a option:'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"navbar-text"</span><span class="nt">&gt;</span>
-  Select a option:
-<span class="nt">&lt;/p&gt;</span>
-</pre></div>
-
-<p>A option can be supplied to make the text float to the right or left:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_text</span> <span class="s1">'Select a option:'</span><span class="p">,</span> <span class="ss">:right</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"navbar-text pull-right"</span><span class="nt">&gt;</span>
-  Select a option:
-<span class="nt">&lt;/p&gt;</span>
-</pre></div>
-
-<p>The content can alternatively be supplied in a block:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_text</span> <span class="k">do</span>
-  Current country:
-  <span class="p">=</span> <span class="n">image_text</span> <span class="s1">'flags/en.jpg'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"navbar-text"</span><span class="nt">&gt;</span>
-  Current country:
-  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/flags/en.jpg"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/p&gt;</span>
-</pre></div>
-
-<h4>
-<a name="menu_group" class="anchor" href="#menu_group"><span class="octicon octicon-link"></span></a>menu_group</h4>
-
-<p>This method generates a menu group, to be used in a <code>navbar</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_group</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/ul&gt;</span>
-</pre></div>
-
-<p>The content of the menu group is supplied by the blocks:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_group</span> <span class="k">do</span>
-  Yay!
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav"</span><span class="nt">&gt;</span>
-  Yay!
-<span class="nt">&lt;/ul&gt;</span>
-</pre></div>
-
-<p>You can add a <code>pull</code> option to make the group float to the right or left, and add more classes and other attributes:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_group</span> <span class="ss">pull</span><span class="p">:</span> <span class="s1">'right'</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'large'</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s1">'menu'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav pull-right large"</span> <span class="na">id=</span><span class="s">"menu"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/ul&gt;</span>
-</pre></div>
-
-<h4>
-<a name="menu_item" class="anchor" href="#menu_item"><span class="octicon octicon-link"></span></a>menu_item</h4>
-
-<p>This method generates a menu item, to be used in a <code>menu_group</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'/home'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/home"</span><span class="nt">&gt;</span>
-    Home
-  <span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<p>If the path (<code>/home</code> in this case) is not specified, it defaults to <code>#</code>.</p>
-
-<p>You can also use a block (e.g., in case the link name is more than a single word):</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_item</span> <span class="sr">/home' do</span>
-  <span class="p">=</span> <span class="n">image_tag</span> <span class="s1">'home.png'</span>
-  Home
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/home"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/home.png"</span><span class="nt">&gt;</span>
-    Home
-  <span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<p>You can add options that will be passed on to the <code>li</code> and <code>a</code> elements:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'/home'</span><span class="p">,</span> <span class="p">{</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'list-item'</span> <span class="p">},</span> <span class="p">{</span> <span class="nb">id</span><span class="p">:</span> <span class="s1">'home'</span> <span class="p">}</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"list-item"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/home"</span> <span class="na">id=</span><span class="s">"home"</span><span class="nt">&gt;</span>
-    Home
-  <span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<p>If the specified path/URL is the <a href="#set-current_url_method-required">current url</a>, it will be marked as <code>active</code>. Note that it doesn't matter if you link to a full URL or just the path, or if <code>BootstrapNavbar.configuration.current_url_method</code> returns a full URL or just the path, it will work regardless.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'/home'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="c">&lt;!-- If the current path is /home --&gt;</span>
-
-<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/home"</span><span class="nt">&gt;</span>
-    Home
-  <span class="nt">&lt;/a&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<h4>
-<a name="menu_divider" class="anchor" href="#menu_divider"><span class="octicon octicon-link"></span></a>menu_divider</h4>
-
-<p>This method generates a menu divider, to be used in a <code>menu_group</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">menu_divider</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"divider-vertical"</span><span class="nt">&gt;&lt;/li&gt;</span>
-</pre></div>
-
-<h4>
-<a name="drop_down" class="anchor" href="#drop_down"><span class="octicon octicon-link"></span></a>drop_down</h4>
-
-<p>This method generates a dropdown, to be used in a <code>menu_group</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">drop_down</span> <span class="s1">'Settings'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"dropdown"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">class=</span><span class="s">"dropdown-toggle"</span> <span class="na">data-toggle=</span><span class="s">"dropdown"</span><span class="nt">&gt;</span>
-    Settings <span class="nt">&lt;b</span> <span class="na">class=</span><span class="s">"caret"</span><span class="nt">&gt;&lt;/b&gt;</span>
-  <span class="nt">&lt;/a&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<p>The content of the dropdown can be defined in the block using <code>menu_item</code>s:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">drop_down</span> <span class="s1">'Settings'</span> <span class="k">do</span>
-  <span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Basic'</span><span class="p">,</span> <span class="s1">'/settings/basic'</span>
-  <span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Advanced'</span><span class="p">,</span> <span class="s1">'/settings/advanced'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"dropdown"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">class=</span><span class="s">"dropdown-toggle"</span> <span class="na">data-toggle=</span><span class="s">"dropdown"</span><span class="nt">&gt;</span>
-    Settings <span class="nt">&lt;b</span> <span class="na">class=</span><span class="s">"caret"</span><span class="nt">&gt;&lt;/b&gt;</span>
-  <span class="nt">&lt;/a&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;li&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/settings/basic"</span><span class="nt">&gt;</span>
-        Basic
-      <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/settings/advanced"</span><span class="nt">&gt;</span>
-        Advanced
-      <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;/li&gt;</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<h4>
-<a name="sub_drop_down" class="anchor" href="#sub_drop_down"><span class="octicon octicon-link"></span></a>sub_drop_down</h4>
-
-<p>This method generates a sub dropdown, to be used in a <code>drop_down</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">sub_drop_down</span> <span class="s1">'Admin Settings'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"dropdown-submenu"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>
-    Admin Settings
-  <span class="nt">&lt;/a&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<p>Just like in the <code>drop_down</code>, the content of the sub dropdown is defined in the block:</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">sub_drop_down</span> <span class="s1">'Admin Settings'</span> <span class="k">do</span>
-  <span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Users'</span><span class="p">,</span> <span class="s1">'/settings/admin/users'</span>
-  <span class="p">=</span> <span class="n">menu_item</span> <span class="s1">'Stats'</span><span class="p">,</span> <span class="s1">'/settings/admin/stats'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"dropdown-submenu"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>
-    Admin Settings
-  <span class="nt">&lt;/a&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;li&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/settings/admin/users"</span><span class="nt">&gt;</span>
-        Users
-      <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;</span>
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/settings/admin/stats"</span><span class="nt">&gt;</span>
-        Stats
-      <span class="nt">&lt;/a&gt;</span>
-    <span class="nt">&lt;/li&gt;</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/li&gt;</span>
-</pre></div>
-
-<h4>
-<a name="drop_down_divider" class="anchor" href="#drop_down_divider"><span class="octicon octicon-link"></span></a>drop_down_divider</h4>
-
-<p>This method generates a dropdown divider, to be used in a <code>drop_down</code> or <code>sub_drop_down</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">drop_down_divider</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"divider"</span><span class="nt">&gt;&lt;/li&gt;</span>
-</pre></div>
-
-<h4>
-<a name="drop_down_header" class="anchor" href="#drop_down_header"><span class="octicon octicon-link"></span></a>drop_down_header</h4>
-
-<p>This method generates a dropdown header, to be used in a <code>drop_down</code> or <code>sub_drop_down</code>.</p>
-
-<div class="highlight highlight-haml"><pre><span class="p">=</span> <span class="n">drop_down_header</span> <span class="s1">'Important!'</span>
-</pre></div>
-
-<p>generates:</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-header"</span><span class="nt">&gt;</span>Important!<span class="nt">&lt;/li&gt;</span>
-</pre></div>
+<p><a href="https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x">Usage with Bootstrap 3.x</a></p>
 
 <h2>
 <a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
@@ -551,7 +122,7 @@
 </ol>
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/krautcomputing">krautcomputing</a></p>
+        <p>This project is maintained by <a href="https://github.com/bootstrap-ruby">bootstrap-ruby</a></p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
