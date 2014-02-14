@@ -73,6 +73,10 @@ Since the navbar format changed quite a bit between Bootstrap 2.x and 3.x, gener
 
 [Usage with Bootstrap 3.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x)
 
+## Changes
+
+See [CHANGELOG](CHANGELOG.md)
+
 ## Contributing
 
 1. Fork it
