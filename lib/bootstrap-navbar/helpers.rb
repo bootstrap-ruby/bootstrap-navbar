@@ -22,11 +22,15 @@ module BootstrapNavbar::Helpers
     end
   end
 
-  def current_url?(url)
+  def current_url_or_sub_url?(url)
     normalized_path, normalized_current_path = [url, current_url].map do |url|
-      URI.parse(url).path.sub(%r(/\z), '') rescue nil
+      URI.parse(url).path.sub(%r(/\z), '')
     end
-    normalized_path == normalized_current_path
+    if normalized_path.empty?
+      normalized_current_path.empty?
+    else
+      normalized_current_path =~ %r(#{Regexp.escape(normalized_path)}(/.+)?)
+    end
   end
 
   def current_url

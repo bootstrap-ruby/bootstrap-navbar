@@ -27,7 +27,7 @@ HTML
     list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
     link_options        = link_options.nil?      ? {} : link_options.dup
     list_item_css_classes = [].tap do |css_classes|
-      css_classes << 'active' if current_url?(path)
+      css_classes << 'active' if current_url_or_sub_url?(path)
       css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
     end
     list_item_attributes = attributes_for_tag(

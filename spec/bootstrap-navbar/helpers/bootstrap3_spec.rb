@@ -1,18 +1,5 @@
 require 'spec_helper'
 
-shared_examples 'active navbar link' do
-  it 'generates the correct HTML' do
-    paths_and_urls.each do |current_path_or_url|
-      paths_and_urls.each do |menu_path_or_url|
-        BootstrapNavbar.configuration.current_url_method = "'#{current_path_or_url}'"
-        expect(renderer.navbar_item('foo', menu_path_or_url)).to have_tag(:li, with: { class: 'active' }) do
-          with_tag :a, with: { href: menu_path_or_url }, text: /foo/
-        end
-      end
-    end
-  end
-end
-
 describe BootstrapNavbar::Helpers::Bootstrap3 do
   before do
     BootstrapNavbar.configure do |config|
@@ -67,7 +54,6 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
         end
       end
     end
-
   end
 
   describe '#navbar_header' do
@@ -140,51 +126,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   end
 
   describe '#navbar_item' do
-    context 'with current URL or path' do
-      # With root URL or path
-      it_behaves_like 'active navbar link' do
-        let(:paths_and_urls) do
-          %w(
-            http://www.foobar.com/
-            http://www.foobar.com
-            /
-            http://www.foobar.com/?foo=bar
-            http://www.foobar.com?foo=bar
-            /?foo=bar
-            http://www.foobar.com/#foo
-            http://www.foobar.com#foo
-            /#foo
-            http://www.foobar.com/#foo?foo=bar
-            http://www.foobar.com#foo?foo=bar
-            /#foo?foo=bar
-          )
-        end
-      end
-
-      # With sub URL or path
-      it_behaves_like 'active navbar link' do
-        let(:paths_and_urls) do
-          %w(
-            http://www.foobar.com/foo
-            http://www.foobar.com/foo/
-            /foo
-            /foo/
-            http://www.foobar.com/foo?foo=bar
-            http://www.foobar.com/foo/?foo=bar
-            /foo?foo=bar
-            /foo/?foo=bar
-            http://www.foobar.com/foo#foo
-            http://www.foobar.com/foo/#foo
-            /foo#foo
-            /foo/#foo
-            http://www.foobar.com/foo#foo?foo=bar
-            http://www.foobar.com/foo/#foo?foo=bar
-            /foo#foo?foo=bar
-            /foo/#foo?foo=bar
-          )
-        end
-      end
-    end
+    it_behaves_like 'marking the menu items as active correctly'
 
     context 'without current URL' do
       it 'generates the correct HTML' do
