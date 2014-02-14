@@ -18,7 +18,7 @@ describe BootstrapNavbar::Helpers do
 
     context 'when Bootstrap version is not set' do
       before do
-        BootstrapNavbar.configuration.bootstrap_version = nil
+        BootstrapNavbar.configuration.unset :bootstrap_version
       end
 
       context 'when bootstrap-sass gem is not loaded' do

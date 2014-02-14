@@ -4,7 +4,7 @@ module BootstrapNavbar
   include GemConfig::Base
 
   with_configuration do
-    has :bootstrap_version, classes: [String, NilClass]
+    has :bootstrap_version, classes: String
     has :current_url_method, classes: String
   end
 end
