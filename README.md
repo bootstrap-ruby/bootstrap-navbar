@@ -69,9 +69,9 @@ ActionView::Base.send :include, BootstrapNavbar::Helpers
 
 Since the navbar format changed quite a bit between Bootstrap 2.x and 3.x, generating them using this gem is quite different as well. Check out the Wiki pages for detailed instructions:
 
-[Usage with Bootstrap 2.x](./wiki/Usage-with-Bootstrap-2.x)
+[Usage with Bootstrap 2.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-2.x)
 
-[Usage with Bootstrap 3.x](./wiki/Usage-with-Bootstrap-3.x)
+[Usage with Bootstrap 3.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x)
 
 ## Changes
 
