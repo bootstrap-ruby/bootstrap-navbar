@@ -70,7 +70,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
 
   end
 
-  describe '#navbar_header',:focus do
+  describe '#navbar_header' do
     context 'without parameters' do
       it 'generates the correct HTML' do
         expect(renderer.navbar_header { 'foo' }).to have_tag :div, with: { class: 'navbar-header' } do
@@ -98,7 +98,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
     end
   end
 
-  describe '#navbar_collapse',:focus do
+  describe '#navbar_collapse' do
     context 'without parameters' do
       it 'generates the correct HTML' do
         expect(renderer.navbar_collapse { 'foo' }).to have_tag :div, with: { class: 'collapse navbar-collapse', id: 'navbar-collapsable' }, text: /foo/
