@@ -121,7 +121,7 @@ describe BootstrapNavbar::Helpers::Bootstrap2 do
   end
 
   describe '#navbar_item' do
-    it_behaves_like 'marking the menu items as active correctly'
+    it_behaves_like 'marking the navbar items as active correctly'
 
     context 'with root URL' do
       context 'with list item options' do

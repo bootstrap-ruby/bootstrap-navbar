@@ -126,7 +126,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   end
 
   describe '#navbar_item' do
-    it_behaves_like 'marking the menu items as active correctly'
+    it_behaves_like 'marking the navbar items as active correctly'
 
     context 'without current URL' do
       it 'generates the correct HTML' do

@@ -17,9 +17,9 @@ module Helpers
   end
 end
 
-shared_examples 'marking the menu items as active correctly' do
-  context 'when URL is the root URL' do
-    it_behaves_like 'marking current URLs as current and non-current ones not' do
+shared_examples 'marking the navbar items as active correctly' do
+  context 'when the navbar item URL is the current root URL or root path' do
+    it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
       let(:navbar_item_urls) do
         %w(
           http://www.foobar.com/
@@ -31,20 +31,18 @@ shared_examples 'marking the menu items as active correctly' do
         %w(
           http://www.foobar.com/
           http://www.foobar.com
-          /
         )
       end
       let(:non_current_urls) do
         %w(
           http://www.foobar.com/foo
-          /foo
         )
       end
     end
   end
 
-  context 'when URL is a sub URL' do
-    it_behaves_like 'marking current URLs as current and non-current ones not' do
+  context 'when the navbar item URL is a sub URL of the current URL' do
+    it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
       let(:navbar_item_urls) do
         %w(
           http://www.foobar.com/foo/
@@ -57,39 +55,53 @@ shared_examples 'marking the menu items as active correctly' do
         %w(
           http://www.foobar.com/foo/
           http://www.foobar.com/foo
-          /foo
-          /foo/
-
           http://www.foobar.com/foo/bar/
           http://www.foobar.com/foo/bar
-          /foo/bar
-          /foo/bar/
         )
       end
       let(:non_current_urls) do
         %w(
           http://www.foobar.com/
           http://www.foobar.com
-          /
-
           http://www.foobar.com/bar/
           http://www.foobar.com/bar
-          /bar
-          /bar/
+        )
+      end
+    end
+  end
+
+  context 'when the navbar item URL is an external URL' do
+    it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
+      let(:navbar_item_urls) do
+        %w(
+          http://www.barfoo.com/
+          http://www.barfoo.com
+        )
+      end
+      let(:current_urls) { [] }
+      let(:non_current_urls) do
+        %w(
+          http://www.foobar.com/
+          http://www.foobar.com
+          http://www.foobar.com/foo/
+          http://www.foobar.com/foo
         )
       end
     end
   end
 end
 
-shared_examples 'marking current URLs as current and non-current ones not' do
+shared_examples 'marking current URLs as current and non-current URLs as not-current' do
   it 'generates the correct HTML' do
     navbar_item_urls.each do |navbar_item_url|
+      puts "Testing navbar item with URL #{navbar_item_url}..."
       current_urls.each do |current_url|
+        puts "...should be marked as active when current URL is #{current_url}"
         BootstrapNavbar.configuration.current_url_method = "'#{current_url}'"
         expect(renderer.navbar_item('foo', navbar_item_url)).to have_tag(:li, with: { class: 'active' })
       end
       non_current_urls.each do |non_current_url|
+        puts "...should not be marked as active when current URL is #{non_current_url}"
         BootstrapNavbar.configuration.current_url_method = "'#{non_current_url}'"
         expect(renderer.navbar_item('foo', navbar_item_url)).to have_tag(:li, without: { class: 'active' })
       end
