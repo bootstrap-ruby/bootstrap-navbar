@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'bootstrap-navbar'
   gem.version       = BootstrapNavbar::VERSION
   gem.platform      = Gem::Platform::RUBY
-  gem.authors       = ['Manuel Meurer']
+  gem.author        = 'Manuel Meurer'
   gem.email         = 'manuel@krautcomputing.com'
   gem.summary       = 'Helpers to generate a Twitter Bootstrap style navbar'
   gem.description   = 'Helpers to generate a Twitter Bootstrap style navbar'
@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r(^(test|spec|features)/))
   gem.require_paths = ['lib']
 
-  gem.add_development_dependency 'rake', '>= 10.0.0'
+  gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec', '~> 2.13.0'
   gem.add_development_dependency 'rspec-html-matchers', '~> 0.4.3'
   gem.add_development_dependency 'guard-rspec', '~> 3.0'
