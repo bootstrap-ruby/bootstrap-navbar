@@ -60,7 +60,7 @@ HTML
   end
 
   def navbar_item(text, url = nil, list_item_options = nil, link_options = nil, &block)
-    text, url, list_item_options, link_options = capture(&block), text, list_item_options if block_given?
+    text, url, list_item_options, link_options = capture(&block), text, url, list_item_options if block_given?
     url               ||= '#'
     list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
     link_options        = link_options.nil?      ? {} : link_options.dup

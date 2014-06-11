@@ -128,6 +128,14 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   describe '#navbar_item' do
     it_behaves_like 'marking the navbar items as active correctly'
 
+    context 'with block' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_item('/foo', { class: 'list-item '}, class: 'link') { 'link-text' }).to have_tag(:li, with: { class: 'list-item' }) do
+          with_tag :a, with: { href: '/foo', class: 'link' }, text: /link-text/
+        end
+      end
+    end
+
     context 'without current URL' do
       it 'generates the correct HTML' do
         BootstrapNavbar.configuration.current_url_method = '"/foo"'
