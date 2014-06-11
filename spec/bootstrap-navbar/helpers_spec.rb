@@ -26,7 +26,7 @@ describe BootstrapNavbar::Helpers do
           # Remove bootstrap-sass from loaded specs
           loaded_specs = Gem.loaded_specs.dup
           loaded_specs.delete('bootstrap-sass')
-          Gem.stub(:loaded_specs).and_return(loaded_specs)
+          allow(Gem).to receive(:loaded_specs).and_return(loaded_specs)
         end
 
         it 'raises an exception' do

@@ -21,13 +21,13 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r(^(test|spec|features)/))
   gem.require_paths = ['lib']
 
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec', '~> 2.13.0'
-  gem.add_development_dependency 'rspec-html-matchers', '~> 0.4.3'
-  gem.add_development_dependency 'guard-rspec', '~> 3.0'
-  gem.add_development_dependency 'padrino-helpers', '~> 0.11.2'
+  gem.add_development_dependency 'rake', '>= 0.9'
+  gem.add_development_dependency 'rspec', '~> 3.0'
+  gem.add_development_dependency 'rspec-html-matchers', '~> 0.6'
+  gem.add_development_dependency 'guard-rspec', '~> 4.2'
+  gem.add_development_dependency 'padrino-helpers', '~> 0.12'
   # Listen >= 2.0.0 only works with Ruby >= 1.9.3
   gem.add_development_dependency 'listen', '< 2.0.0' if RUBY_VERSION < '1.9.3'
   gem.add_development_dependency 'bootstrap-sass', '3.0.2.0'
-  gem.add_runtime_dependency 'gem_config', '~> 0.3.0'
+  gem.add_runtime_dependency 'gem_config', '~> 0.3'
 end

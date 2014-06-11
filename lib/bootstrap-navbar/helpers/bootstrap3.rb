@@ -6,7 +6,7 @@ module BootstrapNavbar::Helpers::Bootstrap3
       if container
         container(container, &block)
       else
-        capture(&block)
+        capture(&block) if block_given?
       end
     end
   end

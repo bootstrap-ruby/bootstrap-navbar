@@ -1,3 +1,8 @@
+## 2.1.3
+
+* Update test gems
+* Fixed bug when using Bootstrap 3 and calling `navbar` without block
+
 ## 2.1.2
 
 * Fixed bug when using Bootstrap 3 and `navbar_item` with block
