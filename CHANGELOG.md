@@ -7,6 +7,16 @@
 
 * Fixed bug when using Bootstrap 3 and `navbar_item` with block
 
+## 2.1.1
+
+* Fix marking sub URLs as active
+
+## 2.1.0
+
+* Update gem_config dependency
+* Don't allow Bootstrap version configuration to be nil
+* Mark sub URLs as active
+
 ## 2.0.0
 
 * Refactor: Add navbar_header and navbar_collapse to make it possible to insert content outside of header and collapse sections.
