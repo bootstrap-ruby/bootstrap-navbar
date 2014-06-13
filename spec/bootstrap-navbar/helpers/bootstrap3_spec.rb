@@ -130,7 +130,7 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
 
     context 'with block' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar_item('/foo', { class: 'list-item '}, class: 'link') { 'link-text' }).to have_tag(:li, with: { class: 'list-item' }) do
+        expect(renderer.navbar_item('/foo', { class: 'list-item' }, class: 'link') { 'link-text' }).to have_tag(:li, with: { class: 'list-item' }) do
           with_tag :a, with: { href: '/foo', class: 'link' }, text: /link-text/
         end
       end
