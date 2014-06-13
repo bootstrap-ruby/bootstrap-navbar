@@ -1,3 +1,7 @@
+## 2.1.4
+
+* Fix bug when using navbar item with 'mailto:' link
+
 ## 2.1.3
 
 * Update test gems
