@@ -26,7 +26,7 @@ module BootstrapNavbar::Helpers
     uri, current_uri = [url, current_url].map do |url|
       URI.parse(url)
     end
-    return false if !uri.host.nil? && uri.host != current_uri.host
+    return false if uri.is_a?(URI::MailTo) || (!uri.host.nil? && uri.host != current_uri.host)
     normalized_path, normalized_current_path = [uri, current_uri].map do |uri|
       uri.path.sub(%r(/\z), '')
     end
