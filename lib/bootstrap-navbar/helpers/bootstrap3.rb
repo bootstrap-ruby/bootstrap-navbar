@@ -83,7 +83,7 @@ HTML
 HTML
   end
 
-  def navbar_form(options = {}, &block)
+  def navbar_form(url, options = {}, &block)
     options = options.dup
     css_classes = %w(navbar-form).tap do |css_classes|
       css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
@@ -92,7 +92,7 @@ HTML
     role = options.delete(:role) || 'form'
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))
     prepare_html <<-HTML.chomp!
-<form#{attributes}>
+<form action="#{url}" #{attributes}>
   #{capture(&block) if block_given?}
 </form>
 HTML

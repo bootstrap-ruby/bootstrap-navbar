@@ -154,15 +154,17 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   end
 
   describe '#navbar_form' do
-    context 'without parameters' do
+    let(:url) { '/foo' }
+
+    context 'without additional parameters' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar_form { 'foo' }).to have_tag(:form, with: { class: 'navbar-form', role: 'form' }, text: /foo/)
+        expect(renderer.navbar_form(url) { 'foo' }).to have_tag(:form, with: { action: url, class: 'navbar-form', role: 'form' }, text: /foo/)
       end
     end
 
     context 'with "align" parameter' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar_form(align: 'left') { 'foo' }).to have_tag(:form, with: { class: 'navbar-form navbar-left', role: 'form' }, text: /foo/)
+        expect(renderer.navbar_form(url, align: 'left') { 'foo' }).to have_tag(:form, with: { action: url, class: 'navbar-form navbar-left', role: 'form' }, text: /foo/)
       end
     end
   end
