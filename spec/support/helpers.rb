@@ -65,6 +65,18 @@ shared_examples 'marking the navbar items as active correctly' do
           http://www.foobar.com
           http://www.foobar.com/bar/
           http://www.foobar.com/bar
+          http://www.foobar.com/foobar/
+          http://www.foobar.com/foobar
+          http://www.foobar.com/foobar/bar/
+          http://www.foobar.com/foobar/bar
+          http://www.foobar.com/foo_bar/
+          http://www.foobar.com/foo_bar
+          http://www.foobar.com/foo_bar/bar/
+          http://www.foobar.com/foo_bar/bar
+          http://www.foobar.com/foo-bar/
+          http://www.foobar.com/foo-bar
+          http://www.foobar.com/foo-bar/bar/
+          http://www.foobar.com/foo-bar/bar
         )
       end
     end
