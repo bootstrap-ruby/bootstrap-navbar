@@ -1,3 +1,15 @@
+## 2.2.2
+
+* Fix marking menu items as active... again
+
+## 2.2.1
+
+* Fix marking menu items as active
+
+## 2.2.0
+
+* Make `url` the required first parameter for `navbar_form`
+
 ## 2.1.4
 
 * Fix bug when using navbar item with 'mailto:' link
