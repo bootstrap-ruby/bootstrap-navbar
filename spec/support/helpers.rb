@@ -77,6 +77,8 @@ shared_examples 'marking the navbar items as active correctly' do
           http://www.foobar.com/foo-bar
           http://www.foobar.com/foo-bar/bar/
           http://www.foobar.com/foo-bar/bar
+          http://www.foobar.com/bar/foo/
+          http://www.foobar.com/bar/foo
         )
       end
     end

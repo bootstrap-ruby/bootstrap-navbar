@@ -33,7 +33,7 @@ module BootstrapNavbar::Helpers
     if normalized_path.empty?
       normalized_current_path.empty?
     else
-      normalized_current_path =~ %r(#{Regexp.escape(normalized_path)}(/.+)?\z)
+      normalized_current_path =~ %r(\A#{Regexp.escape(normalized_path)}(/.+)?\z)
     end
   end
 
