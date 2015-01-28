@@ -176,7 +176,6 @@ HTML
       css_classes << "navbar-#{options.delete(:inverse) ? 'inverse' : 'default'}"
       css_classes << "navbar-fixed-#{options.delete(:fixed)}" if options.has_key?(:fixed)
       css_classes << 'navbar-static-top' if options.delete(:static)
-      css_classes << 'navbar-inverse' if options.delete(:inverse)
       css_classes << options.delete(:class) if options.has_key?(:class)
     end
     role = options.delete(:role) || 'navigation'
