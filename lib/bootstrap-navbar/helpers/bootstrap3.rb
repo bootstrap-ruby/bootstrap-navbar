@@ -123,10 +123,15 @@ HTML
 HTML
   end
 
-  def navbar_dropdown(text, &block)
+  def navbar_dropdown(text, list_item_options = {}, link_options = {}, &block)
+    list_item_options, link_options = list_item_options.dup, link_options.dup
+    list_item_options[:class] = [list_item_options[:class], 'dropdown'].compact.join(' ')
+    list_item_attributes = attributes_for_tag(list_item_options)
+    link_options[:class] = [link_options[:class], 'dropdown-toggle'].compact.join(' ')
+    link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{text} <b class="caret"></b></a>
+<li#{list_item_attributes}>
+  <a href="#" data-toggle="dropdown"#{link_attributes}>#{text} <b class="caret"></b></a>
   <ul class="dropdown-menu">
     #{capture(&block) if block_given?}
   </ul>

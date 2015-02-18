@@ -114,13 +114,51 @@ describe BootstrapNavbar::Helpers::Bootstrap3 do
   end
 
   describe '#navbar_dropdown' do
-    it 'generates the correct HTML' do
-      expect(renderer.navbar_dropdown('foo') { 'bar' }).to have_tag(:li, with: { class: 'dropdown' }) do
-        with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
-          with_text 'foo '
-          with_tag :b, with: { class: 'caret' }
+    context 'without parameters' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_dropdown('foo') { 'bar' }).to have_tag(:li, with: { class: 'dropdown' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
+            with_text 'foo '
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
         end
-        with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
+      end
+    end
+
+    context 'with list item parameters' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_dropdown('foo', class: 'list-item-class', id: 'list-item-id') { 'bar' }).to have_tag(:li, with: { class: 'dropdown list-item-class', id: 'list-item-id' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle', :'data-toggle' => 'dropdown' } do
+            with_text 'foo '
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
+        end
+      end
+    end
+
+    context 'with link parameters' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_dropdown('foo', {}, class: 'link-class', id: 'link-id') { 'bar' }).to have_tag(:li, with: { class: 'dropdown' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle link-class', id: 'link-id', :'data-toggle' => 'dropdown' } do
+            with_text 'foo '
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
+        end
+      end
+    end
+
+    context 'with list item parameters and link parameters' do
+      it 'generates the correct HTML' do
+        expect(renderer.navbar_dropdown('foo', { class: 'list-item-class', id: 'list-item-id' }, class: 'link-class', id: 'link-id') { 'bar' }).to have_tag(:li, with: { class: 'dropdown list-item-class', id: 'list-item-id' }) do
+          with_tag :a, with: { href: '#', class: 'dropdown-toggle link-class', id: 'link-id', :'data-toggle' => 'dropdown' } do
+            with_text 'foo '
+            with_tag :b, with: { class: 'caret' }
+          end
+          with_tag :ul, with: { class: 'dropdown-menu' }, text: /bar/
+        end
       end
     end
   end
