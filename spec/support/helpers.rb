@@ -1,5 +1,3 @@
-require 'padrino-helpers'
-
 module Helpers
   def renderer
     @renderer ||= Class.new do
