@@ -1,3 +1,7 @@
+## 2.2.3
+
+* Never mark menu item with path "#" as active
+
 ## 2.2.2
 
 * Fix marking menu items as active... again
