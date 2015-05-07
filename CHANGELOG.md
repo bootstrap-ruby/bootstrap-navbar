@@ -1,6 +1,10 @@
-## 2.2.3
+## 2.2.4
 
 * Never mark menu item with path "#" as active
+
+## 2.2.3
+
+* Allow navbar dropdown to receive list item and link parameters
 
 ## 2.2.2
 
