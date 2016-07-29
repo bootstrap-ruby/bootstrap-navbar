@@ -1,3 +1,7 @@
+## 2.3
+
+* Add support for Bootstrap 4
+
 ## 2.2.4
 
 * Never mark menu item with path "#" as active
