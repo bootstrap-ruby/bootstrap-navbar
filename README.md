@@ -11,7 +11,7 @@ Helpers to generate a Bootstrap style navbar
 
 This gem only provides a helper module with methods to generate HTML. It can be used by other gems to make these helpers available to a framework's rendering engine, e.g.:
 
-* For Rails: https://github.com/julescopeland/Rails-Bootstrap-Navbar
+* For Rails: https://github.com/bootstrap-ruby/rails-bootstrap-navbar
 * For [Middleman](http://middlemanapp.com/): https://github.com/bootstrap-ruby/middleman-bootstrap-navbar
 
 In short: __Unless you know what you're doing, do not use this gem directly in your app!__
@@ -28,7 +28,7 @@ BootstrapNavbar needs to know what version of Bootstrap it's dealing with since 
 
 ```ruby
 BootstrapNavbar.configure do |config|
-  config.bootstrap_version = '3.0.0'
+  config.bootstrap_version = '4.0.0'
 end
 ```
 
@@ -67,11 +67,13 @@ ActionView::Base.send :include, BootstrapNavbar::Helpers
 
 ## Usage
 
-Since the navbar format changed quite a bit between Bootstrap 2.x and 3.x, generating them using this gem is quite different as well. Check out the Wiki pages for detailed instructions:
+Since the navbar format differs quite a bit between Bootstrap 2, 3 and 4, generating them using this gem works quite differently as well. Check out the Wiki pages for detailed instructions:
 
-[Usage with Bootstrap 2.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-2.x)
+[Usage with Bootstrap 2](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-2)
 
-[Usage with Bootstrap 3.x](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3.x)
+[Usage with Bootstrap 3](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-3)
+
+[Usage with Bootstrap 4](https://github.com/bootstrap-ruby/bootstrap-navbar/wiki/Usage-with-Bootstrap-4)
 
 ## Changes
 
