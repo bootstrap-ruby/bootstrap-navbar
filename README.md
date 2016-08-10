@@ -5,7 +5,7 @@
 [![Dependency Status](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar.png)](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar)
 [![Code Climate](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar.png)](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar)
 
-Helpers to generate a Twitter Bootstrap style navbar
+Helpers to generate a Bootstrap style navbar
 
 ## Installation
 

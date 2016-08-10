@@ -11,8 +11,8 @@ Gem::Specification.new do |gem|
   gem.platform      = Gem::Platform::RUBY
   gem.author        = 'Manuel Meurer'
   gem.email         = 'manuel@krautcomputing.com'
-  gem.summary       = 'Helpers to generate a Twitter Bootstrap style navbar'
-  gem.description   = 'Helpers to generate a Twitter Bootstrap style navbar'
+  gem.summary       = 'Helpers to generate a Bootstrap style navbar'
+  gem.description   = 'Helpers to generate a Bootstrap style navbar'
   gem.homepage      = 'http://krautcomputing.github.io/bootstrap-navbar'
   gem.license       = 'MIT'
 
