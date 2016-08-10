@@ -1,7 +1,7 @@
 module BootstrapNavbar::Helpers::Bootstrap4
   def navbar(options = {}, &block)
     options = options.dup
-    container = options.has_key?(:container) ? options.delete(:container) : true
+    container = options.key?(:container) ? options.delete(:container) : true
     wrapper options do
       if container
         container(container, &block)
@@ -15,7 +15,7 @@ module BootstrapNavbar::Helpers::Bootstrap4
     options = options.dup
     brand, brand_link = options.delete(:brand), options.delete(:brand_link)
     css_classes = %w(navbar-header).tap do |css_classes|
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
     prepare_html <<-HTML.chomp!
@@ -35,7 +35,7 @@ HTML
   def navbar_collapse(options = {}, &block)
     options = options.dup
     css_classes = %w(collapse navbar-collapse).tap do |css_classes|
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), id: 'navbar-collapsable'))
     prepare_html <<-HTML.chomp!
@@ -48,8 +48,8 @@ HTML
   def navbar_group(options = {}, &block)
     options = options.dup
     css_classes = %w(nav navbar-nav).tap do |css_classes|
-      css_classes << "navbar-#{options.delete(:align)}" if options.has_key?(:align)
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << "navbar-#{options.delete(:align)}" if options.key?(:align)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
     prepare_html <<-HTML.chomp!
@@ -66,10 +66,10 @@ HTML
     link_options        = link_options.nil?      ? {} : link_options.dup
     list_item_css_classes = %w(nav-item).tap do |css_classes|
       css_classes << 'active' if current_url_or_sub_url?(url)
-      css_classes << list_item_options.delete(:class) if list_item_options.has_key?(:class)
+      css_classes << list_item_options.delete(:class) if list_item_options.key?(:class)
     end
     link_css_classes = %w(nav-link).tap do |css_classes|
-      css_classes << link_options.delete(:class) if link_options.has_key?(:class)
+      css_classes << link_options.delete(:class) if link_options.key?(:class)
     end
     list_item_attributes = attributes_for_tag(
       { class: list_item_css_classes.join(' ') }
@@ -90,8 +90,8 @@ HTML
   def navbar_form(url, options = {}, &block)
     options = options.dup
     css_classes = %w(form-inline).tap do |css_classes|
-      css_classes << "pull-xs-#{options.delete(:align)}" if options.has_key?(:align)
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << "pull-xs-#{options.delete(:align)}" if options.key?(:align)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     role = options.delete(:role) || 'form'
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))
@@ -107,7 +107,7 @@ HTML
     options = options.dup
     text ||= capture(&block)
     css_classes = %w(nav-item).tap do |css_classes|
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' ')))
     prepare_html <<-HTML.chomp!
@@ -118,7 +118,7 @@ HTML
   def navbar_button(text, options = {})
     options = options.dup
     css_classes = %w(btn navbar-btn).tap do |css_classes|
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     type = options.delete(:type) || 'button'
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), type: type))
@@ -185,19 +185,19 @@ HTML
       # Inverse is now called dark and light (StarWars?)
       css_classes << "navbar-#{options.delete(:dark) or options.delete(:inverse) ? 'dark' : 'light'}"
       # Bootstrap4 need background
-      if options.has_key? :bg
+      if options.key? :bg
         css_classes << "bg-#{options.delete(:bg)}"
-      elsif not options.has_key? :color
+      elsif not options.key? :color
         css_classes << "bg-primary"
       end
       # No more static in B4
-      if options.has_key?(:fixed) or options.has_key? options.delete(:static)
+      if options.key?(:fixed) or options.key? options.delete(:static)
         css_classes << "navbar-fixed-#{options.delete(:fixed) || 'top'}"
         css_classes << 'navbar-full'
       elsif options.delete(:full)
         css_classes << 'navbar-full'
       end
-      css_classes << options.delete(:class) if options.has_key?(:class)
+      css_classes << options.delete(:class) if options.key?(:class)
     end
     role = options.delete(:role) || 'navigation'
     attributes = attributes_for_tag(options.reverse_merge(class: css_classes.join(' '), role: role))
