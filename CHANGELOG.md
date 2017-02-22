@@ -1,3 +1,7 @@
+## 2.4.0
+
+* Add support for `root_paths` configuration
+
 ## 2.3.0
 
 * Add support for Bootstrap 4
