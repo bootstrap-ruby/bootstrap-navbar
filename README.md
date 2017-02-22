@@ -65,7 +65,7 @@ When deciding whether a navbar link is marked as current, the following steps ar
 * If the link target is one of the root paths (only "/" by default), the link is only marked as current if the target is the current path.
 * Otherwise the link is marked as current if the target is the current path or a sub path of the current path.
 
-In certain cases a website might want to treat more paths as root paths, e.g. when it has different locales mapped at /en, /de etc. This can be achieved by setting the `root_paths` configuration.
+In certain cases you might want to treat more paths as root paths, e.g. when different locales are mapped at "/en", "/de" etc. This can be achieved by setting the `root_paths` configuration.
 
 ```ruby
 BootstrapNavbar.configure do |config|
@@ -73,7 +73,7 @@ BootstrapNavbar.configure do |config|
 end
 ```
 
-With this configuration, if your brand link would be '/en' for example, it would not be marked as current if you are on '/en/some-page'.
+With this configuration, if your brand link would be "/en" for example, it would not be marked as current if you are on "/en/some-page".
 
 ### Mix in the helpers into the rendering engine (required)
 
