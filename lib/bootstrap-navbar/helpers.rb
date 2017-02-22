@@ -31,8 +31,13 @@ module BootstrapNavbar::Helpers
     normalized_path, normalized_current_path = [uri, current_uri].map do |uri|
       uri.path.sub(%r(/\z), '')
     end
-    if normalized_path.empty?
-      normalized_current_path.empty?
+    normalized_root_paths = BootstrapNavbar.configuration.root_paths.map do |path|
+      path.sub(%r(/\z), '')
+    end
+    # If the URL is one of the root URLS, it's only current if it is the current URL.
+    # Otherwise it's current if we're currently on the URL or on a sub URL.
+    if normalized_root_paths.include?(normalized_path)
+      normalized_current_path == normalized_path
     else
       normalized_current_path =~ %r(\A#{Regexp.escape(normalized_path)}(/.+)?\z)
     end

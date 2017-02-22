@@ -16,7 +16,7 @@ module Helpers
 end
 
 shared_examples 'marking the navbar items as active correctly' do
-  context 'when the navbar item URL is the current root URL or root path' do
+  context 'when the navbar item URL is the current root URL or path' do
     it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
       let(:navbar_item_urls) do
         %w(
@@ -39,14 +39,52 @@ shared_examples 'marking the navbar items as active correctly' do
     end
   end
 
+  context 'when another root path is configured and the navbar item URL is the corresponding root URL or path' do
+    before do
+      @_previous_root_paths = BootstrapNavbar.configuration.root_paths
+      BootstrapNavbar.configuration.root_paths = %w(/custom-root)
+    end
+
+    after do
+      BootstrapNavbar.configuration.root_paths = @_previous_root_paths
+    end
+
+    it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
+      let(:navbar_item_urls) do
+        %w(
+          http://www.foobar.com/custom-root/
+          http://www.foobar.com/custom-root
+          /custom-root/
+          /custom-root
+        )
+      end
+      let(:current_urls) do
+        %w(
+          http://www.foobar.com/custom-root/
+          http://www.foobar.com/custom-root
+        )
+      end
+      let(:non_current_urls) do
+        %w(
+          http://www.foobar.com/
+          http://www.foobar.com
+          http://www.foobar.com/foo/
+          http://www.foobar.com/foo
+          http://www.foobar.com/custom-root/foo/
+          http://www.foobar.com/custom-root/foo
+        )
+      end
+    end
+  end
+
   context 'when the navbar item URL is a sub URL of the current URL' do
     it_behaves_like 'marking current URLs as current and non-current URLs as not-current' do
       let(:navbar_item_urls) do
         %w(
           http://www.foobar.com/foo/
           http://www.foobar.com/foo
-          /foo
           /foo/
+          /foo
         )
       end
       let(:current_urls) do
