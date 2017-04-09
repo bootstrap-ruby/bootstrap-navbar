@@ -9,11 +9,10 @@ module BootstrapNavbar::Helpers::Bootstrap2
 
   def navbar_group(options = {}, &block)
     options = options.dup
-    css_classes = %w(nav).tap do |css_classes|
-      css_classes << "pull-#{options.delete(:pull)}" if options.key?(:pull)
-      css_classes << options.delete(:class) if options.key?(:class)
-    end
-    attributes = attributes_for_tag({ class: css_classes.join(' ') }.merge(options))
+    options[:class] = [options[:class], 'nav'].compact
+    options[:class] << "pull-#{options.delete(:pull)}" if options.key?(:pull)
+    options[:class] = options[:class].join(' ')
+    attributes = attributes_for_tag(options)
     prepare_html <<-HTML.chomp!
 <ul#{attributes}>
   #{capture(&block) if block_given?}
@@ -23,19 +22,14 @@ HTML
 
   def navbar_item(name = nil, path = nil, list_item_options = nil, link_options = nil, &block)
     name, path, list_item_options, link_options = capture(&block), name, path, list_item_options if block_given?
-    path              ||= '#'
-    list_item_options   = list_item_options.nil? ? {} : list_item_options.dup
-    link_options        = link_options.nil?      ? {} : link_options.dup
-    list_item_css_classes = [].tap do |css_classes|
-      css_classes << 'active' if current_url_or_sub_url?(path)
-      css_classes << list_item_options.delete(:class) if list_item_options.key?(:class)
-    end
-    list_item_attributes = attributes_for_tag(
-      { class: list_item_css_classes.join(' ') }
-        .delete_if { |k, v| v.empty? }
-        .merge(list_item_options)
-    )
-    link_attributes = attributes_for_tag(link_options)
+    path ||= '#'
+    list_item_options   = list_item_options ? list_item_options.dup : {}
+    link_options        = link_options      ? link_options.dup      : {}
+    list_item_options[:class] = [list_item_options[:class]].compact
+    list_item_options[:class] << 'active' if current_url_or_sub_url?(path)
+    list_item_options[:class] = list_item_options[:class].join(' ')
+    list_item_attributes = attributes_for_tag(list_item_options)
+    link_attributes      = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
 <li#{list_item_attributes}>
   <a href="#{path}"#{link_attributes}>
@@ -58,11 +52,9 @@ HTML
 
   def navbar_sub_dropdown(name, list_item_options = {}, link_options = {}, &block)
     list_item_options, link_options = list_item_options.dup, link_options.dup
-    list_item_css_classes = %w(dropdown-submenu).tap do |css_classes|
-      css_classes << list_item_options.delete(:class) if list_item_options.key?(:class)
-    end
-    list_item_attributes = attributes_for_tag({ class: list_item_css_classes.join(' ') }.merge(list_item_options))
-    link_attributes = attributes_for_tag(link_options)
+    list_item_options[:class] = [list_item_options.delete(:class), 'dropdown-submenu'].compact.join(' ')
+    list_item_attributes = attributes_for_tag(list_item_options)
+    link_attributes      = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
 <li#{list_item_attributes}>
   <a href="#"#{link_attributes}>
@@ -86,9 +78,8 @@ HTML
   end
 
   def navbar_text(text = nil, pull = nil, &block)
-    css_classes = %w(navbar-text).tap do |css_classes|
-      css_classes << "pull-#{pull}" if pull
-    end
+    css_classes = %w(navbar-text)
+    css_classes << "pull-#{pull}" if pull
     prepare_html <<-HTML.chomp!
 <p class="#{css_classes.join(' ')}">
   #{block_given? ? capture(&block) : text}
@@ -105,18 +96,14 @@ HTML
   def wrapper(options, html_options, &block)
     options, html_options = options.dup, html_options.dup
     position = case
-    when options.key?(:static)
-      "static-#{options[:static]}"
-    when options.key?(:fixed)
-      "fixed-#{options[:fixed]}"
-    end
-    css_classes = %w(navbar).tap do |css_classes|
-      css_classes << "navbar-#{position}" if position
-      css_classes << 'navbar-inverse' if options[:inverse]
-      css_classes << html_options.delete(:class)
-    end
-    attribute_hash = { class: css_classes.join(' ') }.merge(html_options)
-    attributes = attributes_for_tag(attribute_hash)
+               when options.key?(:static) then "static-#{options[:static]}"
+               when options.key?(:fixed)  then "fixed-#{options[:fixed]}"
+               end
+    html_options[:class] = [html_options[:class], 'navbar'].compact
+    html_options[:class] << "navbar-#{position}" if position
+    html_options[:class] << 'navbar-inverse'     if options[:inverse]
+    html_options[:class] = html_options[:class].join(' ')
+    attributes = attributes_for_tag(html_options)
     prepare_html <<-HTML.chomp!
 <div#{attributes}>
   #{capture(&block) if block_given?}
@@ -134,14 +121,13 @@ HTML
 
   def container(brand, brand_link, responsive, fluid, &block)
     css_class = fluid ? 'container-fluid' : 'container'
-    content = [].tap do |content|
-      content << responsive_button if responsive
-      content << navbar_brand_link(brand, brand_link) if brand || brand_link
-      content << if responsive
-        responsive_wrapper(&block)
-      else
-        capture(&block) if block_given?
-      end
+    content = []
+    content << responsive_button if responsive
+    content << navbar_brand_link(brand, brand_link) if brand || brand_link
+    content << if responsive
+      responsive_wrapper(&block)
+    else
+      capture(&block) if block_given?
     end
     prepare_html <<-HTML.chomp!
 <div class="#{css_class}">
@@ -151,10 +137,9 @@ HTML
   end
 
   def responsive_wrapper(&block)
-    css_classes = %w(nav-collapse).tap do |css_classes|
-      css_classes << 'collapse' if BootstrapNavbar.configuration.bootstrap_version >= '2.2.0'
-    end
-    attributes = attributes_for_tag({ class: css_classes.join(' ') })
+    css_classes = %w(nav-collapse)
+    css_classes << 'collapse' if BootstrapNavbar.configuration.bootstrap_version >= '2.2.0'
+    attributes = attributes_for_tag(class: css_classes.join(' '))
     prepare_html <<-HTML.chomp!
 <div#{attributes}>
   #{capture(&block) if block_given?}
