@@ -21,16 +21,20 @@ describe BootstrapNavbar::Helpers do
         BootstrapNavbar.configuration.unset :bootstrap_version
       end
 
-      context 'when bootstrap-sass gem is not loaded' do
+      def remove_gems_from_loaded_specs(*gems)
+        loaded_specs = Gem.loaded_specs.dup
+        gems.each do |gem|
+          loaded_specs.delete(gem)
+        end
+        allow(Gem).to receive(:loaded_specs).and_return(loaded_specs)
+      end
+
+      context 'when neither the bootstrap-sass gem nor the bootstrap gem is not loaded' do
         before do
-          # Remove bootstrap-sass from loaded specs
-          loaded_specs = Gem.loaded_specs.dup
-          loaded_specs.delete('bootstrap-sass')
-          allow(Gem).to receive(:loaded_specs).and_return(loaded_specs)
+          remove_gems_from_loaded_specs('bootstrap-sass', 'bootstrap')
         end
 
         it 'raises an exception' do
-          expect(Gem.loaded_specs.keys).to_not include('bootstrap-sass')
           expect do
             Class.new do
               include BootstrapNavbar::Helpers
@@ -39,15 +43,33 @@ describe BootstrapNavbar::Helpers do
         end
       end
 
-      context 'when bootstrap-sass gem is loaded' do
+      context 'when only the bootstrap-sass gem is loaded' do
+        before do
+          remove_gems_from_loaded_specs('bootstrap')
+        end
+
         it 'sniffs the Bootstrap version from bootstrap-sass' do
-          expect(Gem.loaded_specs.keys).to include('bootstrap-sass')
           expect do
             Class.new do
               include BootstrapNavbar::Helpers
             end
           end.to_not raise_exception
           expect(BootstrapNavbar.configuration.bootstrap_version).to eq('3.0.2')
+        end
+      end
+
+      context 'when only the bootstrap gem is loaded' do
+        before do
+          remove_gems_from_loaded_specs('bootstrap-sass')
+        end
+
+        it 'sniffs the Bootstrap version from bootstrap-sass' do
+          expect do
+            Class.new do
+              include BootstrapNavbar::Helpers
+            end
+          end.to_not raise_exception
+          expect(BootstrapNavbar.configuration.bootstrap_version).to eq('4.0.0')
         end
       end
     end
