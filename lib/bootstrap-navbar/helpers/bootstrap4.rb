@@ -13,29 +13,12 @@ module BootstrapNavbar::Helpers::Bootstrap4
 
   def navbar_collapse(options = {}, &block)
     options = options.dup
-    if options.key?(:toggleable)
-      toggleable = options.delete(:toggleable)
-      toggleable = 'xs' if toggleable == true
-    end
-    options[:class] = [options[:class], 'collapse'].compact
-    options[:class] << "navbar-toggleable-#{toggleable}" if toggleable
+    options[:class] = [options[:class], 'collapse', 'navbar-collapse'].compact
     options[:class] = options[:class].join(' ')
-    toggler_css_classes = %w(navbar-toggler).tap do |css_classes|
-      if toggleable
-        following_grid_size = case toggleable
-                              when 'xs' then 'sm'
-                              when 'sm' then 'md'
-                              when 'md' then 'lg'
-                              when 'lg' then 'xl'
-                              else fail %(Unexpected "toggleable" parameter: #{toggleable}. Must be "xs", "sm", "md", "lg" or `true` (equals "xs").)
-                              end
-        css_classes << "hidden-#{following_grid_size}-up"
-      end
-    end
     options[:id] ||= 'navbar-collapsable'
     attributes = attributes_for_tag(options)
     toggler_attributes = attributes_for_tag(
-      class:             toggler_css_classes.join(' '),
+      class:             'navbar-toggler',
       type:              'button',
       'data-toggle'   => 'collapse',
       'data-target'   => "##{options[:id]}",
@@ -45,7 +28,7 @@ module BootstrapNavbar::Helpers::Bootstrap4
     )
     prepare_html <<-HTML.chomp!
 <button#{toggler_attributes}>
-  &#9776;
+  <span class="navbar-toggler-icon"></span>
 </button>
 <div#{attributes}>
   #{capture(&block) if block_given?}
@@ -55,7 +38,7 @@ HTML
 
   def navbar_group(options = {}, &block)
     options = options.dup
-    options[:class] = [options[:class], 'nav', 'navbar-nav'].compact.join(' ')
+    options[:class] = [options[:class], 'navbar-nav'].compact.join(' ')
     attributes = attributes_for_tag(options)
     prepare_html <<-HTML.chomp!
 <ul#{attributes}>
@@ -69,10 +52,10 @@ HTML
     url ||= '#'
     list_item_options   = list_item_options ? list_item_options.dup : {}
     link_options        = link_options      ? link_options.dup      : {}
-    list_item_options[:class] = [list_item_options[:class], 'nav-item'].compact
-    list_item_options[:class] << 'active' if current_url_or_sub_url?(url)
-    list_item_options[:class] = list_item_options[:class].join(' ')
-    link_options[:class] = [link_options[:class], 'nav-link'].compact.join(' ')
+    list_item_options[:class] = [list_item_options[:class], 'nav-item'].compact.join(' ')
+    link_options[:class] = [link_options[:class], 'nav-link'].compact
+    link_options[:class] << 'active' if current_url_or_sub_url?(url)
+    link_options[:class]  = link_options[:class].join(' ')
     list_item_attributes = attributes_for_tag(list_item_options)
     link_attributes      = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
@@ -80,6 +63,27 @@ HTML
   <a href="#{url}"#{link_attributes}>
     #{text}
   </a>
+</li>
+HTML
+  end
+
+  def navbar_dropdown(text, target = '', list_item_options = {}, link_options = {}, ul_options = {}, &block)
+    list_item_options, link_options = list_item_options.dup, link_options.dup
+    list_item_options[:class] = [list_item_options[:class], 'nav-item', 'dropdown'].compact.join(' ')
+    list_item_attributes = attributes_for_tag(list_item_options)
+    link_options[:class] = [link_options[:class], 'nav-link', 'dropdown-toggle'].compact.join(' ')
+    target ||= "navbarDropdownMenuLink#{text}"
+    link_attributes = attributes_for_tag(link_options)
+    ul_options[:class] = [ul_options[:class], 'nav'].compact.join(' ')
+    ul_attributes = attributes_for_tag(ul_options)
+    prepare_html <<-HTML.chomp!
+<li#{list_item_attributes}>
+  <a href="#" data-toggle="dropdown" data-target="##{target}"#{link_attributes}>#{text} <b class="caret"></b></a>
+  <div class="collapse" id="#{target}">
+    <ul#{ul_attributes}>
+      #{capture(&block) if block_given?}
+    </ul>
+  </div>
 </li>
 HTML
   end
@@ -106,10 +110,15 @@ HTML
     options = options.dup
     options[:class] = [options[:class], 'navbar'].compact
     options[:class] << "navbar-#{options.key?(:color_scheme) ? options.delete(:color_scheme) : 'dark'}"
-    options[:class] << "bg-#{options.delete(:bg) || 'primary'}" unless options[:bg] == false
-    options[:class] << "navbar-#{options.delete(:placement)}" if options.key?(:placement)
+    options[:class] << "bg-#{options.delete(:bg) || 'dark'}" unless options[:bg] == false
+    if options.key?(:sticky) && options.delete(:sticky) === true
+      options[:class] << 'sticky-top'
+    elsif options.key?(:placement)
+      options[:class] << "fixed-#{options.delete(:placement)}"
+    end
+    options[:class] << "navbar-expand-#{options.delete(:expand_at) || 'sm'}"
     options[:class] = options[:class].join(' ')
-    brand = brand_link(options[:brand], options[:brand_url]) if options[:brand]
+    brand = brand_link(options.delete(:brand), options.delete(:brand_url)) if options[:brand]
     attributes = attributes_for_tag(options)
     prepare_html <<-HTML.chomp!
 <nav#{attributes}>
