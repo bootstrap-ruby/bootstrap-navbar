@@ -1,3 +1,7 @@
+## 3.0.0
+
+* Add support for Bootstrap 4 (for real) - big thanks to Sebastian Menhofer! (https://github.com/bootstrap-ruby/bootstrap-navbar/pull/13)
+
 ## 2.4.0
 
 * Add support for `root_paths` configuration
