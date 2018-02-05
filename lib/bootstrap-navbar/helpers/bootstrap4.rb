@@ -67,22 +67,18 @@ HTML
 HTML
   end
 
-  def navbar_dropdown(text, target = '', list_item_options = {}, link_options = {}, ul_options = {}, &block)
+  def navbar_dropdown(text, id = '', list_item_options = {}, link_options = {}, &block)
     list_item_options, link_options = list_item_options.dup, link_options.dup
     list_item_options[:class] = [list_item_options[:class], 'nav-item', 'dropdown'].compact.join(' ')
     list_item_attributes = attributes_for_tag(list_item_options)
     link_options[:class] = [link_options[:class], 'nav-link', 'dropdown-toggle'].compact.join(' ')
-    target ||= "navbarDropdownMenuLink#{text}"
+    id ||= "navbarDropdownMenuLink#{text}"
     link_attributes = attributes_for_tag(link_options)
-    ul_options[:class] = [ul_options[:class], 'nav'].compact.join(' ')
-    ul_attributes = attributes_for_tag(ul_options)
     prepare_html <<-HTML.chomp!
 <li#{list_item_attributes}>
-  <a href="#" data-toggle="dropdown" data-target="##{target}"#{link_attributes}>#{text} <b class="caret"></b></a>
-  <div class="collapse" id="#{target}">
-    <ul#{ul_attributes}>
-      #{capture(&block) if block_given?}
-    </ul>
+  <a href="#" data-toggle="dropdown" id="##{id}" aria-haspopup="true" aria-expanded="false" role="button" #{link_attributes}>#{text}</a>
+  <div class="dropdown-menu" aria-labelledby="#{id}">
+    #{capture(&block) if block_given?}
   </div>
 </li>
 HTML
