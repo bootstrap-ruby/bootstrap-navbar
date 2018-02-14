@@ -90,10 +90,10 @@ HTML
     link_options[:class] << 'active' if current_url_or_sub_url?(url)
     link_options[:class]  = link_options[:class].join(' ')
     link_attributes = attributes_for_tag(link_options)
-    prepare_html <<~HTML.chomp!
-      <a href="#{url}"#{link_attributes}>
-        #{text}
-      </a>
+    prepare_html <<-HTML.chomp!
+<a href="#{url}"#{link_attributes}>
+  #{text}
+</a>
     HTML
   end
 
