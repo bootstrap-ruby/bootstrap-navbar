@@ -84,9 +84,8 @@ HTML
 HTML
   end
 
-  def navbar_dropdown_item(text, url = nil, link_options = nil, &block)
-    url ||= '#'
-    link_options = link_options ? link_options.dup : {}
+  def navbar_dropdown_item(text, url = '#', link_options = {}, &block)
+    link_options = link_options.dup
     link_options[:class] = [link_options[:class], 'dropdown-item'].compact
     link_options[:class] << 'active' if current_url_or_sub_url?(url)
     link_options[:class]  = link_options[:class].join(' ')
