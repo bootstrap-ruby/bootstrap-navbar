@@ -38,7 +38,7 @@ describe BootstrapNavbar::Helpers::Bootstrap4 do
 
     context 'with "placement" parameter' do
       it 'generates the correct HTML' do
-        %w(full fixed-top fixed-bottom).each do |placement|
+        %w(top bottom).each do |placement|
           expect(renderer.navbar(placement: placement)).to have_tag(:nav, with: { class: "navbar navbar-dark bg-dark fixed-#{placement}" })
         end
       end
