@@ -97,6 +97,12 @@ HTML
     HTML
   end
 
+  def navbar_dropdown_divider
+    prepare_html <<-HTML.chomp!
+<div class="dropdown-divider"></div>
+HTML
+  end
+
   private
 
   def container(&block)
