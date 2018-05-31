@@ -72,12 +72,13 @@ HTML
     list_item_options[:class] = [list_item_options[:class], 'nav-item', 'dropdown'].compact.join(' ')
     list_item_attributes = attributes_for_tag(list_item_options)
     link_options[:class] = [link_options[:class], 'nav-link', 'dropdown-toggle'].compact.join(' ')
+    wrapper_class = [*list_item_options.delete(:wrapper_class), 'dropdown-menu'].compact.join(' ')
     id ||= "navbarDropdownMenuLink#{text}"
     link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
 <li#{list_item_attributes}>
   <a href="#" data-toggle="dropdown" id="##{id}" aria-haspopup="true" aria-expanded="false" role="button" #{link_attributes}>#{text}</a>
-  <div class="dropdown-menu" aria-labelledby="#{id}">
+  <div class="#{wrapper_class}" aria-labelledby="#{id}">
     #{capture(&block) if block_given?}
   </div>
 </li>
