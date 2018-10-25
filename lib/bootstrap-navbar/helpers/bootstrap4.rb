@@ -70,9 +70,9 @@ HTML
   def navbar_dropdown(text, id = '', list_item_options = {}, link_options = {}, &block)
     list_item_options, link_options = list_item_options.dup, link_options.dup
     list_item_options[:class] = [list_item_options[:class], 'nav-item', 'dropdown'].compact.join(' ')
+    wrapper_class = [*list_item_options.delete(:wrapper_class), 'dropdown-menu'].compact.join(' ')
     list_item_attributes = attributes_for_tag(list_item_options)
     link_options[:class] = [link_options[:class], 'nav-link', 'dropdown-toggle'].compact.join(' ')
-    wrapper_class = [*list_item_options.delete(:wrapper_class), 'dropdown-menu'].compact.join(' ')
     id ||= "navbarDropdownMenuLink#{text}"
     link_attributes = attributes_for_tag(link_options)
     prepare_html <<-HTML.chomp!
