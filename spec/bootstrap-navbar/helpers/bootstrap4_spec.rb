@@ -153,7 +153,7 @@ describe BootstrapNavbar::Helpers::Bootstrap4 do
 
     context 'with right aligned menu' do
       it 'generates the correct HTML' do
-        expect(renderer.navbar_dropdown('Foo', 'foo', {wrapper_class: 'dropdown-menu-right'}) { 'link-text' }).to have_tag(:li, with: { class: 'nav-item dropdown'}) do
+        expect(renderer.navbar_dropdown('Foo', 'foo', { wrapper_class: 'dropdown-menu-right' }) { 'link-text' }).to have_tag(:li, with: { class: 'nav-item dropdown' }) do
           with_tag :div, with: { class: 'dropdown-menu dropdown-menu-right' }
         end
       end
