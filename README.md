@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/bootstrap-navbar.png)](http://badge.fury.io/rb/bootstrap-navbar)
 [![Build Status](https://secure.travis-ci.org/bootstrap-ruby/bootstrap-navbar.png)](http://travis-ci.org/bootstrap-ruby/bootstrap-navbar)
-[![Dependency Status](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar.png)](https://gemnasium.com/bootstrap-ruby/bootstrap-navbar)
 [![Code Climate](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar.png)](https://codeclimate.com/github/bootstrap-ruby/bootstrap-navbar)
 
 Helpers to generate a Bootstrap style navbar
