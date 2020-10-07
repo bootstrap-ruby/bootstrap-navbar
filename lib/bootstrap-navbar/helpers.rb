@@ -15,7 +15,7 @@ module BootstrapNavbar::Helpers
   def attributes_for_tag(hash)
     string = hash.map { |k, v| %(#{k}="#{v}") }.join(' ')
     if string.length > 0
-      ' ' << string
+      ' '.dup << string
     else
       string
     end
