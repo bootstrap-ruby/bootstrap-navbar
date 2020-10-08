@@ -149,7 +149,6 @@ module BootstrapNavbar::Helpers::Bootstrap4
     attributes = attributes_for_tag(options)
     prepare_html <<~HTML
                     <nav#{attributes}>
-                      #{brand}
                       #{capture(&block) if block_given?}
                     </nav>
                   HTML
