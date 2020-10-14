@@ -63,7 +63,7 @@ module BootstrapNavbar::Helpers::Bootstrap4
   end
 
   def navbar_item(text, url = nil, list_item_options = nil, link_options = nil, &block)
-    text, url, list_item_options, link_options = capture(&block), text, url, list_item_options if block_given?
+    text, url, list_item_options, link_options = capture(&block), text, (url || {}), list_item_options if block_given?
     url ||= '#'
     list_item_options   = list_item_options ? list_item_options.dup : {}
     link_options        = link_options      ? link_options.dup      : {}
@@ -82,25 +82,30 @@ module BootstrapNavbar::Helpers::Bootstrap4
                  HTML
   end
 
-  def navbar_dropdown(text, id = '', list_item_options = {}, link_options = {}, &block)
+  def navbar_dropdown(text, list_item_options = {}, link_options = {}, wrapper_options = {}, &block)
     list_item_options, link_options = list_item_options.dup, link_options.dup
     list_item_options[:class] = [list_item_options[:class], 'nav-item', 'dropdown'].compact.join(' ')
-    wrapper_class = [*list_item_options.delete(:wrapper_class), 'dropdown-menu'].compact.join(' ')
     list_item_attributes = attributes_for_tag(list_item_options)
     link_options[:class] = [link_options[:class], 'nav-link', 'dropdown-toggle'].compact.join(' ')
-    id ||= "navbarDropdownMenuLink#{text}"
     link_attributes = attributes_for_tag(link_options)
+    wrapper_options = { class: [*wrapper_options.delete(:class), 'dropdown-menu'].compact.join(' ') }
+    if id = link_options[:id]
+      wrapper_options[:'aria-labelledby'] = id
+    end
+    wrapper_attributes = attributes_for_tag(wrapper_options)
     prepare_html <<~HTML
                    <li#{list_item_attributes}>
-                     <a href="#" data-toggle="dropdown" id="##{id}" aria-haspopup="true" aria-expanded="false" role="button" #{link_attributes}>#{text}</a>
-                     <div class="#{wrapper_class}" aria-labelledby="#{id}">
+                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"#{link_attributes}>#{text}</a>
+                     <div#{wrapper_attributes}>
                        #{capture(&block) if block_given?}
                      </div>
                    </li>
                  HTML
   end
 
-  def navbar_dropdown_item(text, url = '#', link_options = {}, &block)
+  def navbar_dropdown_item(text, url = nil, link_options = {}, &block)
+    text, url, link_options = capture(&block), text, (url || {}) if block_given?
+    url ||= '#'
     link_options = link_options.dup
     link_options[:class] = [link_options[:class], 'dropdown-item'].compact
     link_options[:class] << 'active' if current_url_or_sub_url?(url)
@@ -144,7 +149,10 @@ module BootstrapNavbar::Helpers::Bootstrap4
     elsif options.key?(:placement)
       options[:class] << "fixed-#{options.delete(:placement)}"
     end
-    options[:class] << "navbar-expand-#{options.delete(:expand_at) || 'sm'}"
+    expand_at = options.delete(:expand_at)
+    unless expand_at == true
+      options[:class] << "navbar-expand#{"-#{expand_at}" if expand_at}"
+    end
     options[:class] = options[:class].join(' ')
     attributes = attributes_for_tag(options)
     prepare_html <<~HTML
