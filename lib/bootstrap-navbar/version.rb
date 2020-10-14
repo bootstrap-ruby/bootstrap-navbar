@@ -1,3 +1,3 @@
 module BootstrapNavbar
-  VERSION = '3.0.7'
+  VERSION = '3.1.0'
 end
