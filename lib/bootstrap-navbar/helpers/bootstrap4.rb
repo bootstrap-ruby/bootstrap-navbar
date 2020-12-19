@@ -62,6 +62,10 @@ module BootstrapNavbar::Helpers::Bootstrap4
                  HTML
   end
 
+  def navbar_text(text)
+    %(<span class="navbar-text">#{text}</span>)
+  end
+
   def navbar_item(text, url = nil, list_item_options = nil, link_options = nil, &block)
     text, url, list_item_options, link_options = capture(&block), text, (url || {}), list_item_options if block_given?
     url ||= '#'
