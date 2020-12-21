@@ -3,10 +3,14 @@ module BootstrapNavbar::Helpers::Bootstrap4
     options = options.dup
     container = options.key?(:container) ? options.delete(:container) : false
     brand = if options[:brand]
+      brand_url           = options.delete(:brand_url)
+      element, attributes = brand_url == false ? ['span', {}] : ['a', { href: brand_url || '/' }]
+      attributes[:class]  = 'navbar-brand'
+
       prepare_html <<~HTML
-                     <a href="#{options.delete(:brand_url) || '/'}" class="navbar-brand">
+                     <#{element}#{attributes_for_tag(attributes)}>
                        #{options.delete(:brand)}
-                     </a>
+                     </#{element}>
                    HTML
     end
     wrapper options do
