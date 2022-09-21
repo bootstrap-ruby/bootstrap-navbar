@@ -101,7 +101,7 @@ module BootstrapNavbar::Helpers::Bootstrap5
                      <a href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button"#{link_attributes}>#{text}</a>
                      <ul#{wrapper_attributes}>
                        #{capture(&block) if block_given?}
-                     </div>
+                     </ul>
                    </li>
                  HTML
   end
