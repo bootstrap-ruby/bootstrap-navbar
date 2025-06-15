@@ -147,7 +147,7 @@ module BootstrapNavbar::Helpers::Bootstrap5
     options[:class] = [options[:class], 'navbar'].compact
     options[:class] << "navbar-#{options.key?(:color_scheme) ? options.delete(:color_scheme) : 'dark'}"
     if bg = options.delete(:bg)
-      options[:class] << "bg-#{bg == true ? 'dark' : bg}"
+      options[:class] << "bg-#{bg.to_s.tr('_', '-')}"
     end
     if options.key?(:sticky) && options.delete(:sticky) === true
       options[:class] << 'sticky-top'
